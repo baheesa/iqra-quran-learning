@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Brand tokens — calm green reading aesthetic (docs/15-ui-ux-guidelines.md)
+   English UI chrome; Arabic/Urdu content uses .font-quran / .font-urdu
+   --------------------------------------------------------------------------- */
+:root {
+  --background: #f3f6f2;
+  --foreground: #1a2e22;
+  --muted: #5a6e62;
+  --primary: #1e4a38;
+  --primary-soft: #2d6750;
+  --accent: #3a5f52;
+  --surface: #fafcf9;
+  --border: #d2ddd6;
+  --warning: #b8863b;
+  --bg-glow: #e8f0ea;
+  --bg-top: #f6f9f5;
+  --bg-bottom: #eef3ef;
+
+  /* --font-ui is set by next/font (Source Serif 4) on <html> */
+  --font-ui-fallback: "Libre Baskerville", Georgia, "Times New Roman", serif;
+  --font-urdu: "Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", serif;
+  --font-quran:
+    "IndoPak Quran", "Al Qalam Quran Majeed", "Scheherazade New", serif;
+}
+
+html.dark {
+  --background: #121a16;
+  --foreground: #e6efe8;
+  --muted: #9bb0a3;
+  --primary: #8fbfa5;
+  --primary-soft: #5f8f76;
+  --accent: #7aab92;
+  --surface: #1a2420;
+  --border: #2f4037;
+  --warning: #d4a574;
+  --bg-glow: rgba(47, 90, 68, 0.35);
+  --bg-top: #151e19;
+  --bg-bottom: #101713;
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-warning: var(--warning);
+  --font-urdu: var(--font-urdu);
+  --font-quran: var(--font-quran);
+}
+
+/* Local font files — place licensed files under public/fonts/ */
+@font-face {
+  font-family: "Noto Nastaliq Urdu";
+  src:
+    url("/fonts/NotoNastaliqUrdu-Regular.woff2") format("woff2"),
+    url("/fonts/NotoNastaliqUrdu-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+  Jameel Noori Nastaleeq is the preferred Urdu face (AGENTS.md).
+  Only declare @font-face when the licensed file is present under public/fonts/
+  — otherwise browsers 404 and Urdu falls back poorly.
+  When you add JameelNooriNastaleeqRegular.ttf, restore:
+
+  @font-face {
+    font-family: "Jameel Noori Nastaleeq";
+    src: url("/fonts/JameelNooriNastaleeqRegular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+*/
+
+@font-face {
+  font-family: "IndoPak Quran";
+  src:
+    url("/fonts/IndoPakQuran.woff2") format("woff2"),
+    url("/fonts/IndoPakQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  direction: ltr;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      ellipse 120% 80% at 50% -20%,
+      var(--bg-glow) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      var(--bg-top) 0%,
+      var(--background) 40%,
+      var(--bg-bottom) 100%
+    );
+  color: var(--foreground);
+  font-family: var(--font-ui), var(--font-ui-fallback);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.font-ui {
+  font-family: var(--font-ui), var(--font-ui-fallback);
+}
+
+.font-urdu {
+  font-family: var(--font-urdu);
+}
+
+.font-quran {
+  font-family: var(--font-quran);
+  line-height: 2.35;
+  letter-spacing: 0.01em;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Hide scrollbar on filter chip rows (still scrollable) */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.55s ease-out both;
+}
+
+.animate-rise:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.animate-rise:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.animate-rise:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.animate-rise:nth-child(5) {
+  animation-delay: 0.2s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+}

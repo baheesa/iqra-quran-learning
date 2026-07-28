@@ -1,0 +1,14 @@
+node_modules/
+dist/
+android/
+.android-sdk/
+.jdk/
+.DS_Store
+*.log
+.idea/
+.vscode/
+# Keep built APKs; ignore other dist junk
+dist-apk/*
+!dist-apk/*.apk
+# Large mushaf pages are synced from parent — optional to commit
+public/data/quran/by-page/

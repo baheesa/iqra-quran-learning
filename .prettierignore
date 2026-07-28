@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+build
+coverage
+pnpm-lock.yaml
+*.md
+data/quran
+knowledge/books/original
+knowledge/books/processed
+knowledge/books/pages
+knowledge/books/ocr
+knowledge/books/extracted
+knowledge/books/verified
+knowledge/books/exports
+knowledge/books/logs
+prisma/migrations

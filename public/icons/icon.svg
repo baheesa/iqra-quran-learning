@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Quran Learning">
+  <rect width="512" height="512" rx="96" fill="#1e4a38"/>
+  <rect x="118" y="96" width="276" height="320" rx="24" fill="none" stroke="#fafcf9" stroke-width="18"/>
+  <path d="M168 170h176M168 220h176M168 270h140M168 320h160" stroke="#fafcf9" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
+</svg>

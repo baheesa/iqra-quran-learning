@@ -1,0 +1,82 @@
+[
+  {
+    "id": "09e6a681-0863-4d53-bafe-971ac5d5a881",
+    "actorId": "local-admin",
+    "actorEmail": "admin@local",
+    "action": "OCR_RUN",
+    "objectType": "OCR",
+    "objectId": "unit-1:p24",
+    "bookSlug": "unit-1",
+    "meta": null,
+    "createdAt": "2026-07-22T05:48:32.789Z"
+  },
+  {
+    "id": "de45ffc7-10ec-430a-a418-26ac93ccab23",
+    "actorId": "local-admin",
+    "actorEmail": "admin@local",
+    "action": "OCR_RUN",
+    "objectType": "OCR",
+    "objectId": "unit-1:p24",
+    "bookSlug": "unit-1",
+    "meta": null,
+    "createdAt": "2026-07-22T05:45:02.750Z"
+  },
+  {
+    "id": "e95d873e-e056-45b4-977b-56cd9651ed1e",
+    "actorId": "local-admin",
+    "actorEmail": "admin@local",
+    "action": "OCR_RUN",
+    "objectType": "OCR",
+    "objectId": "unit-1:p25",
+    "bookSlug": "unit-1",
+    "meta": null,
+    "createdAt": "2026-07-22T05:44:01.666Z"
+  },
+  {
+    "id": "35a0b09b-34d2-4388-9032-c8589b35eab5",
+    "actorId": "local-admin",
+    "actorEmail": "admin@local",
+    "action": "OCR_RUN",
+    "objectType": "OCR",
+    "objectId": "unit-1:p24",
+    "bookSlug": "unit-1",
+    "meta": null,
+    "createdAt": "2026-07-22T05:39:48.218Z"
+  },
+  {
+    "id": "c2cff628-59a0-4c6c-ae63-33747fbc0b74",
+    "actorId": "local-admin",
+    "actorEmail": "admin@local",
+    "action": "OCR_RUN",
+    "objectType": "OCR",
+    "objectId": "unit-1:p25",
+    "bookSlug": "unit-1",
+    "meta": null,
+    "createdAt": "2026-07-22T05:30:11.286Z"
+  },
+  {
+    "id": "ffeab324-1faa-433c-abbb-00e52821e800",
+    "actorId": "local-admin",
+    "actorEmail": "admin@local",
+    "action": "OCR_RUN",
+    "objectType": "OCR",
+    "objectId": "unit-1:p40",
+    "bookSlug": "unit-1",
+    "meta": null,
+    "createdAt": "2026-07-22T05:29:11.615Z"
+  },
+  {
+    "id": "19d7b8a7-c210-4970-9f39-7fdcdea03832",
+    "actorId": "local-admin",
+    "actorEmail": "admin@local",
+    "action": "VALIDATION_RUN",
+    "objectType": "BOOK",
+    "objectId": "unit-1",
+    "bookSlug": "unit-1",
+    "meta": {
+      "ok": false,
+      "issues": 1
+    },
+    "createdAt": "2026-07-22T04:41:26.865Z"
+  }
+]

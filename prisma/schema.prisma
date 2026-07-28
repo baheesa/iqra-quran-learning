@@ -1,0 +1,799 @@
+// =============================================================================
+// Quran Learning System — Prisma Schema (Foundation)
+// Source of truth for educational structure: docs/09-database-architecture.md
+// Authentication is configured later; Learner.authUserId is reserved for Supabase Auth.
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum VerificationStatus {
+  UNKNOWN
+  PENDING
+  NEEDS_REVIEW
+  VERIFIED
+  APPROVED
+  REJECTED
+}
+
+enum KnowledgePipelineStatus {
+  DISCOVERED
+  REGISTERED
+  PAGES_EXTRACTED
+  OCR_COMPLETE
+  EXTRACTED
+  VERIFIED
+  APPROVED
+  FAILED
+}
+
+enum ReviewObjectType {
+  VOCABULARY
+  RULE
+  LESSON
+  EXERCISE
+  QURAN_WORD
+}
+
+enum ReviewStatus {
+  PENDING
+  DUE
+  COMPLETED
+  SKIPPED
+}
+
+/// Recognition-first vocabulary / rule learning stages (Milestone 4).
+/// Never skip stages automatically — advance one step at a time.
+enum LearningStage {
+  UNKNOWN
+  SEEN
+  RECOGNIZING
+  UNDERSTOOD
+  MASTERED
+  NEEDS_REVIEW
+}
+
+enum LearningSessionPhase {
+  REVIEW
+  READING
+  RECOGNIZE
+  NEW_WORDS
+  REFLECTION
+  FINISHED
+}
+
+enum LearningSessionStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum TeacherMessageRole {
+  LEARNER
+  TEACHER
+  SYSTEM
+}
+
+enum TeacherIntent {
+  ASK
+  WORD
+  PHRASE
+  LESSON
+  RULE
+  REVIEW_SUGGESTION
+}
+
+enum ExplanationStyle {
+  BRIEF
+  GUIDED
+  DETAILED
+}
+
+enum ExerciseType {
+  RECOGNITION
+  MATCHING
+  FILL_MISSING
+  CONTEXT
+  MEANING_RECALL
+  REFLECTION
+  OTHER
+}
+
+// ---------------------------------------------------------------------------
+// Learner (auth wiring deferred — authUserId links to Supabase Auth later)
+// ---------------------------------------------------------------------------
+
+model Learner {
+  id               String   @id @default(cuid())
+  authUserId       String?  @unique
+  displayName      String?
+  currentVolume    Int      @default(1)
+  currentUnit      Int      @default(1)
+  currentLessonId  String?
+  currentJuz       Int      @default(1)
+  currentSurah     Int      @default(1)
+  currentAyah      Int      @default(1)
+  dailyGoalMinutes Int      @default(20)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  currentLesson       Lesson?               @relation("CurrentLesson", fields: [currentLessonId], references: [id])
+  vocabularyProgress  VocabularyProgress[]
+  ruleProgress        RuleProgress[]
+  lessonProgress      LessonProgress[]
+  readingSessions     ReadingSession[]
+  learningSessions    LearningSession[]
+  reviewQueue         ReviewQueueItem[]
+  reflections         Reflection[]
+  bookmarks           Bookmark[]
+  preferences         LearnerPreferences?
+  teacherConversations TeacherConversation[]
+  analyticsSnapshots  LearnerAnalyticsSnapshot[]
+  cloudState          LearnerCloudState?
+  syncConflicts       SyncConflictLog[]
+
+  @@index([currentJuz, currentSurah, currentAyah])
+}
+
+model LearnerPreferences {
+  id                      String            @id @default(cuid())
+  learnerId               String            @unique
+  fontSize                String            @default("medium")
+  preferredReviewLength   Int               @default(5)
+  preferredExplanationStyle ExplanationStyle @default(GUIDED)
+  notificationsEnabled    Boolean           @default(true)
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+}
+
+/// Derived analytics snapshots — independent from curriculum content.
+model LearnerAnalyticsSnapshot {
+  id         String   @id @default(cuid())
+  learnerId  String
+  period     String
+  periodStart DateTime
+  periodEnd  DateTime
+  payload    Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([learnerId, period, periodStart])
+}
+
+// ---------------------------------------------------------------------------
+// Quran
+// ---------------------------------------------------------------------------
+
+model Surah {
+  id           Int     @id
+  nameArabic   String
+  nameUrdu     String?
+  nameEnglish  String?
+  ayahCount    Int
+  revelationType String?
+
+  ayahs Ayah[]
+}
+
+model Ayah {
+  id          String   @id @default(cuid())
+  surahId     Int
+  ayahNumber  Int
+  juz         Int
+  page        Int?
+  arabicText  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  surah Surah       @relation(fields: [surahId], references: [id])
+  words QuranWord[]
+  links QuranLink[]
+
+  @@unique([surahId, ayahNumber])
+  @@index([juz])
+  @@index([page])
+}
+
+model QuranWord {
+  id         String   @id @default(cuid())
+  ayahId     String
+  position   Int
+  arabic     String
+  root       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  ayah Ayah @relation(fields: [ayahId], references: [id], onDelete: Cascade)
+
+  @@unique([ayahId, position])
+  @@index([arabic])
+}
+
+// ---------------------------------------------------------------------------
+// Muallim Knowledge Base
+// ---------------------------------------------------------------------------
+
+model MuallimBook {
+  id         String                  @id @default(cuid())
+  slug       String?                 @unique
+  title      String
+  volume     Int?
+  unit       Int?
+  edition    String?
+  pdfPath    String
+  checksum   String?
+  pageCount  Int?
+  status     KnowledgePipelineStatus @default(DISCOVERED)
+  version    String                  @default("1")
+  uploadedAt DateTime                @default(now())
+  createdAt  DateTime                @default(now())
+  updatedAt  DateTime                @updatedAt
+
+  pages          MuallimPage[]
+  lessons        Lesson[]
+  extractionLogs ExtractionLog[]
+
+  @@index([volume, unit])
+  @@index([status])
+}
+
+model MuallimPage {
+  id                 String             @id @default(cuid())
+  bookId             String
+  pageNumber         Int
+  imagePath          String
+  thumbnailPath      String?
+  resolution         String?
+  ocrText            String?
+  visionOutput       Json?
+  verificationStatus VerificationStatus @default(PENDING)
+  confidence         Float?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  book               MuallimBook          @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  ocrResults         OcrResult[]
+  pageExtractions     PageExtraction[]
+  verificationRecords VerificationRecord[]
+
+  @@unique([bookId, pageNumber])
+  @@index([verificationStatus])
+}
+
+/// Versioned OCR output for a page. Never overwrite — append versions.
+model OcrResult {
+  id             String   @id @default(cuid())
+  pageId         String
+  provider       String
+  rawText        String
+  confidence     Float?
+  language       String?
+  boundingBoxes  Json?
+  sourceImagePath String?
+  version        String   @default("1")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  page MuallimPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId, version])
+  @@index([provider])
+}
+
+/// Structured AI extraction draft for a page (pre-approval).
+model PageExtraction {
+  id                 String             @id @default(cuid())
+  pageId             String
+  provider           String
+  payload            Json
+  verificationStatus VerificationStatus @default(PENDING)
+  version            String             @default("1")
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  page MuallimPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId, version])
+  @@index([verificationStatus])
+}
+
+model VerificationRecord {
+  id         String             @id @default(cuid())
+  pageId     String?
+  bookId     String?
+  objectType String
+  objectId   String
+  status     VerificationStatus
+  note       String?
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  page MuallimPage? @relation(fields: [pageId], references: [id], onDelete: SetNull)
+
+  @@index([objectType, objectId])
+  @@index([status])
+}
+
+model ExtractionLog {
+  id        String   @id @default(cuid())
+  bookId    String?
+  stage     String
+  message   String
+  level     String   @default("info")
+  meta      Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  book MuallimBook? @relation(fields: [bookId], references: [id], onDelete: SetNull)
+
+  @@index([bookId, stage])
+  @@index([createdAt])
+}
+
+model Lesson {
+  id           String   @id @default(cuid())
+  bookId       String?
+  volume       Int
+  unit         Int
+  lessonNumber Int
+  title        String
+  objectives   String[]
+  summary      String?
+  pageStart    Int?
+  pageEnd      Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  book               MuallimBook?      @relation(fields: [bookId], references: [id])
+  vocabulary         Vocabulary[]
+  rules              Rule[]
+  exercises          Exercise[]
+  quranLinks         QuranLink[]
+  currentForLearners Learner[]         @relation("CurrentLesson")
+  lessonProgress     LessonProgress[]
+
+  @@unique([volume, unit, lessonNumber])
+  @@index([unit, lessonNumber])
+}
+
+model Vocabulary {
+  id                 String             @id @default(cuid())
+  lessonId           String
+  arabic             String
+  urduMeaning        String
+  difficulty         Int                @default(1)
+  frequency          Int?
+  occurrenceCount    Int?
+  root               String?
+  examples           String[]
+  sourcePage         Int?
+  confidence         Float?
+  verificationStatus VerificationStatus @default(UNKNOWN)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  lesson   Lesson               @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  progress VocabularyProgress[]
+  links    QuranLink[]
+  rules    Rule[]               @relation("VocabularyRules")
+
+  @@index([arabic])
+  @@index([lessonId])
+  @@index([verificationStatus])
+}
+
+model Rule {
+  id                 String             @id @default(cuid())
+  lessonId           String
+  title              String
+  explanation        String
+  examples           String[]
+  difficulty         Int                @default(1)
+  sourcePage         Int?
+  confidence         Float?
+  verificationStatus VerificationStatus @default(UNKNOWN)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  lesson     Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  progress   RuleProgress[]
+  links      QuranLink[]
+  vocabulary Vocabulary[]   @relation("VocabularyRules")
+
+  @@index([lessonId])
+  @@index([verificationStatus])
+}
+
+model Exercise {
+  id                 String             @id @default(cuid())
+  lessonId           String
+  question           String
+  answer             String?
+  exerciseType       ExerciseType       @default(OTHER)
+  difficulty         Int                @default(1)
+  estimatedMinutes   Int?
+  sourcePage         Int?
+  confidence         Float?
+  verificationStatus VerificationStatus @default(UNKNOWN)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+  @@index([verificationStatus])
+}
+
+model QuranLink {
+  id           String   @id @default(cuid())
+  vocabularyId String?
+  ruleId       String?
+  lessonId     String?
+  ayahId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  vocabulary Vocabulary? @relation(fields: [vocabularyId], references: [id], onDelete: SetNull)
+  rule       Rule?       @relation(fields: [ruleId], references: [id], onDelete: SetNull)
+  lesson     Lesson?     @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  ayah       Ayah        @relation(fields: [ayahId], references: [id], onDelete: Cascade)
+
+  @@index([vocabularyId])
+  @@index([ruleId])
+  @@index([lessonId])
+  @@index([ayahId])
+}
+
+// ---------------------------------------------------------------------------
+// Learner progress & review
+// ---------------------------------------------------------------------------
+
+model VocabularyProgress {
+  id              String        @id @default(cuid())
+  learnerId       String
+  vocabularyId    String
+  stage           LearningStage @default(UNKNOWN)
+  confidence      Int           @default(0)
+  timesSeen       Int           @default(0)
+  timesRecognized Int           @default(0)
+  timesForgotten  Int           @default(0)
+  firstSeenAt     DateTime?
+  lastSeenAt      DateTime?
+  lastReviewedAt  DateTime?
+  nextReviewAt    DateTime?
+  notes           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  learner    Learner    @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  vocabulary Vocabulary @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerId, vocabularyId])
+  @@index([learnerId, nextReviewAt])
+  @@index([nextReviewAt])
+  @@index([confidence])
+  @@index([stage])
+}
+
+model RuleProgress {
+  id                 String        @id @default(cuid())
+  learnerId          String
+  ruleId             String
+  stage              LearningStage @default(UNKNOWN)
+  confidence         Int           @default(0)
+  attempts           Int           @default(0)
+  mistakes           Int           @default(0)
+  revisionCount      Int           @default(0)
+  revisionHistory    Json?
+  understandingNote  String?
+  lastReviewed       DateTime?
+  nextReviewAt       DateTime?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  rule    Rule    @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerId, ruleId])
+  @@index([learnerId, nextReviewAt])
+  @@index([nextReviewAt])
+  @@index([stage])
+}
+
+model LessonProgress {
+  id                  String       @id @default(cuid())
+  learnerId           String
+  lessonId            String
+  startedAt           DateTime?
+  completedAt         DateTime?
+  completionPercent   Int          @default(0)
+  vocabularyMastery   Int          @default(0)
+  ruleMastery         Int          @default(0)
+  readingComplete     Boolean      @default(false)
+  reviewStatus        ReviewStatus @default(PENDING)
+  confidence          Int          @default(0)
+  notes               String?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  lesson  Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerId, lessonId])
+}
+
+model ReadingSession {
+  id              String    @id @default(cuid())
+  learnerId       String
+  startedAt       DateTime  @default(now())
+  endedAt         DateTime?
+  durationSeconds Int?
+  startSurah      Int
+  startAyah       Int
+  endSurah        Int?
+  endAyah         Int?
+  wordsTapped     Int       @default(0)
+  questionsAsked  Int       @default(0)
+  reflectionText  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([learnerId, startedAt])
+}
+
+/// Structured daily learning session (15–20 minutes). Independent of AI.
+model LearningSession {
+  id                          String                @id @default(cuid())
+  learnerId                   String
+  status                      LearningSessionStatus @default(PLANNED)
+  phase                       LearningSessionPhase  @default(REVIEW)
+  targetMinutes               Int                   @default(20)
+  elapsedSeconds              Int                   @default(0)
+  estimatedRemainingMinutes   Int?
+  startedAt                   DateTime?
+  endedAt                     DateTime?
+  reviewWordIds               String[]
+  newWordIds                  String[]
+  reflectionId                String?
+  notes                       String?
+  createdAt                   DateTime              @default(now())
+  updatedAt                   DateTime              @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([learnerId, startedAt])
+  @@index([status, phase])
+}
+
+model ReviewQueueItem {
+  id         String           @id @default(cuid())
+  learnerId  String
+  objectType ReviewObjectType
+  objectId   String
+  priority   Int              @default(0)
+  dueAt      DateTime
+  status     ReviewStatus     @default(PENDING)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([learnerId, dueAt, status])
+  @@index([objectType, objectId])
+}
+
+model Reflection {
+  id               String   @id @default(cuid())
+  learnerId        String
+  lessonId         String?
+  sessionId        String?
+  sessionNote      String?
+  content          String
+  understoodToday  String?
+  difficultWords   String[]
+  reviewTomorrow   String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([learnerId, createdAt])
+  @@index([sessionId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  learnerId String
+  surahId   Int
+  ayahNumber Int
+  title     String?
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([learnerId])
+  @@index([surahId, ayahNumber])
+}
+
+// ---------------------------------------------------------------------------
+// AI Teacher (Milestone 5) — conversations stored; LLM is not sole memory
+// ---------------------------------------------------------------------------
+
+model TeacherConversation {
+  id        String   @id @default(cuid())
+  learnerId String
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  learner  Learner          @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  messages TeacherMessage[]
+
+  @@index([learnerId, updatedAt])
+}
+
+model TeacherMessage {
+  id               String             @id @default(cuid())
+  conversationId   String
+  role             TeacherMessageRole
+  intent           TeacherIntent      @default(ASK)
+  content          String
+  contextSnapshot  Json?
+  knowledgeRefs    Json?
+  promptVersion    String?
+  provider         String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  conversation TeacherConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  feedback     TeacherFeedback?
+
+  @@index([conversationId, createdAt])
+  @@index([intent])
+}
+
+model TeacherFeedback {
+  id        String   @id @default(cuid())
+  messageId String   @unique
+  helpful   Boolean?
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  message TeacherMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Auth & Cloud Sync (Milestone 7)
+// ---------------------------------------------------------------------------
+
+/// Versioned learner sync payload. Educational engines stay unchanged;
+/// this table stores the cross-device snapshot.
+model LearnerCloudState {
+  id         String   @id @default(cuid())
+  learnerId  String   @unique
+  authUserId String   @unique
+  revision   Int      @default(1)
+  checksum   String
+  payload    Json
+  syncedAt   DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([authUserId])
+  @@index([updatedAt])
+}
+
+model SyncConflictLog {
+  id           String   @id @default(cuid())
+  learnerId    String
+  authUserId   String
+  localRevision Int
+  remoteRevision Int
+  resolution   String
+  note         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  learner Learner @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@index([learnerId, createdAt])
+  @@index([authUserId])
+}
+
+// ---------------------------------------------------------------------------
+// Admin & Knowledge Management (Milestone 8)
+// ---------------------------------------------------------------------------
+
+enum StaffRole {
+  ADMIN
+  REVIEWER
+  VIEWER
+}
+
+/// Maintainer access. Learners never receive these roles.
+model StaffMembership {
+  id         String    @id @default(cuid())
+  authUserId String    @unique
+  email      String
+  role       StaffRole
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([email])
+  @@index([role])
+}
+
+/// Snapshot of approved knowledge after each edit/approve.
+model KnowledgeVersion {
+  id         String   @id @default(cuid())
+  bookSlug   String
+  objectType String
+  objectId   String
+  version    Int
+  payload    Json
+  createdBy  String?
+  note       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([bookSlug, objectType, objectId, version])
+  @@index([bookSlug, objectType, objectId])
+  @@index([createdAt])
+}
+
+model AuditLogEntry {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorEmail String?
+  action     String
+  objectType String?
+  objectId   String?
+  bookSlug   String?
+  meta       Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([bookSlug])
+  @@index([bookSlug, createdAt])
+  @@index([actorId])
+  @@index([actorId, createdAt])
+}
+
+model PublicationRecord {
+  id               String   @id @default(cuid())
+  bookSlug         String
+  version          Int
+  status           String
+  validationReport Json?
+  publishedBy      String?
+  publishedAt      DateTime @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([bookSlug, publishedAt])
+  @@index([status])
+}

@@ -1,0 +1,13 @@
+{
+  "bookSlug": "unit-1",
+  "ok": false,
+  "checkedAt": "2026-07-22T04:41:26.863Z",
+  "issues": [
+    {
+      "code": "MISSING_LESSON",
+      "severity": "error",
+      "message": "No APPROVED pages available to publish",
+      "bookSlug": "unit-1"
+    }
+  ]
+}
