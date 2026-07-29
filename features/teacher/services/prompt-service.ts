@@ -38,7 +38,7 @@ function intentMeta(intent: TeacherIntent): {
 }
 
 /**
- * PromptService — loads versioned prompts from cursor/PROMPTS.md only.
+ * PromptService — loads versioned prompts from config/PROMPTS.md only.
  */
 export function createPromptService(options?: { promptsPath?: string }) {
   const promptsPath = options?.promptsPath;

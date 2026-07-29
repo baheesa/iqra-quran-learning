@@ -1,10 +1,10 @@
 import { readFile } from "fs/promises";
 import path from "path";
 
-const DEFAULT_PROMPTS_PATH = path.join(process.cwd(), "cursor", "PROMPTS.md");
+const DEFAULT_PROMPTS_PATH = path.join(process.cwd(), "config", "PROMPTS.md");
 
 /**
- * Load a named prompt section from cursor/PROMPTS.md.
+ * Load a named prompt section from config/PROMPTS.md.
  * Sections are delimited by headings like `# Prompt 8 — OCR Extraction`.
  */
 export async function loadPromptSection(

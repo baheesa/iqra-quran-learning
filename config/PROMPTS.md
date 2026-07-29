@@ -1,4 +1,4 @@
-# .cursor/PROMPTS.md
+# config/PROMPTS.md
 
 # =============================================================================
 # AI Prompt Library

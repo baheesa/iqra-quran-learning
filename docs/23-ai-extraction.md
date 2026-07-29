@@ -47,7 +47,7 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 ## Prompts
 
-Loaded from `cursor/PROMPTS.md` via `PromptBuilder`:
+Loaded from `config/PROMPTS.md` via `PromptBuilder`:
 
 - Prompt 8 — OCR Extraction
 - Prompt 10 — Knowledge Extraction

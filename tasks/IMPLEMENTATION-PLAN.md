@@ -40,7 +40,7 @@ Milestone 3.5 — AI Extraction & Verification ✅
 
 - OpenAI Vision OCR provider
 - OpenAI extraction provider
-- PromptBuilder (loads cursor/PROMPTS.md)
+- PromptBuilder (loads config/PROMPTS.md)
 - VerificationEngine (+ REJECTED)
 - KnowledgeImporter / KnowledgeExporter
 - Admin review UI (OCR + JSON + approve/reject/reprocess)
@@ -61,7 +61,7 @@ Milestone 4 — Learning Engine ✅
 Milestone 5 — AI Teacher ✅
 
 - ContextBuilder + KnowledgeRetriever (APPROVED first)
-- PromptService from cursor/PROMPTS.md
+- PromptService from config/PROMPTS.md
 - Teacher / Conversation / Explanation / Suggestion services
 - Teacher panel on Quran reader
 - Stub path when OpenAI key absent

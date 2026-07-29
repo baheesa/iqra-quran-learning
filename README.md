@@ -2,172 +2,205 @@
 
 # Iqra
 
-### Understand the Quran word by word — without living inside a translation.
+### Learn to understand the Quran — word by word, without living in a translation.
 
-Open the mushaf. Read calmly. Tap only what you don’t recognize.  
-A short Urdu tip appears on that word. Familiar words stay out of the way.
-
-Built for Urdu speakers · grounded in **Muallim-ul-Quran** (Units 1–7)
-
-<br />
-
-[**Open live app**](https://iqra-quran-learning-eight.vercel.app)
-&nbsp;·&nbsp;
-[**Download Android APK**](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk)
-&nbsp;·&nbsp;
-[**PDF manual**](docs/Quran-Learning-System-User-Manual.pdf)
-&nbsp;·&nbsp;
-[**Case study**](CASE_STUDY.md)
-
-<br />
-
-<img src="docs/images/theme-light.png" alt="Iqra home in light mode" width="46%" />
+<img src="https://img.shields.io/badge/Live-Demo-1e4a38?style=for-the-badge&logo=vercel&logoColor=white" alt="Live demo" />
 &nbsp;
-<img src="docs/images/theme-dark.png" alt="Iqra home in dark mode" width="46%" />
+<img src="https://img.shields.io/badge/Android-APK-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android APK" />
+&nbsp;
+<img src="https://img.shields.io/badge/Stack-Next.js_15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+&nbsp;
+<img src="https://img.shields.io/badge/License-Educational-5c6b63?style=for-the-badge" alt="Educational license" />
 
-<sub>Light & dark — same calm surface, built for short daily reading.</sub>
+<br /><br />
+
+**Open the mushaf → read calmly → tap only what you don’t know.**  
+A short Urdu tip appears on that word. Everything familiar stays out of the way.
+
+Built for Urdu speakers · curriculum from **Muallim-ul-Quran** (Units 1–7)
+
+<br />
+
+[🌐 Open live app](https://iqra-quran-learning-eight.vercel.app)
+&nbsp;&nbsp;·&nbsp;&nbsp;
+[📱 Download APK](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk)
+&nbsp;&nbsp;·&nbsp;&nbsp;
+[📘 PDF manual](docs/Quran-Learning-System-User-Manual.pdf)
+&nbsp;&nbsp;·&nbsp;&nbsp;
+[📝 Case study](CASE_STUDY.md)
+
+<br />
+
+<img src="docs/images/theme-light.png" width="46%" alt="Home — light mode" />
+&nbsp;
+<img src="docs/images/theme-dark.png" width="46%" alt="Home — dark mode" />
+
+<sub>Light & dark · calm daily reading · no ads</sub>
 
 </div>
 
 ---
 
-## Why Iqra exists
+## ✨ Why Iqra?
 
-Most people who want to *understand* the Quran end up juggling two books: the Arabic mushaf and a full Urdu translation. The eye drifts to the Urdu line. The Arabic never becomes familiar.
+Most learners juggle two books: the Arabic mushaf and a full Urdu translation.  
+The eye drifts to Urdu. The Arabic never becomes familiar.
 
-Iqra flips that.
+**Iqra flips that.**
 
-| The mushaf stays primary | Tips stay quiet until you ask |
+| 📖 Mushaf stays primary | 💡 Tips stay quiet until you ask |
 | --- | --- |
-| You read continuous Arabic, page by page | One tap → one short Urdu tip on that word |
+| Continuous Arabic, page by page | One tap → one short Urdu tip on *that* word |
 | No permanent translation column | Tap away to dismiss |
 | Grammar only when a pattern helps | Progress grows from real reading |
 
-The app succeeds when you need it **less** — when you can open a mushaf and recognize more of what you see.
+> The app succeeds when you need it **less** — when you can open a mushaf and recognize more of what you see.
 
 ---
 
-## Try it in under a minute
+## 🚀 Try it in 60 seconds
 
-1. Open the [live app](https://iqra-quran-learning-eight.vercel.app) *(or [install the APK](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk) for offline phone use).*
-2. From **Home**, continue into the mushaf.
-3. Read for a few lines. Tap one unfamiliar word.
-4. Check **My words** later — that tip is waiting for you.
+1. Open the [**live app**](https://iqra-quran-learning-eight.vercel.app) — or [**install the APK**](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk) for offline phone use
+2. From **Home**, continue into the mushaf
+3. Read a few lines · tap one unfamiliar word
+4. Later, open **My words** — that tip is waiting for you
 
-A good daily session is **15–20 minutes**: read → tap only when unsure → optionally revise one list (My words, Qawaid, or a dua).
+A good daily session is **15–20 minutes**: read → tap only when unsure → optionally revise one list.
 
-<img src="docs/images/home-light.png" alt="Home with resume reading, recognize practice, and progress" width="720" />
+<p align="center">
+  <img src="docs/images/home-light.png" width="720" alt="Home — resume, recognize, progress" />
+</p>
 
 ---
 
-## What’s inside
+## 🧩 What’s inside
 
-### Quran reader
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Indo-Pak script. Page, juz, and surah navigation. Font size, bookmarks, last page remembered.  
-Tools stay in the toolbar — the page itself stays uncluttered.
+### 📖 Quran reader
+Indo-Pak script · page / juz / surah jump · font size · bookmarks · last page remembered.  
+Tools stay in the toolbar — the page stays clean.
 
-<img src="docs/images/reader-mid-page.png" alt="Quran reader mid-page" width="720" />
+<img src="docs/images/reader-mid-page.png" alt="Quran reader" />
 
-### Word tips (recognition first)
+</td>
+<td width="50%" valign="top">
 
+### 👆 Word tips
 Tap a word → Urdu tip on the word. Tap elsewhere → gone.  
-Optional full-ayah Urdu exists on demand, but it never replaces the mushaf as the main surface.
+Optional full-ayah Urdu on demand — recognition first, translation second.
 
-<img src="docs/images/reader-word-tap.png" alt="Word tip floating above a tapped Arabic word" width="720" />
+<img src="docs/images/reader-word-tap.png" alt="Word tip on tap" />
 
-### My words
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-Every useful tap can become a personal review list — vocabulary you already met *in context*, not from a random word bank.
+### ❤️ My words
+Useful taps become a personal review list — vocabulary you met *in the mushaf*, not a random word bank.
 
-<img src="docs/images/vocabulary-list.png" alt="My words vocabulary list" width="720" />
+<img src="docs/images/vocabulary-list.png" alt="My words" />
 
-### Search & “View all”
+</td>
+<td width="50%" valign="top">
 
-Search Arabic or Urdu. Preview matches. Open **View all** for every listed ayah, then jump straight back into the mushaf.
+### 🔎 Search & View all
+Arabic or Urdu search · preview matches · **View all** ayahs · jump straight back into the mushaf.
 
-<img src="docs/images/search-results.png" alt="Search results for الله" width="46%" />
-<img src="docs/images/search-view-all.png" alt="View all matching ayahs" width="46%" />
+<img src="docs/images/search-view-all.png" alt="Search view all" />
 
-### Muallim curriculum (Units 1–7)
+</td>
+</tr>
+</table>
+
+### 📐 Muallim curriculum — Units 1–7
 
 **Qawaid** — short rules with Quran examples.  
-**Unit words** & **Unit ayahs** — curriculum practice you can mark as familiar.
+**Unit words** & **Unit ayahs** — practice you can mark as familiar when recognition sticks.
 
-<img src="docs/images/qawaid-rule.png" alt="Qawaid rule with examples" width="720" />
+<p align="center">
+  <img src="docs/images/qawaid-rule.png" width="720" alt="Qawaid" />
+</p>
 
-<img src="docs/images/words-section.png" alt="Unit words" width="46%" />
-<img src="docs/images/ayahs-section.png" alt="Unit ayahs" width="46%" />
+<p align="center">
+  <img src="docs/images/words-section.png" width="46%" alt="Unit words" />
+  &nbsp;
+  <img src="docs/images/ayahs-section.png" width="46%" alt="Unit ayahs" />
+</p>
 
-### Duas
+### 🤲 Duas
 
 Daily / masnoon duas for ordinary moments.  
-Qur’anic duas organized by **juz**, with memorization marks and a shortcut back into the mushaf.
+Qur’anic duas by **juz**, with memorization marks and a shortcut into the mushaf.
 
-<img src="docs/images/duas-daily.png" alt="Daily duas" width="46%" />
-<img src="docs/images/duas-quranic-juz.png" alt="Qur’anic duas by juz" width="46%" />
+<p align="center">
+  <img src="docs/images/duas-daily.png" width="46%" alt="Daily duas" />
+  &nbsp;
+  <img src="docs/images/duas-quranic-juz.png" width="46%" alt="Qur’anic duas by juz" />
+</p>
 
-### Progress without quizzes
+### 📊 Progress — without quiz theater
 
-**Home** is the progress surface — pages visited, unit progress, memorized duas, a short recognition practice.  
-No streak theater. No quiz dashboard. Just a calm place to continue.
+**Home** tracks pages, unit progress, memorized duas, and a short recognition practice.  
+No streaks to game. No separate quiz dashboard. Just a calm place to continue.
 
-<img src="docs/images/dashboard-light.png" alt="Progress on Home" width="720" />
-
----
-
-## Web vs Android
-
-| | **Web** ([open](https://iqra-quran-learning-eight.vercel.app)) | **Android APK** ([download](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk)) |
-| --- | --- | --- |
-| Mushaf + word tips | Yes | Yes — data bundled on device |
-| Qawaid, words, ayahs, duas | Yes | Yes |
-| Offline | Limited | Full offline reading |
-| Progress | Browser localStorage | On-device storage |
-| Ads | None | None |
-
-Install tip: if Android asks, allow install from your browser. Repo copy: [`public/downloads/iqra-quran-learning.apk`](public/downloads/iqra-quran-learning.apk).
+<p align="center">
+  <img src="docs/images/dashboard-light.png" width="720" alt="Progress on Home" />
+</p>
 
 ---
 
-## How to learn with it
+## 🌐 Web vs 📱 Android
 
-**Do this**
+| | 🌐 Web | 📱 Android APK |
+| :---: | --- | --- |
+| **Get it** | [Open demo](https://iqra-quran-learning-eight.vercel.app) | [Download APK](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk) |
+| Mushaf + tips | ✅ | ✅ Bundled on device |
+| Qawaid · words · ayahs · duas | ✅ | ✅ |
+| Offline | ⚠️ Limited | ✅ Full |
+| Progress | Browser storage | On-device storage |
+| Ads | ❌ None | ❌ None |
 
-- Read first. Tap only what you don’t know.
-- Use tips to *confirm* — not to replace thinking.
-- Revisit the same pages until forms feel familiar.
-- Open Qawaid when the same pattern keeps showing up.
+<sub>If Android asks, allow install from your browser. Repo file: [`public/downloads/iqra-quran-learning.apk`](public/downloads/iqra-quran-learning.apk)</sub>
 
-**Skip this**
+---
 
-- Treating the app like a translation book
-- Collecting tips instead of reading
-- Making grammar the main activity
+## 🌱 How to learn with it
 
-```
+| ✅ Do this | 🚫 Skip this |
+| --- | --- |
+| Read first · tap only what you don’t know | Treating the app like a translation book |
+| Use tips to *confirm*, not replace thinking | Collecting tips instead of reading |
+| Revisit pages until forms feel familiar | Making grammar the main activity |
+| Open Qawaid when a pattern keeps repeating | — |
+
+```text
 Reading → Recognition → Understanding → Practice → Reflection → Revision
 ```
 
----
-
-## What this is not
-
-Iqra is **not** a chatbot, a translation app, a grammar course, a quiz game, or a social network.
-
-The Quran stays at the center.  
-Muallim-ul-Quran is the educational source.  
-Tips help recognition — they are not the curriculum.
+Iqra is **not** a chatbot, translation app, grammar course, quiz game, or social network.  
+The Quran stays center stage. Muallim-ul-Quran is the source. Tips only help recognition.
 
 ---
 
-## For developers
+## 🛠️ For developers
 
-### Stack
+<p>
+  <img src="https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind-38B2AC?logo=tailwindcss&logoColor=white" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white" alt="Prisma" />
+  <img src="https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white" alt="pnpm" />
+  <img src="https://img.shields.io/badge/Capacitor-119EFF?logo=capacitor&logoColor=white" alt="Capacitor" />
+  <img src="https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white" alt="Vercel" />
+</p>
 
-Next.js 15 · React 19 · TypeScript · Tailwind · Prisma · pnpm · Capacitor (APK) · static JSON in `data/` · Vercel
-
-UI defaults: Urdu · Jameel Noori Nastaleeq · Indo-Pak Quran script.
+UI defaults: **Urdu** · Jameel Noori Nastaleeq · Indo-Pak Quran script.  
+Content lives as **static JSON** under `data/` (no live Google Sheets) — reliable for a public demo.
 
 ### Run the web app
 
@@ -178,10 +211,9 @@ pnpm db:generate
 pnpm dev
 ```
 
-Demo mode works with `AUTH_PROVIDER=memory` and no AI keys — see `.env.production.example`.  
-Local: [http://127.0.0.1:3000](http://127.0.0.1:3000) · Help: [/help](http://127.0.0.1:3000/help)
+Demo mode works with `AUTH_PROVIDER=memory` and no AI keys — see `.env.production.example`.
 
-### Build the APK
+### Build the Android APK
 
 ```bash
 cd offline-apk
@@ -190,25 +222,21 @@ npm install
 npm run apk:debug
 ```
 
-Copy the build into `public/downloads/iqra-quran-learning.apk` to expose it on the web download link.
+Copy the output to `public/downloads/iqra-quran-learning.apk` for the web download button.
 
-### Content model
-
-Learner content is **static JSON** under `data/` (not live Google Sheets). The web app reads it on the server; the APK syncs it into the install bundle. That keeps the public demo reliable — no quotas, no broken Sheets links, no secrets for data.
-
-### Regenerate docs & screenshots
+### Regenerate screenshots & PDF
 
 ```bash
-pnpm docs:screenshots   # docs/images/
-pnpm docs:manual        # PDF + HTML manual
+pnpm docs:screenshots   # → docs/images/
+pnpm docs:manual        # → PDF + HTML manual
 pnpm docs:all
 ```
 
-Defaults to the live demo. For local capture: `DOCS_BASE_URL=http://127.0.0.1:3000`.
+Use `DOCS_BASE_URL=http://127.0.0.1:3000` to capture a local server.
 
-### More reading
+### More docs
 
-| | |
+| 📘 | |
 | --- | --- |
 | [PDF user manual](docs/Quran-Learning-System-User-Manual.pdf) | Screenshots + clickable links |
 | [CASE_STUDY.md](CASE_STUDY.md) | Portfolio write-up |
@@ -216,6 +244,10 @@ Defaults to the live demo. For local capture: `DOCS_BASE_URL=http://127.0.0.1:30
 
 ---
 
-## License
+<div align="center">
 
-Educational use.
+**Educational use** · Built to help you depend on the app less over time.
+
+[Live app](https://iqra-quran-learning-eight.vercel.app) · [APK](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk) · [GitHub](https://github.com/baheesa/iqra-quran-learning)
+
+</div>

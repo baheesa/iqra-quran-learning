@@ -10,7 +10,7 @@ export type BuiltPrompt = {
 };
 
 /**
- * Builds production prompts from cursor/PROMPTS.md — never hardcode prompt bodies.
+ * Builds production prompts from config/PROMPTS.md — never hardcode prompt bodies.
  */
 export function createPromptBuilder(options?: { promptsPath?: string }) {
   const promptsPath = options?.promptsPath;

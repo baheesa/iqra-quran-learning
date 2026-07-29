@@ -82,12 +82,14 @@ data/personalization/*.json
 data/sync/cloud/*.json
 !data/sync/cloud/.gitkeep
 
-# IDE / agents
+# IDE / agents (local only — not published)
 .idea/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
-.cursor/mcp.json
+.cursor/
+cursor/
+AGENTS.md
 
 # OS / editor swap
 *~

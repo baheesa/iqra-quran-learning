@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
   output: "standalone",
   // Ensure mushaf/curriculum JSON is included in serverless traces (Vercel).
   outputFileTracingIncludes: {
-    "/api/**/*": ["./data/**/*"],
-    "/*": ["./data/**/*"],
+    "/api/**/*": ["./data/**/*", "./config/**/*"],
+    "/*": ["./data/**/*", "./config/**/*"],
   },
   // Keep heavy SDKs out of the Next server bundle (smaller RSS on 1GB hosts).
   serverExternalPackages: ["openai", "@prisma/client", "prisma"],

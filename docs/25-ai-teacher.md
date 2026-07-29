@@ -22,7 +22,7 @@ Help the learner gradually understand the Quran directly using Muallim-ul-Quran 
 createTeacherEngine()
   ├─ ContextBuilder
   ├─ KnowledgeRetriever
-  ├─ PromptService          (cursor/PROMPTS.md)
+  ├─ PromptService          (config/PROMPTS.md)
   ├─ TeacherService
   ├─ ConversationService
   ├─ ExplanationService     (stub / offline path)
@@ -58,7 +58,7 @@ Learning Engine remains the source of learner state.
 
 ## Prompts
 
-Loaded from `cursor/PROMPTS.md` via `PromptService`:
+Loaded from `config/PROMPTS.md` via `PromptService`:
 
 | Intent | Prompt |
 |--------|--------|

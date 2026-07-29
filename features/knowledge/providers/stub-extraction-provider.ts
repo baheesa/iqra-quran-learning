@@ -7,7 +7,7 @@ import type {
 /**
  * Placeholder extraction provider.
  * Returns empty structured arrays — never invents lessons/vocabulary/rules.
- * Wire Prompt 8 / Prompt 10 from cursor/PROMPTS.md when AI is connected.
+ * Wire Prompt 8 / Prompt 10 from config/PROMPTS.md when AI is connected.
  */
 export function createStubExtractionProvider(): ExtractionProvider {
   return {
