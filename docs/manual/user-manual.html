@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Iqra — Quran Learning System User Manual</title>
+  <style>
+    :root {
+      --green: #1e4a38;
+      --green-soft: #e8f2ec;
+      --ink: #1a1f1c;
+      --muted: #5c6b63;
+      --border: #d5e0d9;
+      --paper: #fbfcfa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+      font-size: 12.5pt;
+    }
+    a { color: var(--green); text-decoration: underline; text-underline-offset: 2px; }
+    a:hover { color: #16382b; }
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 36px 40px 64px;
+    }
+    .cover {
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 24px;
+      border-bottom: 1px solid var(--border);
+      page-break-after: always;
+    }
+    .cover .badge {
+      display: inline-block;
+      background: var(--green-soft);
+      color: var(--green);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11pt;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    .cover h1 {
+      font-size: 34pt;
+      line-height: 1.15;
+      color: var(--green);
+      margin: 0 0 12px;
+    }
+    .cover .tagline {
+      font-size: 14pt;
+      color: var(--muted);
+      max-width: 34em;
+    }
+    .cover-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .cover-links a.btn,
+    a.btn {
+      display: inline-block;
+      background: var(--green);
+      color: #fff !important;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11pt;
+    }
+    .cover-links a.btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--green) !important;
+      border: 1.5px solid var(--green);
+      text-decoration: none;
+      padding: 9px 15px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11pt;
+    }
+    .cover .meta {
+      margin-top: 28px;
+      font-size: 10.5pt;
+      color: var(--muted);
+    }
+    .toc {
+      page-break-after: always;
+      padding-top: 24px;
+    }
+    .toc h2 { color: var(--green); }
+    .toc ol { padding-left: 1.2em; }
+    .toc li { margin: 0.35em 0; }
+    .toc a { color: var(--ink); text-decoration: none; }
+    .section {
+      page-break-before: always;
+      padding-top: 8px;
+    }
+    .section h2 {
+      color: var(--green);
+      font-size: 18pt;
+      margin: 0 0 10px;
+      border-bottom: 2px solid var(--green-soft);
+      padding-bottom: 8px;
+    }
+    .prose p { margin: 0 0 12px; max-width: 62ch; }
+    .prose ul.link-list {
+      margin: 8px 0 16px;
+      padding-left: 1.2em;
+    }
+    .prose ul.link-list li { margin: 0.45em 0; }
+    .cta { margin: 14px 0 16px; }
+    .shots {
+      display: grid;
+      gap: 18px;
+      margin-top: 8px;
+    }
+    figure.shot {
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    figure.shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    figcaption {
+      padding: 10px 12px;
+      font-size: 10pt;
+      color: var(--muted);
+      background: var(--green-soft);
+    }
+    @page {
+      size: A4;
+      margin: 16mm 14mm 18mm;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="cover">
+      <div class="badge">User Manual</div>
+      <h1>Iqra</h1>
+      <p class="tagline">Learn to understand the Quran word by word — recognition first, calm daily reading, Muallim-ul-Quran units.</p>
+      <div class="cover-links">
+        <a class="btn" href="https://iqra-quran-learning-eight.vercel.app">Open live app</a>
+        <a class="btn" href="https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk">Download Android APK</a>
+        <a class="btn-outline" href="https://iqra-quran-learning-eight.vercel.app/help">In-app help</a>
+        <a class="btn-outline" href="https://github.com/baheesa/iqra-quran-learning">GitHub</a>
+        <a class="btn-outline" href="https://github.com/baheesa/iqra-quran-learning#readme">Full README</a>
+      </div>
+      <p class="meta">
+        Live: <a href="https://iqra-quran-learning-eight.vercel.app">https://iqra-quran-learning-eight.vercel.app</a><br/>
+        APK: <a href="https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk">https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk</a><br/>
+        Source: <a href="https://github.com/baheesa/iqra-quran-learning">https://github.com/baheesa/iqra-quran-learning</a><br/>
+        Generated: 2026-07-29
+      </p>
+    </header>
+
+    <nav class="toc">
+      <h2>Contents</h2>
+      <ol><li><a href="#links">1. Quick Links</a></li>
+<li><a href="#getting-started">2. Getting Started</a></li>
+<li><a href="#reader">3. Quran Reader &amp; Word Tips</a></li>
+<li><a href="#vocabulary">4. My Words (Vocabulary List)</a></li>
+<li><a href="#search">5. Search &amp; View All Ayahs</a></li>
+<li><a href="#qawaid">6. Qawaid (Rules)</a></li>
+<li><a href="#words">7. Unit Words</a></li>
+<li><a href="#ayahs">8. Unit Ayahs</a></li>
+<li><a href="#duas-daily">9. Daily Duas</a></li>
+<li><a href="#duas-quranic">10. Quranic Duas by Juz</a></li>
+<li><a href="#theme">11. Dark &amp; Light Mode</a></li>
+<li><a href="#progress">12. Progress on Home</a></li>
+<li><a href="#apk">13. Android APK (Offline)</a></li></ol>
+      <p style="margin-top:18px;font-size:11pt;color:var(--muted);">
+        Prefer the web write-up? See the
+        <a href="https://github.com/baheesa/iqra-quran-learning#readme">README on GitHub</a>
+        (screenshots + setup). Prefer the phone? 
+        <a href="https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk">Download the APK</a>.
+      </p>
+    </nav>
+
+    
+      <section class="section" id="links">
+        <h2>Quick Links</h2>
+        <div class="prose">
+      <p>Use these links anytime (they stay clickable in the PDF):</p>
+      <ul class="link-list">
+        <li><a href="https://iqra-quran-learning-eight.vercel.app">Live web app</a> — open Iqra in the browser</li>
+        <li><a href="https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk">Download Android APK</a> — offline mushaf + curriculum</li>
+        <li><a href="https://iqra-quran-learning-eight.vercel.app/help">In-app help</a> — short how-to inside the app</li>
+        <li><a href="https://github.com/baheesa/iqra-quran-learning">GitHub repository</a> — source code</li>
+        <li><a href="https://github.com/baheesa/iqra-quran-learning#readme">README on GitHub</a> — full app guide with screenshots</li>
+        <li><a href="https://github.com/baheesa/iqra-quran-learning/blob/main/docs/Quran-Learning-System-User-Manual.pdf">This PDF on GitHub</a></li>
+      </ul>
+        <div class="shots"></div>
+        </div>
+      </section>
+
+      <section class="section" id="getting-started">
+        <h2>Getting Started</h2>
+        <div class="prose">
+      <p>Open the <a href="https://iqra-quran-learning-eight.vercel.app">live app</a> or install the
+      <a href="https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk">Android APK</a>. Start on Home to see your progress, then
+      open Quran for a short reading session. Progress (tapped words, memorized
+      duas, pages visited) stays on this device.</p>
+      <p>Suggested first session: Home → Read Quran (15–20 minutes) → tap only
+      unfamiliar words → optionally check <a href="https://iqra-quran-learning-eight.vercel.app/vocabulary">My words</a>.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/home-light.png" alt="Home — progress overview (light mode)" />
+          <figcaption>Home — progress overview (light mode)</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/home-dark.png" alt="Home — same surface in dark mode" />
+          <figcaption>Home — same surface in dark mode</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="reader">
+        <h2>Quran Reader &amp; Word Tips</h2>
+        <div class="prose">
+      <p>Open <a href="https://iqra-quran-learning-eight.vercel.app/quran">Read Quran</a>. The mushaf stays at the
+      center. Read a page, then tap only the words you do not recognize. A short
+      Urdu tip appears on that word. Tap elsewhere to dismiss.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/reader-mid-page.png" alt="Quran reader mid-page" />
+          <figcaption>Quran reader mid-page</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/reader-word-tap.png" alt="Word tap — Urdu meaning tip" />
+          <figcaption>Word tap — Urdu meaning tip</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="vocabulary">
+        <h2>My Words (Vocabulary List)</h2>
+        <div class="prose">
+      <p>Words you tap while reading can be reviewed later in
+      <a href="https://iqra-quran-learning-eight.vercel.app/vocabulary">My words</a>. Use this list to strengthen
+      recognition without opening a full translation book.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/vocabulary-list.png" alt="Saved vocabulary with sample words" />
+          <figcaption>Saved vocabulary with sample words</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="search">
+        <h2>Search &amp; View All Ayahs</h2>
+        <div class="prose">
+      <p>From the reader toolbar, search in Arabic or Urdu. Preview matches, then
+      open <strong>View all</strong> to see every listed ayah and jump back into
+      the mushaf. Try it on the <a href="https://iqra-quran-learning-eight.vercel.app/quran?page=1">reader</a>.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/search-results.png" alt="Search results preview" />
+          <figcaption>Search results preview</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/search-view-all.png" alt="View all matching ayahs" />
+          <figcaption>View all matching ayahs</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="qawaid">
+        <h2>Qawaid (Rules)</h2>
+        <div class="prose">
+      <p>Short patterns from Muallim-ul-Quran on
+      <a href="https://iqra-quran-learning-eight.vercel.app/rules">Qawaid</a>. Each rule has a brief definition and
+      examples. Tap example words for tips when available.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/qawaid-rule.png" alt="Qawaid — rule with examples" />
+          <figcaption>Qawaid — rule with examples</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="words">
+        <h2>Unit Words</h2>
+        <div class="prose">
+      <p>Browse vocabulary from Muallim Units 1–7 on
+      <a href="https://iqra-quran-learning-eight.vercel.app/curriculum">Unit words</a>. Mark words familiar as you
+      recognize them in real reading.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/words-section.png" alt="Unit Words section" />
+          <figcaption>Unit Words section</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="ayahs">
+        <h2>Unit Ayahs</h2>
+        <div class="prose">
+      <p>Practice curriculum ayahs on <a href="https://iqra-quran-learning-eight.vercel.app/ayahs">Unit ayahs</a>.
+      Tap Arabic for tips and mark items familiar when ready.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/ayahs-section.png" alt="Unit Ayahs section" />
+          <figcaption>Unit Ayahs section</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="duas-daily">
+        <h2>Daily Duas</h2>
+        <div class="prose">
+      <p>Masnoon and daily duas for regular practice on
+      <a href="https://iqra-quran-learning-eight.vercel.app/duas">Duas</a>. Read calmly; use tips on Arabic when you
+      need them.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/duas-daily.png" alt="Daily duas" />
+          <figcaption>Daily duas</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="duas-quranic">
+        <h2>Quranic Duas by Juz</h2>
+        <div class="prose">
+      <p>On <a href="https://iqra-quran-learning-eight.vercel.app/duas">Duas</a>, choose Qur’anic duas and filter by
+      juz for structured memorization. Mark memorized when you know them, and
+      open the mushaf page when linked.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/duas-quranic-juz.png" alt="Quranic duas filtered by juz" />
+          <figcaption>Quranic duas filtered by juz</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="theme">
+        <h2>Dark &amp; Light Mode</h2>
+        <div class="prose">
+      <p>Switch theme from the header toggle on the
+      <a href="https://iqra-quran-learning-eight.vercel.app">home page</a>. Choose the mode that is easiest on your
+      eyes during evening or daytime reading.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/theme-light.png" alt="Light mode" />
+          <figcaption>Light mode</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/theme-dark.png" alt="Dark mode" />
+          <figcaption>Dark mode</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="progress">
+        <h2>Progress on Home</h2>
+        <div class="prose">
+      <p><a href="https://iqra-quran-learning-eight.vercel.app">Home</a> is the progress surface: pages visited, unit
+      word/ayah progress, memorized duas, and a short daily recognition practice.
+      There is no separate quiz dashboard — the journey stays calm and
+      reading-first.</p>
+        <div class="shots">
+        <figure class="shot">
+          <img src="file:///Volumes/WorkFiles/my_tasks/quran-learning-app/docs/images/dashboard-light.png" alt="Progress cards on Home" />
+          <figcaption>Progress cards on Home</figcaption>
+        </figure></div>
+        </div>
+      </section>
+
+      <section class="section" id="apk">
+        <h2>Android APK (Offline)</h2>
+        <div class="prose">
+      <p>For phone use without relying on the web server:</p>
+      <p class="cta"><a class="btn" href="https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk">Download Iqra APK</a></p>
+      <p>After install, mushaf and curriculum data are bundled on the device.
+      Progress stays local. No ads. Build steps and more detail are in the
+      <a href="https://github.com/baheesa/iqra-quran-learning#readme">README</a>.</p>
+        <div class="shots"></div>
+        </div>
+      </section>
+  </div>
+</body>
+</html>

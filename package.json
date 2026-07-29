@@ -39,7 +39,10 @@
     "quran:rebuild-wbw-urdu": "node --env-file=.env.local ./node_modules/tsx/dist/cli.mjs scripts/rebuild-wbw-urdu.ts",
     "knowledge:ocr-live": "node --env-file=.env.local ./node_modules/tsx/dist/cli.mjs scripts/run-live-ocr.ts",
     "free-ocr:unit2": "tsx scripts/free-ocr-unit2.ts",
-    "prepare:check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
+    "prepare:check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
+    "docs:screenshots": "node scripts/docs/capture-screenshots.mjs",
+    "docs:manual": "node scripts/docs/build-manual.mjs",
+    "docs:all": "node scripts/docs/run-all.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.5",
@@ -70,8 +73,10 @@
     "eslint-config-next": "15.5.9",
     "eslint-config-prettier": "^10.1.8",
     "jsdom": "^29.1.1",
+    "playwright": "^1.62.0",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "tsx": "^4.23.1",
     "typescript": "^5",

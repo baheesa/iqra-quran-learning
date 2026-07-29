@@ -24,6 +24,19 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/downloads/:path*",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/vnd.android.package-archive",
+          },
+          {
+            key: "Content-Disposition",
+            value: 'attachment; filename="iqra-quran-learning.apk"',
+          },
+        ],
+      },
+      {
         source: "/:path*",
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },

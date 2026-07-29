@@ -501,6 +501,13 @@ export function LearnerHome({ dashboard, units, practiceWords }: Props) {
             {item.label}
           </Link>
         ))}
+        <a
+          href="/downloads/iqra-quran-learning.apk"
+          download
+          className="border-border text-primary hover:border-primary/40 inline-flex min-h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs"
+        >
+          Android APK
+        </a>
       </nav>
 
       {/* 3. Quick recognize */}
