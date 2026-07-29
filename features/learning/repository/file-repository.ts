@@ -17,16 +17,30 @@ export function createFileLearningRepository(options?: {
   rootDir?: string;
 }): LearningRepository {
   const filePath = resolveStatePath(options?.rootDir);
+  let memoryFallback: LearnerState | null = null;
 
-  function ensureDir(): void {
-    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  function ensureDir(): boolean {
+    try {
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   function read(): LearnerState {
-    ensureDir();
+    if (memoryFallback) return memoryFallback;
+    if (!ensureDir()) {
+      memoryFallback = createEmptyLearnerState();
+      return memoryFallback;
+    }
     if (!fs.existsSync(filePath)) {
       const empty = createEmptyLearnerState();
-      fs.writeFileSync(filePath, JSON.stringify(empty, null, 2), "utf8");
+      try {
+        fs.writeFileSync(filePath, JSON.stringify(empty, null, 2), "utf8");
+      } catch {
+        memoryFallback = empty;
+      }
       return empty;
     }
     try {
@@ -37,8 +51,19 @@ export function createFileLearningRepository(options?: {
   }
 
   function write(state: LearnerState): void {
-    ensureDir();
-    fs.writeFileSync(filePath, JSON.stringify(state, null, 2), "utf8");
+    if (memoryFallback) {
+      memoryFallback = state;
+      return;
+    }
+    if (!ensureDir()) {
+      memoryFallback = state;
+      return;
+    }
+    try {
+      fs.writeFileSync(filePath, JSON.stringify(state, null, 2), "utf8");
+    } catch {
+      memoryFallback = state;
+    }
   }
 
   return {
