@@ -5,9 +5,20 @@
  */
 
 import { chromium } from "playwright";
-import { mkdir, writeFile, access } from "fs/promises";
+import { mkdir, writeFile, access, readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const {
+  PDFDocument,
+  PDFName,
+  PDFString,
+  PDFArray,
+  rgb,
+  StandardFonts,
+} = require("pdf-lib");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "../..");
@@ -32,15 +43,22 @@ const SECTIONS = [
     icon: "🔗",
     title: "Quick links",
     html: `
-      <p>Every link below is clickable in this PDF.</p>
-      <div class="link-grid">
-        <a class="link-card" href="${LIVE}"><span class="ic">🌐</span><span><strong>Live web app</strong><em>Open Iqra in the browser</em></span></a>
-        <a class="link-card" href="${APK}"><span class="ic">📱</span><span><strong>Android APK</strong><em>Offline mushaf + curriculum</em></span></a>
-        <a class="link-card" href="${HELP}"><span class="ic">💬</span><span><strong>In-app help</strong><em>Short how-to inside the app</em></span></a>
-        <a class="link-card" href="${REPO}"><span class="ic">📦</span><span><strong>GitHub</strong><em>Source code</em></span></a>
-        <a class="link-card" href="${README}"><span class="ic">📝</span><span><strong>README</strong><em>Full guide with screenshots</em></span></a>
-        <a class="link-card" href="${PDF_ON_GITHUB}"><span class="ic">📘</span><span><strong>This PDF</strong><em>On GitHub</em></span></a>
-      </div>`,
+      <p>Tap a button below to open it in your browser. Full URLs are also listed so you can copy them if your PDF viewer blocks links (GitHub’s built-in preview often does — download the file and open it in Chrome or Preview).</p>
+      <div class="cta-stack">
+        <a class="btn" href="${LIVE}">🌐 Open live app</a>
+        <a class="btn" href="${APK}">📱 Download Android APK</a>
+        <a class="btn-outline" href="${HELP}">💬 In-app help</a>
+        <a class="btn-outline" href="${REPO}">📦 GitHub source</a>
+        <a class="btn-outline" href="${README}">📝 Full README</a>
+        <a class="btn-outline" href="${PDF_ON_GITHUB}">📘 This PDF on GitHub</a>
+      </div>
+      <table class="url-table">
+        <tr><td>Live app</td><td><a href="${LIVE}">${LIVE}</a></td></tr>
+        <tr><td>Android APK</td><td><a href="${APK}">${APK}</a></td></tr>
+        <tr><td>In-app help</td><td><a href="${HELP}">${HELP}</a></td></tr>
+        <tr><td>GitHub</td><td><a href="${REPO}">${REPO}</a></td></tr>
+        <tr><td>README</td><td><a href="${README}">${README}</a></td></tr>
+      </table>`,
     images: [],
   },
   {
@@ -554,32 +572,30 @@ async function buildHtml() {
       letter-spacing: 0.01em;
     }
 
-    .link-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    a.link-card {
+    .cta-stack {
       display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      text-decoration: none !important;
-      color: inherit;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      break-inside: avoid;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0 18px;
     }
-    a.link-card .ic { font-size: 16pt; line-height: 1; }
-    a.link-card strong { display: block; color: var(--green); font-size: 11pt; }
-    a.link-card em {
-      display: block;
-      font-style: normal;
-      color: var(--muted);
+    table.url-table {
+      width: 100%;
+      border-collapse: collapse;
       font-size: 9.5pt;
-      margin-top: 2px;
+      margin-top: 8px;
+    }
+    table.url-table td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      vertical-align: top;
+      word-break: break-all;
+    }
+    table.url-table td:first-child {
+      width: 7.5rem;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-wash);
+      word-break: normal;
     }
 
     table.platform {
@@ -634,7 +650,7 @@ async function buildHtml() {
     .closing h2 { color: var(--green); font-size: 22pt; margin: 0 0 10px; }
     .closing p { color: var(--muted); max-width: 36em; margin: 0 auto 20px; }
 
-    @page { size: A4; margin: 14mm 12mm 16mm; }
+    @page { size: A4; margin: 12mm; }
   </style>
 </head>
 <body>
@@ -650,6 +666,7 @@ async function buildHtml() {
       <p class="tagline">Open the mushaf → read calmly → tap only what you don’t know.
       A short Urdu tip appears on that word. Everything familiar stays out of the way.</p>
       <p class="audience">Built for Urdu speakers · curriculum from <strong>Muallim-ul-Quran</strong></p>
+      <!-- Keep cover CTAs as flat <a> buttons (no nested flex cards) so PDF link hitboxes stay accurate -->
       <div class="cover-links">
         <a class="btn" href="${LIVE}">🌐 Open live app</a>
         <a class="btn" href="${APK}">📱 Download APK</a>
@@ -719,20 +736,121 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * Playwright/Chromium print-to-PDF link hitboxes often miss when
+ * displayHeaderFooter is enabled. We print without it, then add a
+ * clear bottom "Open" bar with pdf-lib URI annotations (reliable in
+ * Preview, Chrome, Acrobat). GitHub’s in-browser PDF preview still
+ * may not activate links — download the file to click them.
+ */
+function addUriLink(pdfDoc, page, { x, y, width, height, url }) {
+  const annot = pdfDoc.context.obj({
+    Type: "Annot",
+    Subtype: "Link",
+    Rect: [x, y, x + width, y + height],
+    Border: [0, 0, 0],
+    C: [0.12, 0.29, 0.22],
+    F: 4,
+    H: "I",
+    A: {
+      Type: "Action",
+      S: "URI",
+      URI: PDFString.of(url),
+    },
+  });
+  const ref = pdfDoc.context.register(annot);
+  const existing = page.node.lookup(PDFName.of("Annots"));
+  if (existing instanceof PDFArray) {
+    existing.push(ref);
+  } else {
+    page.node.set(PDFName.of("Annots"), pdfDoc.context.obj([ref]));
+  }
+}
+
+async function reinforceLinks(pdfPath) {
+  const bytes = await readFile(pdfPath);
+  const pdfDoc = await PDFDocument.load(bytes, { updateMetadata: false });
+  const pages = pdfDoc.getPages();
+  if (!pages.length) return;
+
+  const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const barLinks = [
+    { url: LIVE, label: "Live app", w: 78 },
+    { url: APK, label: "APK", w: 52 },
+    { url: HELP, label: "Help", w: 52 },
+    { url: REPO, label: "GitHub", w: 70 },
+    { url: README, label: "README", w: 72 },
+  ];
+
+  // Put a clickable bar on every page so links stay reachable while scrolling the manual
+  for (let pi = 0; pi < pages.length; pi += 1) {
+    const page = pages[pi];
+    const { width } = page.getSize();
+    const barY = 28;
+    const barH = 24;
+    page.drawRectangle({
+      x: 36,
+      y: barY - 4,
+      width: width - 72,
+      height: barH + 8,
+      color: rgb(0.95, 0.97, 0.96),
+      borderColor: rgb(0.84, 0.88, 0.85),
+      borderWidth: 0.8,
+    });
+    page.drawText("Open:", {
+      x: 44,
+      y: barY + 5,
+      size: 9,
+      font,
+      color: rgb(0.36, 0.42, 0.39),
+    });
+    let lx = 82;
+    for (const item of barLinks) {
+      page.drawRectangle({
+        x: lx,
+        y: barY,
+        width: item.w,
+        height: barH,
+        color: rgb(0.12, 0.29, 0.22),
+      });
+      page.drawText(item.label, {
+        x: lx + 8,
+        y: barY + 7,
+        size: 9,
+        font,
+        color: rgb(1, 1, 1),
+      });
+      addUriLink(pdfDoc, page, {
+        x: lx,
+        y: barY,
+        width: item.w,
+        height: barH,
+        url: item.url,
+      });
+      lx += item.w + 8;
+    }
+  }
+
+  const out = await pdfDoc.save({ updateFieldAppearances: false });
+  await writeFile(pdfPath, out);
+  console.log("PDF links reinforced with pdf-lib annotations");
+}
+
 async function buildPdf(htmlPath) {
   const browser = await chromium.launch({ channel: "chrome", headless: true });
   const page = await browser.newPage();
   await page.goto(pathToFileUrl(htmlPath), { waitUntil: "networkidle" });
+  // IMPORTANT: do not use displayHeaderFooter — it misaligns Chromium link hitboxes
+  // in Preview / many PDF readers.
   await page.pdf({
     path: OUT_PDF,
     format: "A4",
     printBackground: true,
-    displayHeaderFooter: true,
-    headerTemplate: `<div style="font-size:8.5px;width:100%;padding:3px 11mm 0;color:#5c6b63;font-family:system-ui,sans-serif;display:flex;justify-content:space-between;"><span>Iqra · User Manual</span><span style="color:#1e4a38;">${LIVE.replace("https://", "")}</span></div>`,
-    footerTemplate: `<div style="font-size:8.5px;width:100%;padding:0 11mm;color:#5c6b63;font-family:system-ui,sans-serif;display:flex;justify-content:space-between;"><span>Recognition-first · Muallim Units 1–7</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`,
-    margin: { top: "16mm", bottom: "16mm", left: "11mm", right: "11mm" },
+    displayHeaderFooter: false,
+    margin: { top: "12mm", bottom: "18mm", left: "11mm", right: "11mm" },
   });
   await browser.close();
+  await reinforceLinks(OUT_PDF);
   console.log("PDF →", path.relative(ROOT, OUT_PDF));
 }
 
