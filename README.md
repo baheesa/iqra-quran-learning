@@ -2,7 +2,7 @@
 
 # Iqra
 
-### Learn to understand the Quran — word by word, without living in a translation.
+### Learn to understand the Quran — word by word, in natural and easy way, without living in a translation.
 
 <img src="https://img.shields.io/badge/Live-Demo-1e4a38?style=for-the-badge&logo=vercel&logoColor=white" alt="Live demo" />
 &nbsp;
