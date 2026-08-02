@@ -280,9 +280,9 @@ async function capture() {
     await seedAndGoto(page, baseUrl, "/quran?page=1", "light");
     await page.waitForSelector("[data-quran-word='true']", { timeout: 60_000 });
     await page.getByRole("button", { name: "Search Quran" }).click();
-    const search = page.getByPlaceholder(/Search Arabic or Urdu/i);
-    await search.fill("الله");
-    await page.waitForTimeout(1200);
+    const search = page.getByPlaceholder("Search Arabic, Urdu, or surah name/number…");
+    await search.fill("رب العالمين");
+    await page.waitForTimeout(1400);
     await saveShot(await page.screenshot({ fullPage: false }), "search-results.png");
     const viewAll = page.getByRole("button", { name: /View all/i });
     if (await viewAll.count()) {
