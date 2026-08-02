@@ -25,9 +25,11 @@ export type SurahInfo = {
   id: number;
   nameArabic: string;
   nameEnglish: string;
+  nameTranslation?: string;
   revelationType?: string;
   ayahCount?: number;
   startPage?: number;
+  startJuz?: number;
 };
 
 export type JuzInfo = {

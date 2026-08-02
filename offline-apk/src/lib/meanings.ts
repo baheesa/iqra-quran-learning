@@ -21,6 +21,19 @@ export function stripArabic(arabic: string): string {
     .replace(/[^\u0621-\u064A]/gu, "");
 }
 
+/** Indo-Pak dagger-alef vs typed ا (e.g. العلمين / العالمين). */
+export function searchFormVariants(arabic: string): string[] {
+  const base = stripArabic(arabic);
+  if (!base) return [];
+  const variants = new Set<string>([base]);
+  const flexed = base.replace(
+    /(?<=[\u0621-\u064A])ا(?=[\u0621-\u064A])/gu,
+    "",
+  );
+  if (flexed) variants.add(flexed);
+  return [...variants];
+}
+
 export function isFiToken(arabic: string): boolean {
   const n = stripArabic(arabic);
   return n === "في" || n === "فى";

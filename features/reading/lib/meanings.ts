@@ -21,6 +21,27 @@ export function stripArabic(arabic: string): string {
     .replace(/[^\u0621-\u064A]/gu, "");
 }
 
+/**
+ * Indo-Pak mushaf often stores dagger-alef (ٰ) which disappears after strip,
+ * while learners type a normal ا (e.g. العلمين vs العالمين). Return both.
+ */
+export function searchFormVariants(arabic: string): string[] {
+  const base = stripArabic(arabic);
+  if (!base) return [];
+  const variants = new Set<string>([base]);
+  // Drop alef that sits between two Arabic letters (written dagger-alef).
+  const flexed = base.replace(
+    /(?<=[\u0621-\u064A])ا(?=[\u0621-\u064A])/gu,
+    "",
+  );
+  if (flexed) variants.add(flexed);
+  return [...variants];
+}
+
+export function normalizeSearchForm(arabic: string): string {
+  return stripArabic(arabic);
+}
+
 export function isFiToken(arabic: string): boolean {
   const n = stripArabic(arabic);
   return n === "في" || n === "فى";
@@ -189,8 +210,4 @@ export function composeWordMeaning(
   meaning = composeIdafaWithNext(arabic, meaning, nextArabic, nextMeaning);
 
   return meaning;
-}
-
-export function normalizeSearchForm(arabic: string): string {
-  return stripArabic(arabic);
 }

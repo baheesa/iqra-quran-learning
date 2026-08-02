@@ -1112,3 +1112,131 @@ mark.search-mark,
   border-top: 1px solid var(--list-line);
   padding-top: 8px;
 }
+
+.surah-jump {
+  position: relative;
+  flex: 1 1 140px;
+  min-width: 120px;
+  max-width: 220px;
+}
+
+.surah-jump-input {
+  width: 100%;
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+}
+
+.surah-jump-list {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 240px;
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.surah-jump-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--list-line);
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+  color: inherit;
+}
+
+.surah-jump-item:last-child {
+  border-bottom: 0;
+}
+
+.surah-jump-item:hover,
+.surah-jump-item:focus-visible {
+  background: var(--green-soft);
+}
+
+.surah-now {
+  text-align: center;
+  margin: 0 0 14px;
+  padding: 10px 12px 12px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--green-mid) 25%, var(--border));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--green-soft) 85%, transparent),
+    transparent
+  );
+}
+
+.surah-now-ar {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.4;
+  color: var(--green-mid);
+}
+
+.surah-now-meta {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.search-focus-banner {
+  text-align: center;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--green-mid) 40%, var(--border));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--green-soft) 90%, transparent),
+    transparent
+  );
+}
+
+.surah-header {
+  text-align: center;
+  margin: 18px 0 14px;
+  padding: 14px 12px 16px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--green-mid) 22%, var(--border));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--green-soft) 70%, transparent),
+    transparent
+  );
+}
+
+.surah-header-kicker {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.surah-header-title {
+  margin: 4px 0 0;
+  font-size: 1.85rem;
+  line-height: 1.35;
+  color: var(--green-mid);
+  font-weight: 600;
+}
+
+.surah-header-en {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--green-mid) 85%, var(--ink));
+}

@@ -74,15 +74,28 @@ export function TappableArabicText({
 
   useEffect(() => {
     if (!tip && !fallbackTip) return;
-    function onPointer(event: PointerEvent) {
+    function onPointer(event: Event) {
       const target = event.target as HTMLElement | null;
-      if (target?.closest?.("[data-tappable-ar='true']")) return;
       if (target?.closest?.("[role='tooltip']")) return;
+      if (tip && target === tip.anchor) return;
+      if (fallbackTip && target === fallbackTip.anchor) return;
       setTip(null);
       setFallbackTip(null);
     }
-    document.addEventListener("pointerdown", onPointer);
-    return () => document.removeEventListener("pointerdown", onPointer);
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setTip(null);
+        setFallbackTip(null);
+      }
+    }
+    document.addEventListener("pointerdown", onPointer, true);
+    document.addEventListener("touchstart", onPointer, true);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer, true);
+      document.removeEventListener("touchstart", onPointer, true);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [tip, fallbackTip]);
 
   async function onTokenClick(token: string, el: HTMLElement) {

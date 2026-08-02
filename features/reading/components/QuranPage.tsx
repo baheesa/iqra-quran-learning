@@ -39,15 +39,47 @@ export function QuranPageView({
   onToggleAyahUrdu,
 }: QuranPageProps) {
   let lastSurahId: number | null = null;
+  const focusSurah = focusedAyahId
+    ? (() => {
+        const [sid, anum] = focusedAyahId.split(":");
+        const surah = surahs.find((s) => s.id === Number(sid));
+        return surah
+          ? { surah, ayahNumber: Number(anum) || null }
+          : null;
+      })()
+    : null;
 
   return (
     <article
       className={`border-border bg-surface/95 overflow-visible rounded-2xl border px-4 py-6 shadow-[0_10px_40px_-24px_rgba(31,77,58,0.35)] md:px-10 md:py-10 ${FONT_SCALE_CLASS[fontScale]}`}
     >
-      <header className="border-border text-muted mb-6 flex items-center justify-between gap-3 border-b pb-3 text-sm">
+      <header className="border-border text-muted mb-4 flex items-center justify-between gap-3 border-b pb-3 text-sm">
         <span>پارہ {toUrduDigits(page.juz)}</span>
         <span>صفحہ {toUrduDigits(page.page)}</span>
       </header>
+
+      {focusSurah ? (
+        <div className="border-primary/30 from-primary/[0.12] mb-5 rounded-2xl border bg-gradient-to-br to-transparent px-4 py-3 text-center">
+          <p className="text-muted text-[11px] tracking-wide uppercase">
+            Opened from search
+          </p>
+          <p
+            className="font-quran text-primary mt-1 text-2xl md:text-3xl"
+            dir="rtl"
+            lang="ar"
+          >
+            {focusSurah.surah.nameArabic}
+          </p>
+          <p className="text-primary/90 mt-1 text-sm font-medium">
+            {focusSurah.surah.nameEnglish}
+            {focusSurah.ayahNumber
+              ? ` · ayah ${focusSurah.ayahNumber}`
+              : ""}
+            {" · "}
+            Surah {focusSurah.surah.id}
+          </p>
+        </div>
+      ) : null}
 
       {page.ayahs.map((ayah) => {
         const showSurahHeader = ayah.surahId !== lastSurahId;
@@ -57,11 +89,21 @@ export function QuranPageView({
         return (
           <div key={ayah.id}>
             {showSurahHeader && surah ? (
-              <div className="mt-2 mb-5 text-center">
-                <h2 className="font-quran text-primary text-2xl md:text-3xl">
+              <div className="border-primary/15 from-primary/[0.07] mt-3 mb-6 rounded-2xl border bg-gradient-to-b to-transparent px-3 py-4 text-center">
+                <p className="text-muted text-[11px] tracking-[0.14em] uppercase">
+                  Surah {surah.id}
+                </p>
+                <h2
+                  className="font-quran text-primary mt-1 text-3xl leading-normal md:text-4xl"
+                  dir="rtl"
+                  lang="ar"
+                >
                   {surah.nameArabic}
                 </h2>
-                <p className="text-muted mt-1 text-sm">
+                <p className="text-primary/80 mt-1.5 text-sm font-medium">
+                  {surah.nameEnglish}
+                </p>
+                <p className="text-muted mt-1 text-xs">
                   سورۃ {toUrduDigits(surah.id)} · {surah.revelationType} ·{" "}
                   {toUrduDigits(surah.ayahCount)} آیات
                 </p>

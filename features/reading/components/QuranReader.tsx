@@ -252,16 +252,42 @@ export function QuranReader({
   useEffect(() => {
     if (!selectedWord && !matchTip) return;
 
-    function handlePointerDown(event: PointerEvent) {
+    function isTipChrome(target: HTMLElement | null): boolean {
+      if (!target) return false;
+      if (target.closest?.("[role='tooltip']")) return true;
+      if (
+        selectedWord &&
+        target.closest?.(`[data-word-id="${CSS.escape(selectedWord.id)}"]`)
+      ) {
+        return true;
+      }
+      if (matchTip && target === matchTip.anchor) return true;
+      return false;
+    }
+
+    function dismiss(event: Event) {
       const target = event.target as HTMLElement | null;
-      if (target?.closest?.("[data-quran-word='true']")) return;
-      if (target?.closest?.("[role='tooltip']")) return;
+      if (isTipChrome(target)) return;
       setSelectedWord(null);
       setMatchTip(null);
     }
 
-    document.addEventListener("pointerdown", handlePointerDown);
-    return () => document.removeEventListener("pointerdown", handlePointerDown);
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSelectedWord(null);
+        setMatchTip(null);
+      }
+    }
+
+    // Capture phase so empty mushaf / chrome taps clear the tip reliably.
+    document.addEventListener("pointerdown", dismiss, true);
+    document.addEventListener("touchstart", dismiss, true);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", dismiss, true);
+      document.removeEventListener("touchstart", dismiss, true);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [selectedWord, matchTip]);
 
   const handleMeaningResolved = useCallback(
@@ -286,9 +312,42 @@ export function QuranReader({
 
   const searchSuggestions = useMemo(() => {
     const q = quranQuery.trim();
-    if (q.length < 1 || q.length > 24) return [] as string[];
+    if (q.length < 1 || q.length > 40) return [] as string[];
     return suggestSearchForms(q, searchIndex, 8);
   }, [quranQuery, searchIndex]);
+
+  const surahJump = useMemo(() => {
+    const q = quranQuery.trim();
+    if (!q) return null;
+    if (/^\d{1,3}$/.test(q)) {
+      const id = Number(q);
+      return surahs.find((s) => s.id === id) ?? null;
+    }
+    const n = q
+      .toLowerCase()
+      .replace(/[آأإٱ]/gu, "ا")
+      .replace(/ى/gu, "ي")
+      .replace(/ة/gu, "ه")
+      .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/gu, "");
+    const hits = surahs.filter((s) => {
+      const ar = s.nameArabic
+        .replace(/[آأإٱ]/gu, "ا")
+        .replace(/ى/gu, "ي")
+        .replace(/ة/gu, "ه")
+        .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/gu, "");
+      const en = s.nameEnglish.toLowerCase();
+      const tr = (s.nameTranslation ?? "").toLowerCase();
+      return (
+        ar.includes(n) ||
+        en.includes(n.toLowerCase()) ||
+        tr.includes(n.toLowerCase())
+      );
+    });
+    return hits.length === 1 ? hits[0]! : hits.find((s) => {
+      const en = s.nameEnglish.toLowerCase();
+      return en === n.toLowerCase() || en.startsWith(n.toLowerCase());
+    }) ?? (hits.length > 0 && hits.length <= 3 ? hits[0]! : null);
+  }, [quranQuery, surahs]);
 
   const ayahUrduById = useMemo(() => {
     const map: Record<string, string> = {};
@@ -390,8 +449,8 @@ export function QuranReader({
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-3 px-4 py-5 md:px-6 md:py-6">
-      <header className="flex items-end justify-between gap-3">
-        <div>
+      <header className="flex flex-wrap items-end justify-between gap-3">
+        <div className="min-w-0">
           <p className="text-muted text-xs tracking-wide uppercase">
             {t("reading.subtitle")}
           </p>
@@ -400,15 +459,19 @@ export function QuranReader({
           </h1>
         </div>
         {currentSurah ? (
-          <p
-            className="font-quran text-muted hidden text-sm sm:block"
-            dir="rtl"
-            lang="ar"
-          >
-            {currentSurah.nameArabic}
-            <span className="text-border mx-1.5 font-ui">·</span>
-            <span className="font-ui text-xs">Juz {page?.juz ?? 1}</span>
-          </p>
+          <div className="min-w-0 text-end">
+            <p
+              className="font-quran text-primary text-xl leading-tight md:text-2xl"
+              dir="rtl"
+              lang="ar"
+            >
+              {currentSurah.nameArabic}
+            </p>
+            <p className="text-muted mt-0.5 text-xs">
+              {currentSurah.nameEnglish} · Surah {currentSurah.id} · Juz{" "}
+              {page?.juz ?? 1}
+            </p>
+          </div>
         ) : null}
       </header>
 
@@ -446,9 +509,18 @@ export function QuranReader({
           loading={searchLoading}
           previewItems={matchPreview.items}
           previewMode={matchPreview.mode}
+          surahJump={surahJump}
           onPickSuggestion={setQuranQuery}
           onOpenMatch={openMatchInQuran}
           onViewAll={openMatchesPage}
+          onJumpSurah={(surah) => {
+            setShowSearch(false);
+            setQuranQuery("");
+            setSelectedWord(null);
+            setMatchTip(null);
+            setFocusTarget(null);
+            void loadPage(surah.startPage);
+          }}
         />
       ) : null}
 

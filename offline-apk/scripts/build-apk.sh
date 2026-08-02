@@ -14,6 +14,8 @@ if [ -z "${JAVA_HOME}" ] || [ ! -x "${JAVA_HOME}/bin/java" ]; then
 fi
 export JAVA_HOME
 export ANDROID_HOME="${ANDROID_HOME:-$ROOT/.android-sdk}"
+export GRADLE_USER_HOME="${GRADLE_USER_HOME:-$ROOT/.gradle-home}"
+mkdir -p "$GRADLE_USER_HOME"
 export PATH="$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
 echo "JAVA_HOME=$JAVA_HOME"

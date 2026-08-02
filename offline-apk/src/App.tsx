@@ -279,6 +279,10 @@ export default function App() {
   const [openAyahMeanings, setOpenAyahMeanings] = useState<Set<string>>(
     () => new Set(),
   );
+  const [matchUrduOpen, setMatchUrduOpen] = useState<Set<string>>(
+    () => new Set(),
+  );
+  const [surahQuery, setSurahQuery] = useState("");
   const [tipAnchor, setTipAnchor] = useState<DOMRect | null>(null);
   const [tipPos, setTipPos] = useState<{
     top: number;
@@ -615,6 +619,15 @@ export default function App() {
     setTipAnchor(null);
   }
 
+  useEffect(() => {
+    if (!wordTip) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") closeWordTip();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [wordTip]);
+
   function openWordTip(
     word: { id: string; arabic: string },
     ayahId: string,
@@ -785,9 +798,80 @@ export default function App() {
 
   const searchSuggestions = useMemo(() => {
     const q = quranQuery.trim();
-    if (q.length < 1 || q.length > 24) return [] as string[];
+    if (q.length < 1 || q.length > 40) return [] as string[];
     return suggestSearchForms(q, searchIndex, 8);
   }, [quranQuery, searchIndex]);
+
+  const surahJump = useMemo(() => {
+    const q = quranQuery.trim();
+    if (!q) return null as SurahInfo | null;
+    if (/^\d{1,3}$/.test(q)) {
+      const id = Number(q);
+      return surahs.find((s) => s.id === id) ?? null;
+    }
+    const n = q
+      .toLowerCase()
+      .replace(/[آأإٱ]/gu, "ا")
+      .replace(/ى/gu, "ي")
+      .replace(/ة/gu, "ه")
+      .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/gu, "");
+    const hits = surahs.filter((s) => {
+      const ar = s.nameArabic
+        .replace(/[آأإٱ]/gu, "ا")
+        .replace(/ى/gu, "ي")
+        .replace(/ة/gu, "ه")
+        .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/gu, "");
+      const en = s.nameEnglish.toLowerCase();
+      const tr = (s.nameTranslation ?? "").toLowerCase();
+      return (
+        ar.includes(n) ||
+        en.includes(n.toLowerCase()) ||
+        tr.includes(n.toLowerCase())
+      );
+    });
+    if (hits.length === 1) return hits[0]!;
+    const exact = hits.find((s) => {
+      const en = s.nameEnglish.toLowerCase();
+      return en === n.toLowerCase() || en.startsWith(n.toLowerCase());
+    });
+    return exact ?? (hits.length > 0 && hits.length <= 3 ? hits[0]! : null);
+  }, [quranQuery, surahs]);
+
+  const filteredSurahs = useMemo(() => {
+    const q = surahQuery.trim().toLowerCase();
+    if (!q) return surahs.slice(0, 20);
+    if (/^\d{1,3}$/.test(q)) {
+      return surahs.filter(
+        (s) => String(s.id).startsWith(q) || s.id === Number(q),
+      );
+    }
+    const n = q
+      .replace(/[آأإٱ]/gu, "ا")
+      .replace(/ى/gu, "ي")
+      .replace(/ة/gu, "ه");
+    return surahs
+      .filter((s) => {
+        const ar = s.nameArabic
+          .replace(/[آأإٱ]/gu, "ا")
+          .replace(/ى/gu, "ي")
+          .replace(/ة/gu, "ه");
+        return (
+          ar.includes(n) ||
+          s.nameEnglish.toLowerCase().includes(n) ||
+          (s.nameTranslation ?? "").toLowerCase().includes(n)
+        );
+      })
+      .slice(0, 30);
+  }, [surahs, surahQuery]);
+
+  function jumpToSurah(surah: SurahInfo) {
+    if (surah.startPage) setPage(surah.startPage);
+    setSurahQuery("");
+    setShowQuranSearch(false);
+    setQuranQuery("");
+    setFocusTarget(null);
+    closeWordTip();
+  }
 
   function openMatchesPage(
     items: MatchItem[],
@@ -797,6 +881,7 @@ export default function App() {
     setMatchItems(items);
     setMatchQuery(query.trim());
     setMatchMode(mode);
+    setMatchUrduOpen(new Set());
     setShowQuranSearch(false);
     closeWordTip();
     setScreen("matches");
@@ -905,8 +990,16 @@ export default function App() {
     <div
       className="app-shell"
       data-theme={theme}
-      onClick={() => {
-        if (wordTip) closeWordTip();
+      onPointerDown={(event) => {
+        if (!wordTip) return;
+        const target = event.target as HTMLElement | null;
+        if (target?.closest?.("[role='tooltip']")) return;
+        if (target?.closest?.("[data-quran-word='true']")) {
+          // Word buttons open/replace tips themselves; don't clear first.
+          return;
+        }
+        if (target?.closest?.(".match-word")) return;
+        closeWordTip();
       }}
     >
       {wordTip ? (
@@ -1260,6 +1353,45 @@ export default function App() {
                   </option>
                 ))}
               </select>
+              <div className="surah-jump">
+                <input
+                  className="search surah-jump-input"
+                  placeholder="Surah name or #"
+                  value={surahQuery}
+                  onChange={(e) => setSurahQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      const first = filteredSurahs[0];
+                      if (first) jumpToSurah(first);
+                    }
+                  }}
+                  dir="auto"
+                  aria-label="Go to surah by name or number"
+                />
+                {surahQuery.trim() ? (
+                  <div className="surah-jump-list">
+                    {filteredSurahs.length === 0 ? (
+                      <p className="section-note" style={{ margin: 8 }}>
+                        No surah found
+                      </p>
+                    ) : (
+                      filteredSurahs.map((s) => (
+                        <button
+                          key={s.id}
+                          type="button"
+                          className="surah-jump-item"
+                          onClick={() => jumpToSurah(s)}
+                        >
+                          <span className="ar" dir="rtl">
+                            {s.id}. {s.nameArabic}
+                          </span>
+                          <span className="muted">{s.nameEnglish}</span>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                ) : null}
+              </div>
               <div className="font-stepper" role="group" aria-label="حجمِ خط">
                 <button
                   type="button"
@@ -1316,7 +1448,7 @@ export default function App() {
               >
                 <input
                   className="search"
-                  placeholder="Search Arabic or Urdu…"
+                  placeholder="Search Arabic, Urdu, or surah name/number…"
                   value={quranQuery}
                   onChange={(e) => setQuranQuery(e.target.value)}
                   dir="auto"
@@ -1324,6 +1456,19 @@ export default function App() {
                 />
                 {searchLoading ? (
                   <p className="section-note">Loading search…</p>
+                ) : null}
+                {surahJump ? (
+                  <button
+                    type="button"
+                    className="btn primary"
+                    style={{ width: "100%", marginTop: 8 }}
+                    onClick={() => jumpToSurah(surahJump)}
+                  >
+                    Go to surah {surahJump.id}: {surahJump.nameEnglish} ·{" "}
+                    <span className="ar" dir="rtl">
+                      {surahJump.nameArabic}
+                    </span>
+                  </button>
                 ) : null}
                 {searchSuggestions.length > 0 &&
                 quranQuery.trim().length >= 1 ? (
@@ -1350,7 +1495,7 @@ export default function App() {
                     >
                       <p className="quran-search-meta" style={{ margin: 0 }}>
                         {matchPreview.items.length === 0
-                          ? "No matches"
+                          ? "No word matches"
                           : `${matchPreview.items.length} ayah${matchPreview.items.length === 1 ? "" : "s"} · ${matchPreview.mode === "urdu" ? "Urdu" : matchPreview.mode === "both" ? "Arabic + Urdu" : "Arabic"}`}
                       </p>
                       {matchPreview.items.length > 0 ? (
@@ -1390,7 +1535,8 @@ export default function App() {
                               />
                             </span>
                             <span className="muted">
-                              {m.ayahId} · p.{m.page}
+                              Surah {m.ayahId.replace(":", " · ayah ")} · p.
+                              {m.page}
                             </span>
                           </button>
                         ))}
@@ -1399,18 +1545,62 @@ export default function App() {
                   </div>
                 ) : (
                   <p className="section-note">
-                    Arabic word/phrase or Urdu meaning (e.g. زمین، رحمن)
+                    Arabic word/phrase, Urdu meaning, or surah (e.g. 2، البقرة،
+                    Baqarah)
                   </p>
                 )}
               </div>
             ) : null}
 
             <p className="section-note">
-              Tap a word for its tip · Page {page} · Juz {quranPage?.juz ?? "—"} ·{" "}
-              {(quranPage?.surahIds ?? [])
-                .map((id) => surahs.find((s) => s.id === id)?.nameEnglish ?? id)
-                .join(", ")}
+              Tap a word for its tip · Page {page} · Juz {quranPage?.juz ?? "—"}
             </p>
+            {(() => {
+              const focusSurah = focusTarget
+                ? (() => {
+                    const [sid, anum] = focusTarget.ayahId.split(":");
+                    const surah = surahs.find((s) => s.id === Number(sid));
+                    return surah
+                      ? { surah, ayahNumber: Number(anum) || null }
+                      : null;
+                  })()
+                : null;
+              const currentSurahId = quranPage?.surahIds?.[0];
+              const currentSurah = surahs.find((s) => s.id === currentSurahId);
+              return (
+                <>
+                  {currentSurah ? (
+                    <div className="surah-now">
+                      <p className="ar surah-now-ar" dir="rtl">
+                        {currentSurah.nameArabic}
+                      </p>
+                      <p className="surah-now-meta">
+                        {currentSurah.nameEnglish} · Surah {currentSurah.id} ·
+                        Juz {quranPage?.juz ?? "—"}
+                      </p>
+                    </div>
+                  ) : null}
+                  {focusSurah ? (
+                    <div className="search-focus-banner">
+                      <p className="section-note" style={{ margin: 0 }}>
+                        Opened from search
+                      </p>
+                      <p className="ar" dir="rtl" style={{ fontSize: 22, margin: "4px 0" }}>
+                        {focusSurah.surah.nameArabic}
+                      </p>
+                      <p className="muted" style={{ margin: 0 }}>
+                        {focusSurah.surah.nameEnglish}
+                        {focusSurah.ayahNumber
+                          ? ` · ayah ${focusSurah.ayahNumber}`
+                          : ""}
+                        {" · "}
+                        Surah {focusSurah.surah.id}
+                      </p>
+                    </div>
+                  ) : null}
+                </>
+              );
+            })()}
             <div
               className="mushaf ar"
               style={{ fontSize: fontPx }}
@@ -1418,13 +1608,31 @@ export default function App() {
                 if (e.target === e.currentTarget) closeWordTip();
               }}
             >
-              {(quranPage?.ayahs ?? []).map((ayah) => {
+              {(() => {
+                let lastSurahId: number | null = null;
+                return (quranPage?.ayahs ?? []).map((ayah) => {
+                const showSurahHeader = ayah.surahId !== lastSurahId;
+                lastSurahId = ayah.surahId;
+                const surah = surahs.find((s) => s.id === ayah.surahId);
                 const ayahFocused = focusTarget?.ayahId === ayah.id;
                 const meaningOpen = openAyahMeanings.has(ayah.id);
                 const ayahUr = ayahCards[ayah.id]?.ur;
                 return (
+                  <div key={ayah.id}>
+                    {showSurahHeader && surah ? (
+                      <div className="surah-header">
+                        <p className="surah-header-kicker">Surah {surah.id}</p>
+                        <h2 className="ar surah-header-title" dir="rtl">
+                          {surah.nameArabic}
+                        </h2>
+                        <p className="surah-header-en">{surah.nameEnglish}</p>
+                        <p className="muted" style={{ margin: "4px 0 0", fontSize: 12 }}>
+                          {surah.revelationType ?? ""}
+                          {surah.ayahCount ? ` · ${surah.ayahCount} آیات` : ""}
+                        </p>
+                      </div>
+                    ) : null}
                   <div
-                    key={ayah.id}
                     className={
                       ayahFocused ? "ayah-block ayah-focus" : "ayah-block"
                     }
@@ -1463,6 +1671,7 @@ export default function App() {
                             <span
                               role="button"
                               tabIndex={0}
+                              data-quran-word="true"
                               className={[
                                 "word-chip",
                                 active ? "active" : "",
@@ -1539,14 +1748,16 @@ export default function App() {
                       </p>
                     ) : null}
                   </div>
+                  </div>
                 );
-              })}
+              });
+              })()}
             </div>
           </div>
         ) : null}
 
         {screen === "matches" ? (
-          <div className="card" onClick={(e) => e.stopPropagation()}>
+          <div className="card">
             <div
               className="actions-bar"
               style={{ justifyContent: "space-between" }}
@@ -1561,7 +1772,7 @@ export default function App() {
                     : matchMode === "both"
                       ? " · Arabic + Urdu"
                       : " · Arabic"}
-                  {" · tap Arabic words for tips"}
+                  {" · tap Arabic for tips · translation icon for Urdu"}
                 </p>
               </div>
               <button
@@ -1581,10 +1792,14 @@ export default function App() {
                 <p>No matches for this search.</p>
               </div>
             ) : (
-              matchItems.map((m) => (
+              matchItems.map((m) => {
+                const urduOpen = matchUrduOpen.has(m.ayahId);
+                return (
                 <article key={m.ayahId} className="list-item match-card">
                   <div className="match-meta">
-                    <span>{m.ayahId}</span>
+                    <span>
+                      Surah {m.ayahId.replace(":", " · ayah ")}
+                    </span>
                     <span>p.{m.page}</span>
                   </div>
                   <p className="ar match-ar">
@@ -1626,7 +1841,7 @@ export default function App() {
                       );
                     })}
                   </p>
-                  {m.urdu ? (
+                  {urduOpen && m.urdu ? (
                     <p className="ur match-ur">
                       {highlightSearchText(m.urdu, matchQuery).map((part, i) =>
                         part.hit ? (
@@ -1639,17 +1854,39 @@ export default function App() {
                       )}
                     </p>
                   ) : null}
-                  <button
-                    type="button"
-                    className="icon-btn primary"
-                    title="Open in Quran"
-                    aria-label="Open in Quran"
-                    onClick={() => openMatchInQuran(m)}
-                  >
-                    <BookIcon />
-                  </button>
+                  <div className="actions-bar" style={{ justifyContent: "flex-end", gap: 8 }}>
+                    {m.urdu ? (
+                      <button
+                        type="button"
+                        className={urduOpen ? "icon-btn primary" : "icon-btn"}
+                        title={urduOpen ? "Hide Urdu" : "Show Urdu"}
+                        aria-label={urduOpen ? "Hide Urdu" : "Show Urdu"}
+                        aria-pressed={urduOpen}
+                        onClick={() => {
+                          setMatchUrduOpen((prev) => {
+                            const next = new Set(prev);
+                            if (next.has(m.ayahId)) next.delete(m.ayahId);
+                            else next.add(m.ayahId);
+                            return next;
+                          });
+                        }}
+                      >
+                        <TranslateIcon active={urduOpen} size={16} />
+                      </button>
+                    ) : null}
+                    <button
+                      type="button"
+                      className="icon-btn primary"
+                      title="Open in Quran"
+                      aria-label="Open in Quran"
+                      onClick={() => openMatchInQuran(m)}
+                    >
+                      <BookIcon />
+                    </button>
+                  </div>
                 </article>
-              ))
+                );
+              })
             )}
           </div>
         ) : null}

@@ -1,6 +1,6 @@
 /** Quran word / phrase / Urdu search helpers for Iqra. */
 
-import { normalizeSearchForm } from "./meanings";
+import { normalizeSearchForm, searchFormVariants } from "./meanings";
 
 export type SearchHit = { p: number; a: string; w: string; ar: string };
 
@@ -25,32 +25,71 @@ function wordPos(wordId: string): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+function pushUniqueHits(
+  into: SearchHit[],
+  hits: SearchHit[],
+  limit: number,
+  seen: Set<string>,
+): boolean {
+  for (const h of hits) {
+    const key = `${h.a}:${h.w}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    into.push(h);
+    if (into.length >= limit) return true;
+  }
+  return false;
+}
+
 function lookupToken(
   token: string,
   index: Record<string, SearchHit[]>,
   limit = 80,
 ): SearchHit[] {
   if (!token) return [];
-  const exact = index[token] ?? [];
-  if (exact.length) return exact.slice(0, limit);
+  const variants = searchFormVariants(token);
+  const seen = new Set<string>();
+  const exactHits: SearchHit[] = [];
+
+  for (const form of variants) {
+    const exact = index[form] ?? [];
+    if (pushUniqueHits(exactHits, exact, limit, seen)) return exactHits;
+  }
+  if (exactHits.length) return exactHits;
+
   // Avoid full-index scans for very short tokens (too many false hits / lag).
-  if (token.length < 2) return [];
+  if (variants.every((v) => v.length < 2)) return [];
+
   const prefix: SearchHit[] = [];
   const contains: SearchHit[] = [];
+  const prefixSeen = new Set<string>();
+  const containsSeen = new Set<string>();
+
   for (const [form, hits] of Object.entries(index)) {
-    if (form.startsWith(token)) {
-      for (const h of hits) {
-        prefix.push(h);
-        if (prefix.length >= limit) return prefix;
+    let matchedPrefix = false;
+    for (const v of variants) {
+      if (v.length >= 2 && form.startsWith(v)) {
+        matchedPrefix = true;
+        break;
       }
+    }
+    if (matchedPrefix) {
+      if (pushUniqueHits(prefix, hits, limit, prefixSeen)) return prefix;
       continue;
     }
-    if (token.length >= 3 && form.includes(token)) {
-      for (const h of hits) {
-        contains.push(h);
-        if (prefix.length + contains.length >= limit) {
+    for (const v of variants) {
+      if (v.length >= 3 && form.includes(v)) {
+        if (
+          pushUniqueHits(
+            contains,
+            hits,
+            Math.max(0, limit - prefix.length),
+            containsSeen,
+          )
+        ) {
           return [...prefix, ...contains].slice(0, limit);
         }
+        break;
       }
     }
   }
@@ -63,15 +102,17 @@ export function findHitInAyah(
   ayahId: string,
   index: Record<string, SearchHit[]>,
 ): SearchHit | null {
-  const form = normalizeSearchForm(arabicToken);
-  if (!form) return null;
-  const exact = index[form];
-  if (exact) {
-    const hit = exact.find((h) => h.a === ayahId);
-    if (hit) return hit;
+  for (const form of searchFormVariants(arabicToken)) {
+    const exact = index[form];
+    if (exact) {
+      const hit = exact.find((h) => h.a === ayahId);
+      if (hit) return hit;
+    }
   }
-  for (const h of lookupToken(form, index, 40)) {
-    if (h.a === ayahId) return h;
+  for (const form of searchFormVariants(arabicToken)) {
+    for (const h of lookupToken(form, index, 40)) {
+      if (h.a === ayahId) return h;
+    }
   }
   return null;
 }
@@ -95,8 +136,13 @@ export function expandAyahRefs(ref: string | null | undefined): string[] {
 }
 
 /**
- * Resolve a display token to a WBW word hit using an optional ayah ref.
- * Without a ref: exact form only (no partial / first-hit trust).
+ * Resolve a display token to a WBW word hit using an optional ayah ref
+ * (single or range).
+ *
+ * Without a ref (e.g. qawaid examples): exact form only — never prefix/partial
+ * matches, and never trust "first Quran hit" alone (that caused جاء → «یا آئے»).
+ * Returns a carrier hit when the form exists so the tip API can run form
+ * consensus via standalone=1.
  */
 export function findHitForArabicToken(
   arabicToken: string,
@@ -109,20 +155,31 @@ export function findHitForArabicToken(
   }
   const form = normalizeSearchForm(arabicToken);
   if (!form || form.length < 2) return null;
-  const exact = index[form];
-  if (exact?.length) return exact[0]!;
+  for (const variant of searchFormVariants(arabicToken)) {
+    const exact = index[variant];
+    if (exact?.length) return exact[0]!;
+  }
+  // Unscoped tips must not invent via partial forms.
   return null;
 }
 
 /**
  * Autocomplete forms from the word index (normalized, diacritic-free).
+ * For multi-word queries, suggestions follow the last typed token.
  */
 export function suggestSearchForms(
   query: string,
   index: Record<string, SearchHit[]>,
   limit = 8,
 ): string[] {
-  const t = normalizeSearchForm(query.trim());
+  const parts = query
+    .trim()
+    .split(/[\s\u0640]+/u)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const last = parts[parts.length - 1] ?? "";
+  const variants = searchFormVariants(last);
+  const t = variants[0] ?? "";
   if (t.length < 1) return [];
   const out: string[] = [];
   const seen = new Set<string>();
@@ -131,15 +188,24 @@ export function suggestSearchForms(
     seen.add(form);
     out.push(form);
   };
-  if (index[t]?.length) push(t);
+  for (const v of variants) {
+    if (index[v]?.length) push(v);
+  }
   if (out.length >= limit) return out;
   for (const form of Object.keys(index)) {
-    if (form.startsWith(t) && form !== t) push(form);
+    if (variants.some((v) => v.length >= 1 && form.startsWith(v)) && !seen.has(form)) {
+      push(form);
+    }
     if (out.length >= limit) return out;
   }
   if (t.length >= 2) {
     for (const form of Object.keys(index)) {
-      if (!form.startsWith(t) && form.includes(t)) push(form);
+      if (
+        !seen.has(form) &&
+        variants.some((v) => v.length >= 2 && form.includes(v) && !form.startsWith(v))
+      ) {
+        push(form);
+      }
       if (out.length >= limit) return out;
     }
   }
@@ -177,27 +243,31 @@ export function searchQuranWords(
     .split(/[\s\u0640]+/u)
     .map((p) => p.trim())
     .filter(Boolean);
-  const tokens = rawParts.map(normalizeSearchForm).filter((t) => t.length >= 1);
+  const tokens = rawParts
+    .map((p) => searchFormVariants(p)[0] ?? "")
+    .filter((t) => t.length >= 1);
   if (tokens.length === 0) return [];
 
   if (tokens.length === 1) {
     const key = tokens[0]!;
-    if (key.length < 2) return [];
-    return lookupToken(key, index, limit);
+    if (key.length < 2 && searchFormVariants(rawParts[0]!).every((v) => v.length < 2)) {
+      return [];
+    }
+    return lookupToken(rawParts[0]!, index, limit);
   }
 
-  if (tokens.some((t) => t.length < 1)) return [];
-
-  const first = lookupToken(tokens[0]!, index, 400);
+  const first = lookupToken(rawParts[0]!, index, 500);
   const out: SearchHit[] = [];
   const seen = new Set<string>();
+  // Allow a wider gap so short particles / punctuation between phrase words still match.
+  const maxGap = Math.max(8, tokens.length * 4);
 
   for (const start of first) {
     let cursor = start;
     let ok = true;
     for (let i = 1; i < tokens.length; i += 1) {
       const nxt = nextTokenInAyah(
-        tokens[i]!,
+        rawParts[i]!,
         start.a,
         wordPos(cursor.w),
         index,
@@ -206,7 +276,7 @@ export function searchQuranWords(
         ok = false;
         break;
       }
-      if (wordPos(nxt.w) - wordPos(cursor.w) > 6) {
+      if (wordPos(nxt.w) - wordPos(cursor.w) > maxGap) {
         ok = false;
         break;
       }
