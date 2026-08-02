@@ -110,7 +110,7 @@ export function MergeProgressDialog({ open, onClose, onDone }: Props) {
         {!preview ? (
           <button
             type="button"
-            className="bg-primary text-surface rounded-xl px-4 py-2"
+            className="bg-primary text-on-primary rounded-xl px-4 py-2"
             disabled={pending}
             onClick={loadPreview}
           >
@@ -127,7 +127,7 @@ export function MergeProgressDialog({ open, onClose, onDone }: Props) {
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              className="bg-primary text-surface rounded-xl px-4 py-2"
+              className="bg-primary text-on-primary rounded-xl px-4 py-2"
               disabled={pending}
               onClick={() => apply(true)}
             >

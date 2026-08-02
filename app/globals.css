@@ -12,6 +12,7 @@
   --primary-soft: #8a6576;
   --accent: #7d5a6a;
   --surface: #fcfafb;
+  --on-primary: #ffffff;
   --border: #e0d6dc;
   --warning: #b8863b;
   --bg-glow: #efe6eb;
@@ -28,15 +29,16 @@
 
 html.dark {
   --background: #161218;
-  --foreground: #efe8ec;
-  --muted: #b2a4ad;
-  --primary: #d0a8bb;
-  --primary-soft: #a67c91;
-  --accent: #c49aaf;
-  --surface: #211c22;
-  --border: #3a3137;
+  --foreground: #f5eef2;
+  --muted: #c9b6c0;
+  --primary: #e8c0d0;
+  --primary-soft: #b87f96;
+  --accent: #e0a8bc;
+  --surface: #241d22;
+  --on-primary: #ffffff;
+  --border: #3f353b;
   --warning: #d4a574;
-  --bg-glow: rgba(107, 74, 90, 0.35);
+  --bg-glow: rgba(180, 120, 145, 0.28);
   --bg-top: #1a1519;
   --bg-bottom: #120f13;
   color-scheme: dark;
@@ -54,6 +56,7 @@ html:not(.dark) {
   --color-primary-soft: var(--primary-soft);
   --color-accent: var(--accent);
   --color-surface: var(--surface);
+  --color-on-primary: var(--on-primary);
   --color-border: var(--border);
   --color-warning: var(--warning);
   --font-urdu: var(--font-urdu);
@@ -125,6 +128,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Solid primary fills: keep light label text in both themes. */
+html.dark .bg-primary {
+  background-color: #8f5a70;
+}
+html.dark .hover\:bg-primary\/90:hover {
+  background-color: #7e4f63;
 }
 
 .font-ui {

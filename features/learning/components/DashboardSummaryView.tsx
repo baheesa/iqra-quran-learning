@@ -135,7 +135,7 @@ export function DashboardSummaryView({ dashboard }: Props) {
             </div>
             <Link
               href="/quran"
-              className="bg-primary text-surface rounded-lg px-3.5 py-2 text-xs font-medium sm:text-sm"
+              className="bg-primary text-on-primary rounded-lg px-3.5 py-2 text-xs font-medium sm:text-sm"
             >
               Continue reading
             </Link>

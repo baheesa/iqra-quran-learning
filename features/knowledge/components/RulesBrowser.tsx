@@ -192,7 +192,7 @@ export function RulesBrowser({ rules }: Props) {
             }
             className={
               expandAll
-                ? "bg-primary text-surface inline-flex h-8 items-center gap-1 rounded-lg px-2 text-xs font-medium"
+                ? "bg-primary text-on-primary inline-flex h-8 items-center gap-1 rounded-lg px-2 text-xs font-medium"
                 : "border-border text-primary hover:bg-primary/5 inline-flex h-8 items-center gap-1 rounded-lg border px-2 text-xs font-medium"
             }
           >

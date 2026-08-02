@@ -70,7 +70,7 @@ export default function HelpPage() {
                 href={LIVE}
                 target="_blank"
                 rel="noreferrer"
-                className="bg-primary text-surface inline-flex min-h-10 items-center justify-center rounded-lg px-3.5 font-medium"
+                className="bg-primary text-on-primary inline-flex min-h-10 items-center justify-center rounded-lg px-3.5 font-medium"
               >
                 Open live app
               </a>
