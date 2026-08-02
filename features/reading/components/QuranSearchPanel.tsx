@@ -108,8 +108,14 @@ export function QuranSearchPanel({
                 onClick={() => onOpenMatch(m)}
               >
                 <span className="font-quran text-primary text-base" dir="rtl">
-                  {m.matchedArabic ?? m.arabic.slice(0, 42)}
-                  {!m.matchedArabic && m.arabic.length > 42 ? "…" : ""}
+                  {m.matchedForms?.length
+                    ? m.matchedForms.join(" ")
+                    : (m.matchedArabic ?? m.arabic.slice(0, 42))}
+                  {!m.matchedForms?.length &&
+                  !m.matchedArabic &&
+                  m.arabic.length > 42
+                    ? "…"
+                    : ""}
                 </span>
                 <span className="text-muted text-xs">
                   Surah {m.ayahId.replace(":", " · ayah ")} · p.{m.page}

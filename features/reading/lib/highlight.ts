@@ -1,6 +1,10 @@
 /** Light highlight helpers for search matches (Arabic / Urdu). */
 
-import { normalizeSearchForm, stripArabic } from "./meanings";
+import {
+  normalizeSearchForm,
+  searchFormVariants,
+  stripArabic,
+} from "./meanings";
 import { normalizeUrduQuery } from "./quran-search";
 
 const DIACRITIC_RE = /[\u064B-\u065F\u0670\u06D6-\u06ED]/u;
@@ -128,24 +132,60 @@ export function highlightSearchText(
 export function tokenMatchesSearch(token: string, needle: string): boolean {
   const n = needle.trim();
   if (!n) return false;
+
+  // Multi-word queries: highlight each searched word, not only the first.
+  const parts = n
+    .split(/[\s\u0640]+/u)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  if (parts.length > 1) {
+    return parts.some((part) => tokenMatchesSearch(token, part));
+  }
+
+  const needleVariants = searchFormVariants(n);
+  const tokenVariants = searchFormVariants(token);
+  for (const q of needleVariants) {
+    if (!q) continue;
+    for (const form of tokenVariants) {
+      if (form.includes(q)) return true;
+    }
+  }
+
   const form = normalizeSearchForm(token);
   const q = normalizeSearchForm(n);
   if (q && form.includes(q)) return true;
+
   const urTok = normalizeUrduQuery(token);
   const urQ = normalizeUrduQuery(n);
   return Boolean(urQ && urTok.includes(urQ));
 }
 
-/** Match Arabic token against a known matched Arabic form from the index. */
+/** Match Arabic token against known matched Arabic form(s) from the index. */
 export function tokenMatchesArabicForm(
   token: string,
-  matchedArabic: string | undefined,
+  matchedArabic: string | string[] | undefined,
 ): boolean {
   if (!matchedArabic) return false;
-  return (
-    stripArabic(token) === stripArabic(matchedArabic) ||
-    normalizeSearchForm(token) === normalizeSearchForm(matchedArabic)
-  );
+  const forms = Array.isArray(matchedArabic)
+    ? matchedArabic
+    : matchedArabic
+        .split(/[\s\u0640]+/u)
+        .map((p) => p.trim())
+        .filter(Boolean);
+  if (forms.length === 0) return false;
+  const tokenVars = new Set(searchFormVariants(token));
+  if (tokenVars.size === 0) {
+    const n = normalizeSearchForm(token);
+    if (n) tokenVars.add(n);
+  }
+  return forms.some((form) => {
+    const formVars = searchFormVariants(form);
+    if (formVars.some((fv) => tokenVars.has(fv))) return true;
+    return (
+      stripArabic(token) === stripArabic(form) ||
+      normalizeSearchForm(token) === normalizeSearchForm(form)
+    );
+  });
 }
 
 export { escapeRegExp };

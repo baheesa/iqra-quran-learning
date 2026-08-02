@@ -1526,8 +1526,13 @@ export default function App() {
                             <span className="ar" style={{ fontSize: 16 }}>
                               <HighlightedText
                                 text={
-                                  (m.matchedArabic ?? m.arabic.slice(0, 42)) +
-                                  (!m.matchedArabic && m.arabic.length > 42
+                                  (m.matchedForms?.length
+                                    ? m.matchedForms.join(" ")
+                                    : (m.matchedArabic ??
+                                      m.arabic.slice(0, 42))) +
+                                  (!m.matchedForms?.length &&
+                                  !m.matchedArabic &&
+                                  m.arabic.length > 42
                                     ? "…"
                                     : "")
                                 }
@@ -1815,8 +1820,12 @@ export default function App() {
                         );
                       }
                       const marked =
-                        tokenMatchesArabicForm(tok, m.matchedArabic) ||
-                        tokenMatchesSearch(tok, matchQuery);
+                        tokenMatchesArabicForm(
+                          tok,
+                          m.matchedForms?.length
+                            ? m.matchedForms
+                            : m.matchedArabic,
+                        ) || tokenMatchesSearch(tok, matchQuery);
                       return (
                         <button
                           key={`w-${i}-${tok}`}

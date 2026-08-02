@@ -91,8 +91,12 @@ export function SearchMatchesView({
                     return <span key={`p-${i}`}>{tok}</span>;
                   }
                   const marked =
-                    tokenMatchesArabicForm(tok, m.matchedArabic) ||
-                    tokenMatchesSearch(tok, query);
+                    tokenMatchesArabicForm(
+                      tok,
+                      m.matchedForms?.length
+                        ? m.matchedForms
+                        : m.matchedArabic,
+                    ) || tokenMatchesSearch(tok, query);
                   return (
                     <button
                       key={`w-${i}-${tok}`}

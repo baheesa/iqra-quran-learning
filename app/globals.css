@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Brand tokens — calm green reading aesthetic (docs/15-ui-ux-guidelines.md)
+   Brand tokens — calm dusty plum (soft mauve) reading aesthetic
    English UI chrome; Arabic/Urdu content uses .font-quran / .font-urdu
    --------------------------------------------------------------------------- */
 :root {
-  --background: #f3f6f2;
-  --foreground: #1a2e22;
-  --muted: #5a6e62;
-  --primary: #1e4a38;
-  --primary-soft: #2d6750;
-  --accent: #3a5f52;
-  --surface: #fafcf9;
-  --border: #d2ddd6;
+  --background: #f6f3f5;
+  --foreground: #2a2228;
+  --muted: #6e646c;
+  --primary: #6b4a5a;
+  --primary-soft: #8a6576;
+  --accent: #7d5a6a;
+  --surface: #fcfafb;
+  --border: #e0d6dc;
   --warning: #b8863b;
-  --bg-glow: #e8f0ea;
-  --bg-top: #f6f9f5;
-  --bg-bottom: #eef3ef;
+  --bg-glow: #efe6eb;
+  --bg-top: #f9f6f8;
+  --bg-bottom: #f1eaee;
+
 
   /* --font-ui is set by next/font (Source Serif 4) on <html> */
   --font-ui-fallback: "Libre Baskerville", Georgia, "Times New Roman", serif;
@@ -26,18 +27,18 @@
 }
 
 html.dark {
-  --background: #121a16;
-  --foreground: #e6efe8;
-  --muted: #9bb0a3;
-  --primary: #8fbfa5;
-  --primary-soft: #5f8f76;
-  --accent: #7aab92;
-  --surface: #1a2420;
-  --border: #2f4037;
+  --background: #161218;
+  --foreground: #efe8ec;
+  --muted: #b2a4ad;
+  --primary: #d0a8bb;
+  --primary-soft: #a67c91;
+  --accent: #c49aaf;
+  --surface: #211c22;
+  --border: #3a3137;
   --warning: #d4a574;
-  --bg-glow: rgba(47, 90, 68, 0.35);
-  --bg-top: #151e19;
-  --bg-bottom: #101713;
+  --bg-glow: rgba(107, 74, 90, 0.35);
+  --bg-top: #1a1519;
+  --bg-bottom: #120f13;
   color-scheme: dark;
 }
 

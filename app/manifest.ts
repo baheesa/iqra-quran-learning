@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Muallim-ul-Quran based learning — read, recognize, understand.",
     start_url: "/",
     display: "standalone",
-    background_color: "#f3f6f2",
-    theme_color: "#1e4a38",
+    background_color: "#f6f3f5",
+    theme_color: "#6b4a5a",
     orientation: "portrait-primary",
     lang: "en",
     icons: [

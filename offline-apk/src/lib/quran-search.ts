@@ -15,8 +15,12 @@ export type MatchItem = {
   page: number;
   arabic: string;
   urdu: string;
+  /** First matched mushaf word (preview / focus). */
   matchedArabic?: string;
   matchedWordId?: string;
+  /** All mushaf word forms in a phrase match (for View-all highlighting). */
+  matchedForms?: string[];
+  matchedWordIds?: string[];
 };
 
 function wordPos(wordId: string): number {
@@ -232,12 +236,23 @@ function nextTokenInAyah(
 /**
  * Search one or more Arabic words. Multi-word queries match consecutive
  * tokens in the same ayah (punctuation gaps allowed via word id order).
+ * Returns the first word of each phrase hit; use `searchQuranPhrases` when
+ * you need every word in the match chain.
  */
 export function searchQuranWords(
   query: string,
   index: Record<string, SearchHit[]>,
   limit = 30,
 ): SearchHit[] {
+  return searchQuranPhrases(query, index, limit).map((chain) => chain[0]!);
+}
+
+/** Phrase search: each result is the ordered chain of matched word hits. */
+export function searchQuranPhrases(
+  query: string,
+  index: Record<string, SearchHit[]>,
+  limit = 30,
+): SearchHit[][] {
   const rawParts = query
     .trim()
     .split(/[\s\u0640]+/u)
@@ -253,16 +268,17 @@ export function searchQuranWords(
     if (key.length < 2 && searchFormVariants(rawParts[0]!).every((v) => v.length < 2)) {
       return [];
     }
-    return lookupToken(rawParts[0]!, index, limit);
+    return lookupToken(rawParts[0]!, index, limit).map((h) => [h]);
   }
 
   const first = lookupToken(rawParts[0]!, index, 500);
-  const out: SearchHit[] = [];
+  const out: SearchHit[][] = [];
   const seen = new Set<string>();
   // Allow a wider gap so short particles / punctuation between phrase words still match.
   const maxGap = Math.max(8, tokens.length * 4);
 
   for (const start of first) {
+    const chain: SearchHit[] = [start];
     let cursor = start;
     let ok = true;
     for (let i = 1; i < tokens.length; i += 1) {
@@ -280,13 +296,14 @@ export function searchQuranWords(
         ok = false;
         break;
       }
+      chain.push(nxt);
       cursor = nxt;
     }
     if (!ok) continue;
     const key = `${start.a}:${start.w}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    out.push(start);
+    out.push(chain);
     if (out.length >= limit) break;
   }
 
@@ -349,20 +366,35 @@ export function hitsToMatchItems(
   hits: SearchHit[],
   ayahCards: Record<string, AyahCard>,
 ): MatchItem[] {
+  return phraseHitsToMatchItems(
+    hits.map((h) => [h]),
+    ayahCards,
+  );
+}
+
+export function phraseHitsToMatchItems(
+  phrases: SearchHit[][],
+  ayahCards: Record<string, AyahCard>,
+): MatchItem[] {
   const out: MatchItem[] = [];
   const seen = new Set<string>();
-  for (const h of hits) {
-    if (seen.has(h.a)) continue;
-    seen.add(h.a);
-    const card = ayahCards[h.a];
+  for (const chain of phrases) {
+    const start = chain[0];
+    if (!start) continue;
+    if (seen.has(start.a)) continue;
+    seen.add(start.a);
+    const card = ayahCards[start.a];
     if (!card) continue;
+    const forms = chain.map((h) => h.ar).filter(Boolean);
     out.push({
-      ayahId: h.a,
+      ayahId: start.a,
       page: card.p,
       arabic: card.ar,
       urdu: card.ur,
-      matchedArabic: h.ar,
-      matchedWordId: h.w,
+      matchedArabic: forms.join(" ") || start.ar,
+      matchedWordId: start.w,
+      matchedForms: forms.length ? forms : undefined,
+      matchedWordIds: chain.map((h) => h.w),
     });
   }
   return out;
@@ -377,8 +409,8 @@ export function buildMatchList(
   const q = query.trim();
   if (!q) return { items: [], mode: "arabic" };
 
-  const arabicHits = searchQuranWords(q, index, limit);
-  const fromArabic = hitsToMatchItems(arabicHits, ayahCards);
+  const arabicPhrases = searchQuranPhrases(q, index, limit);
+  const fromArabic = phraseHitsToMatchItems(arabicPhrases, ayahCards);
   const fromUrdu = searchAyahsByUrdu(q, ayahCards, limit);
 
   if (fromArabic.length && fromUrdu.length) {
