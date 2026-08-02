@@ -344,6 +344,6 @@ export function DuasBrowser() {
 
 function chipClass(active: boolean): string {
   return active
-    ? "bg-primary text-on-primary shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium"
+    ? "bg-primary text-white shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium"
     : "border-border text-muted shrink-0 rounded-lg border px-3 py-1.5 text-xs";
 }

@@ -425,7 +425,7 @@ export function LearnerHome({ dashboard, units, practiceWords }: Props) {
             aria-label={`Continue reading page ${currentPage || 1}`}
             className="hover:bg-primary/[0.06] flex min-w-0 flex-1 items-center gap-2.5 px-3 py-2.5 transition-colors"
           >
-            <span className="bg-primary text-on-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+            <span className="bg-primary text-white flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
               <ActionIcon name="book" size={15} />
             </span>
             <span className="min-w-0 text-start">
@@ -493,7 +493,7 @@ export function LearnerHome({ dashboard, units, practiceWords }: Props) {
             href={item.href}
             className={
               "primary" in item && item.primary
-                ? "bg-primary text-on-primary inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium"
+                ? "bg-primary text-white inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium"
                 : "border-border text-primary hover:border-primary/40 inline-flex min-h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs"
             }
           >
@@ -603,7 +603,7 @@ export function LearnerHome({ dashboard, units, practiceWords }: Props) {
                 onClick={markKnown}
                 title="I know it"
                 aria-label="Mark as known"
-                className="bg-primary text-on-primary inline-flex min-h-10 flex-1 items-center justify-center rounded-lg"
+                className="bg-primary text-white inline-flex min-h-10 flex-1 items-center justify-center rounded-lg"
               >
                 <ActionIcon name="know" size={18} />
               </button>

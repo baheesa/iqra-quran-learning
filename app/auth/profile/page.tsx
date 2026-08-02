@@ -65,7 +65,7 @@ export default function ProfilePage() {
           <p>آپ مہمان موڈ میں ہیں۔ قراءت بغیر اکاؤنٹ کے جاری رہ سکتی ہے۔</p>
           <Link
             href="/auth/login"
-            className="bg-primary text-on-primary inline-block rounded-2xl px-5 py-3"
+            className="bg-primary text-white inline-block rounded-2xl px-5 py-3"
           >
             سائن ان
           </Link>

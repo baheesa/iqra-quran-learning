@@ -92,7 +92,7 @@ export function QuranSearchPanel({
             {previewItems.length > 0 ? (
               <button
                 type="button"
-                className="bg-primary text-on-primary rounded-lg px-3 py-1.5 text-xs font-medium"
+                className="bg-primary text-white rounded-lg px-3 py-1.5 text-xs font-medium"
                 onClick={onViewAll}
               >
                 View all

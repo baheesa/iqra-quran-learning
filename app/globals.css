@@ -130,12 +130,17 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Solid primary fills: keep light label text in both themes. */
+/* Solid primary fills: keep white label text in both themes. */
 html.dark .bg-primary {
   background-color: #8f5a70;
 }
 html.dark .hover\:bg-primary\/90:hover {
   background-color: #7e4f63;
+}
+
+/* Ensure icons/labels on primary chips stay light even if a text utility misses. */
+.bg-primary {
+  color: var(--on-primary);
 }
 
 .font-ui {

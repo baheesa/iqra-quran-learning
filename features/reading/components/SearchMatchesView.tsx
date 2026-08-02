@@ -157,7 +157,7 @@ export function SearchMatchesView({
                 ) : null}
                 <button
                   type="button"
-                  className="bg-primary text-on-primary inline-grid h-9 w-9 place-items-center rounded-xl"
+                  className="bg-primary text-white inline-grid h-9 w-9 place-items-center rounded-xl"
                   title="Open in Quran"
                   aria-label="Open in Quran"
                   onClick={() => onOpen(m)}

@@ -130,7 +130,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
         <button
           type="submit"
           disabled={pending}
-          className="bg-primary text-on-primary w-full rounded-2xl px-4 py-3 disabled:opacity-50"
+          className="bg-primary text-white w-full rounded-2xl px-4 py-3 disabled:opacity-50"
         >
           {mode === "forgot" ? "ہدایات بھیجیں" : "جاری رکھیں"}
         </button>

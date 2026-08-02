@@ -218,7 +218,7 @@ export function FilterChip(props: {
       onClick={props.onClick}
       className={
         props.active
-          ? "bg-primary text-on-primary inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium sm:text-sm"
+          ? "bg-primary text-white inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium sm:text-sm"
           : "border-border text-muted hover:border-primary/40 hover:text-foreground inline-flex shrink-0 items-center gap-1.5 rounded-lg border bg-surface/60 px-2.5 py-1.5 text-xs transition-colors sm:text-sm"
       }
     >
@@ -248,7 +248,7 @@ export function LearnedToggle(props: {
       aria-pressed={props.learned}
       className={
         props.learned
-          ? "bg-primary text-on-primary inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow-sm transition-colors"
+          ? "bg-primary text-white inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow-sm transition-colors"
           : "border-border text-muted hover:border-primary/40 hover:text-primary inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-surface/70 transition-colors"
       }
     >
@@ -278,7 +278,7 @@ export function NextRemainingButton(props: {
       disabled={props.disabled || empty}
       title={props.label}
       aria-label={`${props.label}${empty ? "" : `, ${props.remainingCount}`}`}
-      className="bg-primary text-on-primary hover:bg-primary/90 inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-2 text-xs font-medium shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+      className="bg-primary text-white hover:bg-primary/90 inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-2 text-xs font-medium shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40"
     >
       <span className="rtl:rotate-180" aria-hidden>
         {FilterIcons.next}
