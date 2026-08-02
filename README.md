@@ -2,7 +2,7 @@
 
 # Iqra
 
-### Learn to understand the Quran — word by word, without living in a translation.
+### Quran learning with Next.js — understand the Quran word by word, in a natural and easy way.
 
 <img src="https://img.shields.io/badge/Live-Demo-1e4a38?style=for-the-badge&logo=vercel&logoColor=white" alt="Live demo" />
 &nbsp;
