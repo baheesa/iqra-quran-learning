@@ -2,7 +2,7 @@
 
 # Iqra
 
-### Quran learning with Next.js — understand the Quran word by word, in a natural and easy way.
+### Quran learning — understand the Quran word by word, in a natural and easy way.
 
 <img src="https://img.shields.io/badge/Live-Demo-1e4a38?style=for-the-badge&logo=vercel&logoColor=white" alt="Live demo" />
 &nbsp;
@@ -21,7 +21,7 @@ Built for Urdu speakers · curriculum from **Muallim-ul-Quran** (Units 1–7)
 
 <br />
 
-[🌐 Open live app](https://iqra-quran-learning-eight.vercel.app)
+[🌐 Open app](https://iqra-quran-learning-eight.vercel.app)
 &nbsp;&nbsp;·&nbsp;&nbsp;
 [📱 Download APK](https://iqra-quran-learning-eight.vercel.app/downloads/iqra-quran-learning.apk)
 &nbsp;&nbsp;·&nbsp;&nbsp;
