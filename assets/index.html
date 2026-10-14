@@ -16,8 +16,9 @@
 <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ dark }}" bg="{{ K.bg }}" hint-size="412px,892px">
 <div style="height:100%; position:relative; overflow:hidden; background:{{ K.bg }}; color:{{ K.ink }}; font-family:'Instrument Sans', system-ui, sans-serif">
 
-<div data-screen-label="Mushaf" style="position:absolute; inset:0 0 64px 0; display:flex; flex-direction:column">
-<div style="display:flex; align-items:center; gap:2px; padding:4px 6px; min-height:56px; border-bottom:1px solid {{ K.line }}">
+<div data-screen-label="Mushaf" style="position:absolute; inset:{{ fpInset }}; display:flex; flex-direction:column">
+<sc-if value="{{ fpMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleFp }}" style="position:absolute; top:12px; right:12px; z-index:100; width:36px; height:36px; border:0; border-radius:18px; background:rgba(0,0,0,0.45); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round"><path d="M5 5l14 14M5 19L19 5"></path></svg></button></sc-if>
+<div style="display:{{ fpTbDisplay }}; align-items:center; gap:2px; padding:4px 6px; min-height:56px; border-bottom:1px solid {{ K.line }}">
 <button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
 <button onClick="{{ openJump }}" style="flex:1; min-width:0; text-align:left; background:transparent; border:0; padding:4px 6px; color:inherit; cursor:pointer; display:flex; flex-direction:column; gap:1px">
 <span style="display:flex; align-items:center; gap:4px; font:600 16px/1.25 'Instrument Sans'">{{ rp.surah }}<svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M6 9l6 6 6-6"></path></svg></span>
@@ -26,6 +27,7 @@
 <button onClick="{{ openSearch }}" aria-label="Search" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="21" height="21" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></button>
 <button onClick="{{ toggleBookmark }}" aria-label="Bookmark page" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:{{ bmColor }}; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="21" height="21" viewBox="0 0 24 24" style="fill:{{ bmFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M7 3.5h10a1 1 0 0 1 1 1V20.5l-6-4-6 4V4.5a1 1 0 0 1 1-1z"></path></svg></button>
 <button onClick="{{ openSettings }}" aria-label="Reading settings" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer; font:600 16px 'Newsreader', serif">Aa</button>
+<button onClick="{{ toggleFp }}" aria-label="Full page" title="Full page" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="19" height="19" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
 </div>
 
 <sc-if value="{{ hasHl }}" hint-placeholder-val="{{ false }}">
@@ -319,7 +321,7 @@
 <div dir="rtl" style="font:400 15px/2.3 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.definition }}</div>
 <sc-if value="{{ r.hasEx }}" hint-placeholder-val="{{ false }}"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Examples</span></sc-if>
 <sc-for list="{{ r.examples }}" as="e"><button onClick="{{ e.find }}" style="display:flex; flex-direction:column; align-items:flex-end; padding:8px 12px; border-radius:14px; border:0; background:{{ K.bg }}; color:{{ K.ink }}; cursor:pointer; text-align:right">
-<span dir="rtl" style="font:400 22px/1.7 'Scheherazade New', serif">{{ e.ar }}</span>
+<span dir="rtl" style="font:400 22px/1.7 'Scheherazade New', serif; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:0 2px"><sc-for list="{{ e.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; transition:background .12s">{{ w.ar }}</span></sc-for></span>
 <sc-if value="{{ e.hasUr }}" hint-placeholder-val="{{ false }}"><span dir="rtl" style="font:400 13.5px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}">{{ e.ur }}</span></sc-if>
 <span style="align-self:flex-start; font:600 11.5px 'Instrument Sans'; color:{{ K.brand }}">Find in the Quran ›</span>
 </button></sc-for>
@@ -356,7 +358,7 @@
 <sc-if value="{{ d.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; padding:8px 4px 0"><span style="font:500 18px 'Newsreader', serif">{{ d.headLabel }}</span><span dir="rtl" style="font:400 19px 'Scheherazade New', serif; color:{{ K.muted }}">{{ d.headAr }}</span></div></sc-if>
 <div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px 18px; display:flex; flex-direction:column; gap:10px">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 14.5px 'Instrument Sans'">{{ d.title }}</span><span style="font:600 11.5px 'Instrument Sans'; padding:4px 8px; border-radius:10px; background:{{ K.surf2 }}; color:{{ K.muted }}; white-space:nowrap">{{ d.meta }}</span></div>
-<div dir="rtl" style="font:400 25px/1.85 'Scheherazade New', serif; text-align:right">{{ d.ar }}</div>
+<div dir="rtl" style="font:400 25px/1.85 'Scheherazade New', serif; text-align:right; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:0 2px"><sc-for list="{{ d.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 4px; border-radius:6px; transition:background .12s">{{ w.ar }}</span></sc-for></div>
 <div dir="rtl" style="font:400 15px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ d.ur }}</div>
 <button onClick="{{ d.toggle }}" style="height:42px; border-radius:21px; border:0; background:{{ d.btnBg }}; color:{{ d.btnFg }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">{{ d.btnLabel }}</button>
 </div>
@@ -909,6 +911,7 @@ class Component extends DCLogic {
     });
     Object.values(C.PAGES).forEach(P => { const s0 = sur[P.ayahs[0].s - 1]; P.surahNo = s0.id; P.surah = s0.nameEnglish; P.header = s0.nameArabic; });
     C.FREQ = freq; C.TOTAL = total || 1;
+    const fm = {}; keys.forEach(k => { C.AY[k].w.forEach(([a, u]) => { if (u) { const nk = this.key(a); if (!fm[nk]) fm[nk] = u; } }); }); C.FM = fm;
     C.TOP = Object.keys(freq).filter(k => k.length > 1).sort((a, b) => freq[b] - freq[a]).slice(0, 400).map(k => [k, form[k], freq[k]]);
     const byUnit = {}; ((rules && rules.rules) || []).forEach(r => (byUnit[r.unit] = byUnit[r.unit] || []).push(r));
     C.UNITS = ((voc && voc.units) || []).map(u => ({ n: u.unit, wc: u.wordCount, pc: u.phraseCount, words: u.words.map(x => [x.arabic, x.meaning || '', x.kind]), rules: (byUnit[u.unit] || []).sort((a, b) => a.order - b.order) }));
@@ -1142,7 +1145,8 @@ class Component extends DCLogic {
     const qs = [...qd].sort((a, b) => a.juz - b.juz), dj = S.duaJuz || null;
     const src = S.duaTab === 'quranic' ? qs.filter(d => !dj || d.juz === dj) : C.DUAS.masnoon; let lastH = null;
     const duaList = src.map(d => { const m = !!S.memorised[d.id], isQ = S.duaTab === 'quranic', hk = isQ ? d.juz : d.cat, head = hk !== lastH, cat = C.DCAT[d.cat] || {}; lastH = hk;
-      return { ...d, head, headLabel: isQ ? `Juz ${d.juz}` : (cat.label || ''), headAr: isQ ? C.JUZ_NAMES[d.juz - 1] : (cat.labelUrdu || ''), btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id) }; });
+      const toks = (d.ar || '').split(/\s+/).filter(Boolean).map(w => { const ur = C.FM[this.key(w)] || ''; return { ar: w, ur, tap: ur ? e => this.tapSheet(e, { ar: w, ur, ref: d.meta || d.title }) : null }; });
+      return { ...d, head, headLabel: isQ ? `Juz ${d.juz}` : (cat.label || ''), headAr: isQ ? C.JUZ_NAMES[d.juz - 1] : (cat.labelUrdu || ''), btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id), toks }; });
     const duaChips = [{ label: 'All juz', n: qs.length, j: null }, ...[...new Set(qs.map(d => d.juz))].map(j => ({ label: `Juz ${j}`, n: qs.filter(d => d.juz === j).length, j }))]
       .map(c => ({ ...c, bg: dj === c.j ? K.brand : K.surf, fg: dj === c.j ? K.onBrand : K.ink, bd: dj === c.j ? K.brand : K.line, pick: () => this.setState({ duaJuz: c.j }) }));
     const ob = S.ob, step = ob.step, opt = on => ({ bd: on ? K.brand : K.line, dot: on ? K.brand : 'transparent' });
@@ -1177,6 +1181,7 @@ class Component extends DCLogic {
       obBack: () => { if (step > 0) this.setState({ ob: { ...ob, step: step - 1 } }); },
       obSkip: () => this.finishOb(),
       replayOb: () => this.setState({ onboarded: false, drawer: false, ob: { step: 0, level: 1, goal: S.goal || 5 } }),
+      fpMode: !!S.fpMode, fpInset: S.fpMode ? '0' : '0 0 64px 0', fpTbDisplay: S.fpMode ? 'none' : 'flex', toggleFp: () => this.setState({ fpMode: !S.fpMode }),
       isWords: S.screen === 'words', isReview: S.screen === 'review', goWords: () => this.go('words'),
       navW: { bg: inW ? K.soft : 'transparent', fg: inW ? K.softInk : K.ink },
       savedList: S.saved.map(w => { const st = S.known[this.key(w.ar)]; return { ...w, tag: st === 'f' ? 'Familiar' : st ? 'Known' : 'Learning', tagBg: st ? K.soft : K.goldSoft, tagFg: st ? K.softInk : K.goldInk, open: () => this.goPage(w.page, { hl: { ids: [w.id], label: w.ar } }), remove: () => this.setState({ saved: S.saved.filter(x => x.id !== w.id) }) }; }),
@@ -1228,7 +1233,7 @@ class Component extends DCLogic {
     const U = Uu ? { n: Uu.n, title: `Muallim-ul-Quran · Unit ${Uu.n}`, k: Uu.k, total: Uu.total, pct: Uu.pct,
       words: Uu.words.map(([ar, ur]) => { const kn = !!S.known[this.key(ar)]; return { ar, ur, toggle: () => this.toggleKnown(ar), ckBg: kn ? K.brand : 'transparent', ckBd: kn ? K.brand : K.frame, ckOp: kn ? 1 : 0 }; }),
       rules: Uu.rules.map(r => { const ex = (r.examples || []).slice(0, 4); return { order: r.order, title: r.title, definition: r.definition, hasEx: ex.length > 0,
-        examples: ex.map(e => ({ ar: e.arabic, ur: e.meaning || '', hasUr: !!e.meaning, find: () => this.setState({ screen: 'search', q: e.arabic }) })) }; }) } : { words: [], rules: [] };
+        examples: ex.map(e => { const toks = (e.arabic || '').split(/\s+/).filter(Boolean).map(w => { const ur = C.FM[this.key(w)] || ''; return { ar: w, ur, tap: ur ? ev => this.tapSheet(ev, { ar: w, ur, ref: 'Qawaid' }) : null }; }); return { ar: e.arabic, ur: e.meaning || '', hasUr: !!e.meaning, find: () => this.setState({ screen: 'search', q: e.arabic }), toks }; }) }; }) } : { words: [], rules: [] };
     const curKnown = units.reduce((a, u) => a + u.k, 0);
 
     const seg = on => on ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' };
