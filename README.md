@@ -23,7 +23,7 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 &nbsp;&nbsp;·&nbsp;&nbsp;
 [Download APK](https://github.com/baheesa/iqra-quran-learning/releases/latest)
 &nbsp;&nbsp;·&nbsp;&nbsp;
-[📘 User Manual](docs/manual/user-manual.html)
+[📘 PDF Manual](docs/manual/user-manual.pdf)
 
 <br />
 
@@ -32,6 +32,23 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 <sub>Offline PWA · Android APK · No account needed</sub>
 
 </div>
+
+---
+
+## Who is this for?
+
+**The problem:** Most people who grew up reciting the Quran can read Arabic without stumbling — and understand almost none of it. They know the sounds, not the words.
+
+**The gap:** Tafseer apps give you full commentary per verse. Translation apps show sentence-level English or Urdu. Neither tells you what the individual word in front of you means — so vocabulary never builds.
+
+**What Iqra does:** Tap any Arabic word on any page. A panel shows its Urdu meaning, transliteration, and root — right there, in context. Once you know الرَّحْمَٰنِ, you've unlocked a word that appears 169 times across the Quran. That compounds.
+
+| Who | How Iqra helps |
+| --- | --- |
+| Adults who recite daily but don't understand | Tap words during your regular tilawat — no separate study session needed |
+| Students learning Quranic Arabic | Use word tap + Qawaid rules together to connect grammar to real ayaat |
+| Parents teaching children | Simple screen, no ads, no accounts — hand it to a child and it works |
+| Anyone starting Quran reading from scratch | Built-in progress tracker with daily goals keeps the habit going |
 
 ---
 
@@ -126,7 +143,7 @@ Daily reading goal, streak counter, and a log of pages completed.
 
 Full walkthrough — every screen, every feature:
 
-- **[HTML version](docs/manual/user-manual.html)**
+**[📘 Download PDF Manual](docs/manual/user-manual.pdf)**
 
 ---
 
@@ -164,7 +181,7 @@ assets/               Static PWA (HTML · CSS · JS · data)
 assets/index.html     Single-file app entry point
 assets/data/          Quran data: surahs, wbw-urdu, duas, qawaid
 docs/images/          README screenshots
-docs/manual/          HTML user manual
+docs/manual/          PDF user manual
 ```
 
 ---
