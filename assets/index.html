@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E4A38">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Iqra">
+<meta name="author" content="Bahees Fatima">
+<meta name="designer" content="Bahees Fatima">
+<meta name="creator" content="Bahees Fatima">
+<meta name="publisher" content="Bahees Fatima">
+<meta name="website" content="https://baheesafatima.com">
+<meta name="copyright" content="© 2026 Bahees Fatima — baheesafatima.com">
+<meta property="og:site_name" content="Iqra — Quran Reader">
+<meta property="og:author" content="Bahees Fatima">
+<meta property="og:url" content="https://baheesafatima.com">
+<title>Iqra — Quran Reader</title>
+<link rel="manifest" href="/manifest.json">
+<script src="./react.production.min.js"></script>
+<script src="./react-dom.production.min.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Scheherazade+New:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;500&display=swap">
+<style>body{margin:0;background:#E4E0D4;-webkit-font-smoothing:antialiased}a{color:#1E4A38}a:hover{color:#18201C}button{font-family:inherit}input:focus{outline:none}input::placeholder{color:#8A918B}</style>
+</helmet>
+<div style="min-height:100vh; display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:56px; padding:40px 24px; box-sizing:border-box; font-family:'Instrument Sans', system-ui, sans-serif">
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ dark }}" bg="{{ K.bg }}" hint-size="412px,892px">
+<div onClick="{{ dismissGTip }}" style="height:100%; position:relative; overflow:hidden; background:{{ K.bg }}; color:{{ K.ink }}; font-family:'Instrument Sans', system-ui, sans-serif">
+
+<div data-screen-label="Mushaf" style="position:absolute; inset:0 0 64px 0; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:2px; padding:4px 6px; min-height:56px; border-bottom:1px solid {{ K.line }}">
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<button onClick="{{ openJump }}" style="flex:1; min-width:0; text-align:left; background:transparent; border:0; padding:4px 6px; color:inherit; cursor:pointer; display:flex; flex-direction:column; gap:1px">
+<span style="display:flex; align-items:center; gap:4px; font:600 16px/1.25 'Instrument Sans'">{{ rp.surah }}<svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M6 9l6 6 6-6"></path></svg></span>
+<span style="font:400 12.5px/1.3 'Instrument Sans'; color:{{ K.muted }}">Juz {{ rp.juz }} · Page {{ rp.page }} · <span style="color:{{ K.knownInk }}; font-weight:600">{{ pageRec }} words known</span></span>
+</button>
+<button onClick="{{ openSearch }}" aria-label="Search" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="21" height="21" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></button>
+<button onClick="{{ toggleBookmark }}" aria-label="Bookmark page" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:{{ bmColor }}; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="21" height="21" viewBox="0 0 24 24" style="fill:{{ bmFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M7 3.5h10a1 1 0 0 1 1 1V20.5l-6-4-6 4V4.5a1 1 0 0 1 1-1z"></path></svg></button>
+<button onClick="{{ openSettings }}" aria-label="Reading settings" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer; font:600 16px 'Newsreader', serif">Aa</button>
+<button onClick="{{ togglePagePreview }}" aria-label="Page preview" style="width:44px; height:44px; flex:none; border:0; background:{{ pvPreviewBg }}; color:{{ pvPreviewFg }}; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></button>
+</div>
+
+<sc-if value="{{ hasHl }}" hint-placeholder-val="{{ false }}">
+<div style="padding:8px 12px 0; display:flex">
+<button onClick="{{ clearHl }}" style="display:flex; align-items:center; gap:8px; height:32px; padding:0 8px 0 12px; border-radius:16px; border:0; background:{{ K.hl }}; color:{{ K.ink }}; font:500 12.5px 'Instrument Sans', 'Scheherazade New'; cursor:pointer">{{ hlLabel }}<svg width="14" height="14" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+</sc-if>
+
+<div ref="{{ scrollRef }}" onPointerDown="{{ onDown }}" onPointerUp="{{ onUp }}" onClick="{{ closeTip }}" style="flex:1; min-height:0; overflow-y:{{ pvOvY }}; padding:12px 12px 16px; user-select:none; -webkit-user-select:none; touch-action:pan-y; display:flex; flex-direction:column; align-items:stretch">
+<div ref="{{ pageRef }}" style="position:relative; box-sizing:border-box; background:{{ K.page }}; border:1px solid {{ K.frame }}; border-radius:12px; padding:5px; transform:scale({{ pvScale }}) translateX({{ pt.x }}px); transform-origin:top center; opacity:{{ pt.o }}; transition:{{ pt.tr }}">
+<div style="border:1px solid {{ K.frame }}; border-radius:8px; padding:14px 10px 22px">
+<div style="display:flex; align-items:center; justify-content:center; margin:0 0 14px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}">
+<span dir="rtl" style="font:700 22px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ rp.header }}</span>
+</div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; column-gap:2px; row-gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.95; color:{{ K.ink }}">
+<sc-for list="{{ tokens }}" as="t" hint-placeholder-count="24">
+<sc-if value="{{ t.isWord }}" hint-placeholder-val="{{ true }}"><span onClick="{{ t.onTap }}" style="cursor:pointer; padding:0 3px; border-radius:6px; color:{{ t.fg }}; background:{{ t.bg }}; box-shadow:inset 0 -2px 0 {{ t.line }}; transition:background .15s, color .3s">{{ t.ar }}</span></sc-if>
+<sc-if value="{{ t.isMarker }}" hint-placeholder-val="{{ false }}"><span onClick="{{ t.onTap }}" aria-label="Ayah translation" style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}; cursor:pointer">{{ t.num }}</span></sc-if>
+<sc-if value="{{ t.isDua }}" hint-placeholder-val="{{ false }}"><span onClick="{{ t.onTap }}" style="display:inline-flex; align-items:center; gap:4px; height:28px; padding:0 10px 0 8px; margin:0 3px; border-radius:14px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}; font:600 12px/1 'Instrument Sans'; cursor:pointer; direction:ltr"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linejoin:round"><path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"></path></svg>Dua</span></sc-if>
+<sc-if value="{{ t.isBreak }}" hint-placeholder-val="{{ false }}"><span style="flex-basis:100%; height:0"></span></sc-if>
+<sc-if value="{{ t.isHead }}" hint-placeholder-val="{{ false }}"><div style="flex-basis:100%; display:flex; justify-content:center; margin:10px 0 6px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ t.ar }}</span></div></sc-if>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:240px; z-index:5; box-sizing:border-box; background:{{ K.tipBg }}; color:{{ K.tipFg }}; border-radius:16px; padding:12px 14px; box-shadow:0 14px 36px rgba(0,0,0,0.25); display:flex; flex-direction:column; gap:2px">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.04em; opacity:0.8">{{ tip.ref }}</span><span dir="rtl" style="font:400 24px/1.4 'Scheherazade New', serif">{{ tip.ar }}</span></div>
+<span style="font:600 10px 'Instrument Sans'; letter-spacing:0.06em; text-transform:uppercase; opacity:0.55; margin-top:2px">Meaning</span>
+<div dir="rtl" style="font:400 18px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; margin-top:-4px">{{ tip.ur }}</div>
+<button onClick="{{ tipKnow }}" style="margin-top:6px; height:38px; border-radius:19px; border:0; background:{{ tipBtn.bg }}; color:{{ tipBtn.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">{{ tipBtn.label }}</button>
+<button onClick="{{ tipAyah }}" style="margin-top:6px; height:36px; border-radius:18px; border:1px solid {{ K.tipLine }}; background:transparent; color:{{ K.tipFg }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">Full ayah translation</button>
+<span style="margin-top:6px; font:500 11.5px 'Instrument Sans'; opacity:0.75; text-align:center">{{ tipNote }}</span>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px 10px; border-top:1px solid {{ K.line }}">
+<button onClick="{{ nextPage }}" style="height:44px; padding:0 14px 0 8px; border-radius:22px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; display:flex; align-items:center; gap:2px; font:500 13px 'Instrument Sans'; cursor:pointer; opacity:{{ nextOp }}"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round"><path d="M15 6l-6 6 6 6"></path></svg>Next</button>
+<button onClick="{{ goProgress }}" aria-label="Today's progress" style="display:flex; align-items:center; gap:10px; height:44px; padding:0 14px 0 4px; border-radius:22px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; cursor:pointer">
+<svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" style="fill:none; stroke:{{ K.track }}; stroke-width:3.5"></circle><circle cx="18" cy="18" r="14" transform="rotate(-90 18 18)" style="fill:none; stroke:{{ K.brand }}; stroke-width:3.5; stroke-linecap:round; stroke-dasharray:{{ goal.dash }}; transition:stroke-dasharray .5s"></circle></svg>
+<span style="display:flex; flex-direction:column; align-items:flex-start; gap:1px"><span style="font:600 13px/1.1 'Instrument Sans'">{{ goal.label }}</span><span style="font:500 11.5px/1.1 'Instrument Sans'">Daily goal</span></span>
+<span style="display:flex; align-items:center; gap:2px; font:700 13px 'Instrument Sans'; color:{{ K.gold }}"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:currentColor"><path d="M12 3.5c.6 3.2 4.5 5 4.5 9.2a4.5 4.5 0 0 1-9 0c0-2.2 1.1-3.6 2.3-4.6.1 1.6.9 2.6 2.1 2.9-.9-2.6-.5-5.1.1-7.5z"></path></svg>{{ streak }}</span>
+</button>
+<button onClick="{{ prevPage }}" style="height:44px; padding:0 8px 0 14px; border-radius:22px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; display:flex; align-items:center; gap:2px; font:500 13px 'Instrument Sans'; cursor:pointer; opacity:{{ prevOp }}">Prev<svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+
+<sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ stop }}" style="position:absolute; left:10px; right:10px; bottom:70px; z-index:6; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:22px; padding:16px 18px; box-shadow:0 14px 40px rgba(0,0,0,0.18); display:flex; flex-direction:column; gap:4px">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 12px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.04em">{{ tip.ref }}</span><span dir="rtl" style="font:400 32px/1.4 'Scheherazade New', serif">{{ tip.ar }}</span></div>
+<span style="font:600 10px 'Instrument Sans'; letter-spacing:0.06em; text-transform:uppercase; color:{{ K.muted }}; margin-top:2px">Meaning</span>
+<div dir="rtl" style="font:400 20px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; margin-top:-4px">{{ tip.ur }}</div>
+<button onClick="{{ tipKnow }}" style="margin-top:6px; height:44px; border-radius:22px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ tipBtn.label }}</button>
+<button onClick="{{ tipAyah }}" style="margin-top:6px; height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer">Full ayah translation</button>
+<span style="margin-top:6px; font:500 12px 'Instrument Sans'; color:{{ K.muted }}; text-align:center">{{ tipNote }}</span>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Home" style="position:absolute; inset:0 0 64px 0; z-index:10; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:10px; padding:6px 6px 6px 16px; min-height:60px">
+<span style="position:relative; width:40px; height:40px; flex:none; border-radius:12px; background:#1E4A38; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px rgba(227,180,92,0.35)"><svg width="40" height="40" viewBox="0 0 100 100" style="position:absolute; inset:0; fill:none; stroke:#E3B45C; stroke-width:2.6"><rect x="24" y="24" width="52" height="52" rx="3"></rect><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"></rect></svg><span dir="rtl" style="position:relative; font:700 11px/1 'Scheherazade New', serif; color:#F5F2EA; margin-top:-2px">اقرأ</span></span>
+<span style="flex:1; font:500 26px/1 'Newsreader', serif">Iqra</span>
+<button onClick="{{ openSearch }}" aria-label="Search" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M11 4.5a6.5 6.5 0 1 1 0 13a6.5 6.5 0 1 1 0-13zM16 16l4.5 4.5"></path></svg></button>
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto">
+<div style="padding:4px 16px 24px; display:flex; flex-direction:column; gap:12px">
+<div style="display:flex; flex-direction:column; gap:2px; padding:0 4px 4px"><span style="font:500 26px/1.2 'Newsreader', serif">{{ home.greet }}</span><span style="font:400 14px 'Instrument Sans'; color:{{ K.muted }}">Continue where you left off.</span></div>
+<div style="background:{{ K.brand }}; color:{{ K.onBrand }}; border-radius:24px; padding:20px; display:flex; flex-direction:column; gap:16px">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px">
+<div style="display:flex; flex-direction:column; gap:3px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase">Continue reading</span><span style="font:500 24px/1.2 'Newsreader', serif; margin-top:4px">{{ home.surah }}</span><span style="font:400 13.5px 'Instrument Sans'">Page {{ home.page }} · Juz {{ home.juz }}</span></div>
+<span dir="rtl" style="font:400 26px/1.4 'Scheherazade New', serif; text-align:right">{{ home.surahAr }}</span>
+</div>
+<div style="display:flex; flex-direction:column; gap:6px"><div style="height:6px; border-radius:3px; background:{{ K.onBrandTrack }}; overflow:hidden"><div style="height:100%; width:{{ home.readPct }}; background:{{ K.gold2 }}; border-radius:3px"></div></div><span style="font:500 12.5px 'Instrument Sans'">{{ home.readLabel }}</span></div>
+<button onClick="{{ goMushaf }}" style="align-self:flex-start; height:46px; padding:0 22px; border-radius:23px; border:0; background:{{ K.onBrand }}; color:{{ K.brand }}; font:600 14.5px 'Instrument Sans'; cursor:pointer">Open mushaf</button>
+</div>
+<button onClick="{{ goProgress }}" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; padding:14px 10px; border-radius:20px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; cursor:pointer">
+<span style="display:flex; flex-direction:column; align-items:center; gap:4px"><span style="position:relative; width:52px; height:52px"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" style="fill:none; stroke:{{ K.track }}; stroke-width:5"></circle><circle cx="26" cy="26" r="22" transform="rotate(-90 26 26)" style="fill:none; stroke:{{ K.brand }}; stroke-width:5; stroke-linecap:round; stroke-dasharray:{{ home.dash }}"></circle></svg><span style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font:600 13px 'Instrument Sans'">{{ home.goalLabel }}</span></span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">Pages today</span></span>
+<span style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border-left:1px solid {{ K.line }}; border-right:1px solid {{ K.line }}"><span style="display:flex; align-items:center; gap:4px; font:500 28px/1 'Newsreader', serif; color:{{ K.ink }}"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:{{ K.gold }}"><path d="M12 3.5c.6 3.2 4.5 5 4.5 9.2a4.5 4.5 0 0 1-9 0c0-2.2 1.1-3.6 2.3-4.6.1 1.6.9 2.6 2.1 2.9-.9-2.6-.5-5.1.1-7.5z"></path></svg>{{ streak }}</span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">Day streak</span></span>
+<span style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px"><span style="font:500 28px/1 'Newsreader', serif">{{ lvl.n }}</span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">Level · {{ lvl.name }}</span></span>
+</button>
+<div style="display:flex; align-items:center; gap:12px; padding:14px 14px 14px 16px; border-radius:20px; border:1px solid {{ K.line }}; background:{{ K.surf }}">
+<span style="width:40px; height:40px; flex:none; border-radius:20px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></span>
+<span style="flex:1; display:flex; flex-direction:column; gap:2px"><span style="font:600 14.5px 'Instrument Sans'">Daily review</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ home.review }} · {{ home.saved }}</span></span>
+<button onClick="{{ startReview }}" style="height:40px; padding:0 16px; border-radius:20px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Review</button>
+</div>
+<div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px">
+<button onClick="{{ goLearn }}" style="display:flex; align-items:center; gap:12px; min-height:60px; padding:10px 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; cursor:pointer; text-align:left; font:600 14px 'Instrument Sans'"><span style="width:36px; height:36px; flex:none; border-radius:12px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M12 3.5l8.5 4.25L12 12 3.5 7.75z M3.5 12.25L12 16.5l8.5-4.25 M3.5 16.5L12 20.75l8.5-4.25"></path></svg></span>Words &amp; Qawaid</button>
+<button onClick="{{ goDuas }}" style="display:flex; align-items:center; gap:12px; min-height:60px; padding:10px 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; cursor:pointer; text-align:left; font:600 14px 'Instrument Sans'"><span style="width:36px; height:36px; flex:none; border-radius:12px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"></path></svg></span>Duas</button>
+<button onClick="{{ goWords }}" style="display:flex; align-items:center; gap:12px; min-height:60px; padding:10px 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; cursor:pointer; text-align:left; font:600 14px 'Instrument Sans'"><span style="width:36px; height:36px; flex:none; border-radius:12px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></span>My words</button>
+<button onClick="{{ goProgress }}" style="display:flex; align-items:center; gap:12px; min-height:60px; padding:10px 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; cursor:pointer; text-align:left; font:600 14px 'Instrument Sans'"><span style="width:36px; height:36px; flex:none; border-radius:12px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg></span>Progress</button>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProgress }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Progress" style="position:absolute; inset:0 0 64px 0; z-index:10; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 6px; min-height:56px">
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<span style="flex:1; font:600 17px 'Instrument Sans'">Progress</span>
+<button onClick="{{ goMushaf }}" aria-label="Back to mushaf" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg></button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto">
+<div style="padding:4px 16px 32px; display:flex; flex-direction:column; gap:12px">
+
+<div style="background:{{ K.brand }}; color:{{ K.onBrand }}; border-radius:24px; padding:20px; display:flex; flex-direction:column; gap:16px">
+<div style="display:flex; align-items:center; gap:14px">
+<div style="width:60px; height:60px; flex:none; border-radius:30px; border:2px solid {{ K.onBrandTrack }}; display:flex; flex-direction:column; align-items:center; justify-content:center"><span style="font:600 10px/1 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase">Lvl</span><span style="font:500 26px/1 'Newsreader', serif">{{ lvl.n }}</span></div>
+<div style="flex:1; display:flex; flex-direction:column; gap:2px"><span style="font:500 22px/1.2 'Newsreader', serif">{{ lvl.name }}</span><span style="font:400 13px/1.3 'Instrument Sans'">{{ lvl.toNext }}</span></div>
+<div style="display:flex; flex-direction:column; align-items:flex-end"><span style="font:700 20px/1 'Instrument Sans'">{{ xp }}</span><span style="font:500 11.5px 'Instrument Sans'">total XP</span></div>
+</div>
+<div style="height:8px; border-radius:4px; background:{{ K.onBrandTrack }}; overflow:hidden"><div style="height:100%; width:{{ lvl.pct }}; background:{{ K.gold2 }}; border-radius:4px; transition:width .5s"></div></div>
+</div>
+
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:14px">
+<div style="display:flex; align-items:baseline; justify-content:space-between"><span style="font:500 20px 'Newsreader', serif">This week</span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">compared with last week</span></div>
+<div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px">
+<sc-for list="{{ wk.stats }}" as="s" hint-placeholder-count="3">
+<div style="display:flex; flex-direction:column; gap:2px"><span style="font:500 26px/1.1 'Newsreader', serif">{{ s.v }}</span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">{{ s.l }}</span><span style="font:600 12px 'Instrument Sans'; color:{{ s.dc }}">{{ s.d }}</span></div>
+</sc-for>
+</div>
+<div style="position:relative; height:104px; display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:8px">
+<div style="position:absolute; left:0; right:0; bottom:{{ wk.goalB }}; border-top:1.5px dashed {{ K.gold }}; pointer-events:none"></div>
+<sc-for list="{{ chart }}" as="c" hint-placeholder-count="7">
+<div style="height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px; border-radius:10px; background:{{ c.colBg }}">
+<sc-if value="{{ c.frozen }}" hint-placeholder-val="{{ false }}"><span style="color:{{ K.ice }}; padding-bottom:10px; display:flex"><svg width="18" height="18" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5L12 6l2.5-1.5M9.5 19.5L12 18l2.5 1.5"></path></svg></span></sc-if>
+<span style="font:600 11px 'Instrument Sans'; color:{{ K.muted }}">{{ c.v }}</span>
+<div style="width:100%; height:{{ c.h }}; background:{{ c.bg }}; border-radius:7px 7px 3px 3px; transition:height .4s"></div>
+</div>
+</sc-for>
+</div>
+<div style="display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:8px; margin-top:-6px">
+<sc-for list="{{ chart }}" as="c" hint-placeholder-count="7"><span style="text-align:center; font:600 11px 'Instrument Sans'; color:{{ c.lc }}">{{ c.d }}</span></sc-for>
+</div>
+<div style="display:flex; gap:16px; font:500 11.5px 'Instrument Sans'; color:{{ K.muted }}"><span style="display:flex; align-items:center; gap:6px"><span style="width:14px; border-top:1.5px dashed {{ K.gold }}"></span>Daily goal</span><span style="display:flex; align-items:center; gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:{{ K.ice }}; stroke-width:2; stroke-linecap:round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"></path></svg>Freeze used</span></div>
+</div>
+
+<div style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px">
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px; display:flex; flex-direction:column; align-items:center; gap:8px">
+<div style="position:relative; width:84px; height:84px">
+<svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" style="fill:none; stroke:{{ K.track }}; stroke-width:8"></circle><circle cx="42" cy="42" r="34" transform="rotate(-90 42 42)" style="fill:none; stroke:{{ K.brand }}; stroke-width:8; stroke-linecap:round; stroke-dasharray:{{ goal.bigDash }}; transition:stroke-dasharray .5s"></circle></svg>
+<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font:500 22px 'Newsreader', serif">{{ goal.label }}</div>
+</div>
+<span style="font:600 13.5px 'Instrument Sans'">Pages today</span>
+<span style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}; text-align:center">{{ goal.sub }}</span>
+</div>
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:10px">
+<div style="display:flex; align-items:center; gap:6px; color:{{ K.gold }}"><svg width="28" height="28" viewBox="0 0 24 24" style="fill:currentColor"><path d="M12 3.5c.6 3.2 4.5 5 4.5 9.2a4.5 4.5 0 0 1-9 0c0-2.2 1.1-3.6 2.3-4.6.1 1.6.9 2.6 2.1 2.9-.9-2.6-.5-5.1.1-7.5z"></path></svg><span style="font:500 30px/1 'Newsreader', serif; color:{{ K.ink }}">{{ streak }}</span></div>
+<span style="font:600 13.5px 'Instrument Sans'">Day streak</span>
+<div style="display:flex; align-items:center; gap:6px; padding:8px 10px; border-radius:12px; background:{{ K.iceSoft }}; color:{{ K.ice }}"><svg width="16" height="16" viewBox="0 0 24 24" style="flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5L12 6l2.5-1.5M9.5 19.5L12 18l2.5 1.5"></path></svg><span style="font:600 12.5px/1.2 'Instrument Sans'">{{ freezeLabel }}</span></div>
+<span style="font:400 11.5px/1.4 'Instrument Sans'; color:{{ K.muted }}">A freeze covers a missed day. Earn one with every 7-day streak.</span>
+</div>
+</div>
+
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:12px">
+<div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px"><span style="font:500 20px 'Newsreader', serif">Recognition</span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">Weighted by word counts</span></div>
+<div style="display:flex; align-items:center; gap:14px"><span style="font:500 44px/1 'Newsreader', serif; color:{{ K.knownInk }}">{{ rec.pct }}</span><span style="font:400 13px/1.4 'Instrument Sans'; color:{{ K.muted }}; text-wrap:pretty">of all words in the Quran, counting how often each word you know appears</span></div>
+<div style="height:8px; border-radius:4px; background:{{ K.track }}; overflow:hidden"><div style="height:100%; width:{{ rec.bar }}; background:{{ K.knownInk }}; border-radius:4px; transition:width .5s"></div></div>
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}; margin-top:4px">Learn next · most frequent</span>
+<div style="display:flex; flex-wrap:wrap; gap:8px">
+<sc-for list="{{ rec.next }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.go }}" style="display:flex; align-items:center; gap:8px; height:42px; padding:0 14px; border-radius:21px; border:1px solid {{ K.line }}; background:{{ K.bg }}; color:{{ K.ink }}; cursor:pointer"><span style="font:400 22px/1 'Scheherazade New', serif">{{ w.ar }}</span><span style="font:600 11.5px 'Instrument Sans'; color:{{ K.muted }}">{{ w.c }}×</span></button></sc-for>
+</div>
+</div>
+
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:12px">
+<div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px"><span style="font:500 20px 'Newsreader', serif">Quran map</span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">{{ mapSum }}</span></div>
+<span style="font:400 12.5px/1.4 'Instrument Sans'; color:{{ K.muted }}; margin-top:-6px">Tap a juz to see its pages and duas.</span>
+<div style="display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:6px">
+<sc-for list="{{ qmap }}" as="j" hint-placeholder-count="30">
+<button onClick="{{ j.go }}" aria-label="Juz {{ j.n }}" style="position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:3px; min-height:64px; padding:7px 8px 8px; box-sizing:border-box; border-radius:12px; border:0; background:{{ j.bg }}; box-shadow:inset 0 0 0 1.5px {{ j.bd }}; color:{{ j.fg }}; cursor:pointer; text-align:left; overflow:hidden; transition:background .2s">
+<span style="font:600 15px/1 'Instrument Sans'">{{ j.n }}</span>
+<span dir="rtl" style="align-self:stretch; text-align:right; font:400 13px/1.35 'Scheherazade New', serif; color:{{ j.sub }}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ j.name }}</span>
+<span style="align-self:stretch; height:4px; margin-top:auto; border-radius:2px; background:{{ j.track }}; overflow:hidden"><span style="display:block; height:100%; width:{{ j.pct }}; background:{{ j.bar }}"></span></span>
+<sc-if value="{{ j.hasDua }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; top:6px; right:6px; display:flex; align-items:center; gap:2px; height:16px; padding:0 5px; border-radius:8px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}; font:700 10px/1 'Instrument Sans'"><svg width="9" height="9" viewBox="0 0 24 24" style="fill:currentColor"><path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"></path></svg>{{ j.dc }}</span></sc-if>
+</button>
+</sc-for>
+</div>
+<div style="background:{{ K.bg }}; border-radius:16px; padding:14px; display:flex; flex-direction:column; gap:12px">
+<div style="display:flex; align-items:flex-start; gap:10px">
+<div style="flex:1; display:flex; flex-direction:column; gap:2px"><span style="font:500 20px/1.2 'Newsreader', serif">Juz {{ mj.n }}</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ mj.sub }}</span></div>
+<span dir="rtl" style="font:400 24px/1.3 'Scheherazade New', serif; color:{{ K.brand }}">{{ mj.name }}</span>
+</div>
+<div style="display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:5px">
+<sc-for list="{{ mj.pages }}" as="p" hint-placeholder-count="21"><button onClick="{{ p.go }}" style="height:34px; border-radius:8px; border:0; background:{{ p.bg }}; color:{{ p.fg }}; box-shadow:inset 0 0 0 1.5px {{ p.bd }}; font:600 11.5px 'Instrument Sans'; cursor:pointer">{{ p.n }}</button></sc-for>
+</div>
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}; margin-top:2px">{{ mj.duaHead }}</span>
+<sc-for list="{{ mj.duas }}" as="d" hint-placeholder-count="1"><button onClick="{{ d.open }}" style="display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:14px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; cursor:pointer; text-align:left">
+<span style="width:34px; height:34px; flex:none; border-radius:17px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}; display:flex; align-items:center; justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linejoin:round"><path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"></path></svg></span>
+<span style="flex:1; min-width:0; display:flex; flex-direction:column; gap:1px"><span style="font:600 13.5px 'Instrument Sans'">{{ d.title }}</span><span style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}">{{ d.meta }}{{ d.memLabel }}</span></span>
+<svg width="16" height="16" viewBox="0 0 24 24" style="flex:none; fill:none; stroke:{{ K.muted }}; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg>
+</button></sc-for>
+<sc-if value="{{ mj.noDuas }}" hint-placeholder-val="{{ false }}"><span style="font:400 13px/1.4 'Instrument Sans'; color:{{ K.muted }}">No Qur’anic duas in this juz yet.</span></sc-if>
+<button onClick="{{ mj.open }}" style="height:44px; border-radius:22px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 14px 'Instrument Sans'; cursor:pointer">Read Juz {{ mj.n }}</button>
+</div>
+<div style="display:flex; gap:14px; font:500 11.5px 'Instrument Sans'; color:{{ K.muted }}"><span style="display:flex; align-items:center; gap:6px"><span style="width:14px; height:4px; border-radius:2px; background:{{ K.brand }}"></span>Pages read</span><span style="display:flex; align-items:center; gap:6px"><span style="width:10px; height:10px; border-radius:3px; box-shadow:inset 0 0 0 1.5px {{ K.gold }}"></span>You are here</span><span style="display:flex; align-items:center; gap:4px"><span style="width:10px; height:10px; border-radius:5px; background:{{ K.goldSoft }}; box-shadow:inset 0 0 0 1px {{ K.gold }}"></span>Duas</span></div>
+</div>
+
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:6px 16px">
+<sc-for list="{{ totals }}" as="s" hint-placeholder-count="3">
+<div style="display:flex; flex-direction:column; gap:8px; padding:12px 0; border-bottom:1px solid {{ s.bd }}">
+<div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px"><span style="font:500 14px 'Instrument Sans'; min-width:0">{{ s.label }}</span><span style="flex:none; white-space:nowrap; font:400 13px 'Instrument Sans'; color:{{ K.muted }}"><span style="font:600 16px 'Instrument Sans'; color:{{ K.ink }}">{{ s.v }}</span> {{ s.of }}</span></div>
+<div style="height:6px; border-radius:3px; background:{{ K.track }}; overflow:hidden"><div style="height:100%; width:{{ s.pct }}; background:{{ K.brand }}; border-radius:3px"></div></div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex; align-items:baseline; justify-content:space-between; padding:8px 4px 0"><span style="font:500 20px 'Newsreader', serif">Badges</span><span style="font:500 13px 'Instrument Sans'; color:{{ K.muted }}">{{ badgeCount }}</span></div>
+<div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px">
+<sc-for list="{{ badges }}" as="b" hint-placeholder-count="6">
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:6px; opacity:{{ b.op }}">
+<div style="width:52px; height:52px; border-radius:26px; background:{{ b.bg }}; box-shadow:inset 0 0 0 2px {{ b.bd }}; display:flex; align-items:center; justify-content:center; font:700 22px/1 'Scheherazade New', serif; color:{{ b.fg }}">{{ b.g }}</div>
+<span style="font:600 12.5px/1.2 'Instrument Sans'; text-align:center">{{ b.name }}</span>
+<span style="font:400 11.5px/1.2 'Instrument Sans'; color:{{ K.muted }}; text-align:center">{{ b.sub }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:4px 8px; margin-top:8px">
+<button onClick="{{ resetLearned }}" style="flex-basis:100%; height:44px; border-radius:22px; border:1px solid #B3261E; background:{{ resetBg }}; color:{{ resetFg }}; font:600 13.5px 'Instrument Sans'; cursor:pointer; transition:background .2s">{{ resetLabel }}</button>
+<button onClick="{{ previewLu }}" style="background:transparent; border:0; padding:10px 6px; color:{{ K.muted }}; font:500 12.5px 'Instrument Sans'; cursor:pointer; text-decoration:underline">Preview level-up</button>
+<button onClick="{{ replayOb }}" style="background:transparent; border:0; padding:10px 6px; color:{{ K.muted }}; font:500 12.5px 'Instrument Sans'; cursor:pointer; text-decoration:underline">Replay onboarding</button>
+<button onClick="{{ resetDemo }}" style="background:transparent; border:0; padding:10px 6px; color:{{ K.muted }}; font:500 12.5px 'Instrument Sans'; cursor:pointer; text-decoration:underline">Reset demo data</button>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isLearn }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Learn" style="position:absolute; inset:0 0 64px 0; z-index:10; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 6px; min-height:56px">
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<span style="flex:1; font:600 17px 'Instrument Sans'">Learn</span>
+<button onClick="{{ goMushaf }}" aria-label="Back to mushaf" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg></button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto">
+<div style="padding:4px 20px 32px; display:flex; flex-direction:column; gap:20px">
+<div style="display:flex; flex-direction:column; gap:4px"><span style="font:500 28px/1.15 'Newsreader', serif">Muallim-ul-Quran</span><span style="font:400 14px 'Instrument Sans'; color:{{ K.muted }}">{{ learnSum }}</span></div>
+<div style="position:relative; display:flex; flex-direction:column; gap:14px">
+<div style="position:absolute; left:27px; top:28px; bottom:28px; width:2px; background:{{ K.line }}"></div>
+<sc-for list="{{ units }}" as="u" hint-placeholder-count="7">
+<button onClick="{{ u.open }}" style="position:relative; display:flex; align-items:center; gap:14px; background:transparent; border:0; padding:0; text-align:left; color:inherit; cursor:pointer">
+<span style="width:56px; height:56px; flex:none; border-radius:28px; background:{{ u.nodeBg }}; color:{{ u.nodeFg }}; box-shadow:0 0 0 4px {{ K.bg }}, inset 0 0 0 2px {{ u.nodeBd }}; display:flex; align-items:center; justify-content:center; font:500 22px 'Newsreader', serif">{{ u.n }}</span>
+<span style="flex:1; min-width:0; background:{{ u.cardBg }}; border:1px solid {{ u.cardBd }}; border-radius:18px; padding:12px 14px; display:flex; flex-direction:column; gap:8px">
+<span style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 14.5px/1.25 'Instrument Sans'">{{ u.title }}</span><span style="font:600 12px 'Instrument Sans'; color:{{ K.muted }}; white-space:nowrap">{{ u.k }}/{{ u.total }}</span></span>
+<span style="height:5px; border-radius:3px; background:{{ K.track }}; overflow:hidden; display:block"><span style="display:block; height:100%; width:{{ u.pct }}; background:{{ K.brand }}; border-radius:3px"></span></span>
+<span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">Qawaid: {{ u.ruleTitle }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isUnit }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Unit" style="position:absolute; inset:0 0 64px 0; z-index:11; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 6px; min-height:56px">
+<button onClick="{{ goLearn }}" aria-label="Back" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+<span style="flex:1; font:600 17px 'Instrument Sans'">Unit {{ U.n }}</span>
+</div>
+<div style="padding:0 20px 14px; display:flex; flex-direction:column; gap:10px">
+<span style="font:500 26px/1.15 'Newsreader', serif">{{ U.title }}</span>
+<div style="display:flex; align-items:center; gap:10px"><div style="flex:1; height:6px; border-radius:3px; background:{{ K.track }}; overflow:hidden"><div style="height:100%; width:{{ U.pct }}; background:{{ K.brand }}; border-radius:3px; transition:width .4s"></div></div><span style="font:500 13px 'Instrument Sans'; color:{{ K.muted }}">{{ U.k }} of {{ U.total }} known</span></div>
+<div style="display:grid; grid-template-columns:1fr 1fr; padding:4px; border-radius:22px; background:{{ K.surf2 }}; margin-top:4px">
+<button onClick="{{ unitWords }}" style="height:36px; border:0; border-radius:18px; background:{{ useg.words.bg }}; color:{{ useg.words.fg }}; box-shadow:{{ useg.words.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Words</button>
+<button onClick="{{ unitRules }}" style="height:36px; border:0; border-radius:18px; background:{{ useg.rules.bg }}; color:{{ useg.rules.fg }}; box-shadow:{{ useg.rules.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Qawaid</button>
+</div>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto">
+<sc-if value="{{ isUnitWords }}" hint-placeholder-val="{{ true }}">
+<div style="padding:0 16px 32px; display:flex; flex-direction:column; gap:8px">
+<sc-for list="{{ U.words }}" as="w" hint-placeholder-count="8">
+<button onClick="{{ w.toggle }}" style="display:flex; align-items:center; gap:14px; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:16px; padding:10px 16px 10px 12px; color:inherit; cursor:pointer; text-align:right">
+<span style="width:28px; height:28px; flex:none; border-radius:14px; background:{{ w.ckBg }}; box-shadow:inset 0 0 0 2px {{ w.ckBd }}; color:{{ K.onBrand }}; display:flex; align-items:center; justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; opacity:{{ w.ckOp }}"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+<span style="flex:1; min-width:0; display:flex; flex-direction:column; align-items:flex-end; gap:0">
+<span dir="rtl" style="font:400 28px/1.5 'Scheherazade New', serif">{{ w.ar }}</span>
+<span dir="rtl" style="font:400 14px/2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}">{{ w.ur }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ isUnitRules }}" hint-placeholder-val="{{ false }}">
+<div style="padding:0 16px 32px; display:flex; flex-direction:column; gap:12px">
+<sc-for list="{{ U.rules }}" as="r" hint-placeholder-count="3">
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px 18px; display:flex; flex-direction:column; gap:10px">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:10px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Rule {{ r.order }}</span><span dir="rtl" style="font:500 20px/1.9 'Noto Nastaliq Urdu', 'Scheherazade New', serif; color:{{ K.brand }}; text-align:right">{{ r.title }}</span></div>
+<div dir="rtl" style="font:400 15px/2.3 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.definition }}</div>
+<sc-if value="{{ r.hasEx }}" hint-placeholder-val="{{ false }}"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Examples</span></sc-if>
+<sc-for list="{{ r.examples }}" as="e"><div style="display:flex; flex-direction:column; align-items:flex-end; padding:8px 12px; border-radius:14px; background:{{ K.bg }}; color:{{ K.ink }}">
+<div dir="rtl" style="display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; column-gap:2px; font:400 22px/1.7 'Scheherazade New', serif"><sc-for list="{{ e.exTokens }}" as="et"><sc-if value="{{ et.hasLk }}" hint-placeholder-val="{{ true }}"><span onClick="{{ et.onTap }}" style="cursor:pointer; padding:0 2px; border-radius:4px; background:{{ et.bg }}; color:{{ et.fg }}">{{ et.ar }}</span></sc-if><sc-if value="{{ et.noLk }}" hint-placeholder-val="{{ false }}"><span style="padding:0 2px; color:{{ K.ink }}">{{ et.ar }}</span></sc-if></sc-for></div>
+<sc-if value="{{ e.hasUr }}" hint-placeholder-val="{{ false }}"><span dir="rtl" style="font:400 13.5px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}">{{ e.ur }}</span></sc-if>
+<button onClick="{{ e.find }}" style="align-self:flex-start; height:28px; padding:0 10px; border-radius:14px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.brand }}; font:600 11.5px 'Instrument Sans'; cursor:pointer">Find in the Quran ›</button>
+</div></sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDuas }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Duas" style="position:absolute; inset:0 0 64px 0; z-index:10; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 6px; min-height:56px">
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<span style="flex:1; font:600 17px 'Instrument Sans'">Duas</span>
+<button onClick="{{ goMushaf }}" aria-label="Back to mushaf" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg></button>
+</div>
+<div style="padding:0 20px 14px; display:flex; flex-direction:column; gap:10px">
+<div style="display:flex; align-items:center; gap:10px"><div style="flex:1; height:6px; border-radius:3px; background:{{ K.track }}; overflow:hidden"><div style="height:100%; width:{{ duaPct }}; background:{{ K.brand }}; border-radius:3px; transition:width .4s"></div></div><span style="font:500 13px 'Instrument Sans'; color:{{ K.muted }}">{{ duaSum }}</span></div>
+<div style="display:grid; grid-template-columns:1fr 1fr; padding:4px; border-radius:22px; background:{{ K.surf2 }}">
+<button onClick="{{ duaQuranic }}" style="height:36px; border:0; border-radius:18px; background:{{ dseg.q.bg }}; color:{{ dseg.q.fg }}; box-shadow:{{ dseg.q.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Qur’anic</button>
+<button onClick="{{ duaMasnoon }}" style="height:36px; border:0; border-radius:18px; background:{{ dseg.m.bg }}; color:{{ dseg.m.fg }}; box-shadow:{{ dseg.m.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Daily masnoon</button>
+</div>
+<sc-if value="{{ isQuranicTab }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex; gap:8px; overflow-x:auto; margin:0 -20px; padding:2px 20px 4px; scrollbar-width:none">
+<sc-for list="{{ duaChips }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.pick }}" style="flex:none; display:flex; align-items:center; gap:6px; height:36px; padding:0 8px 0 14px; border-radius:18px; border:1px solid {{ c.bd }}; background:{{ c.bg }}; color:{{ c.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer; white-space:nowrap">{{ c.label }}<span style="min-width:20px; height:20px; padding:0 5px; box-sizing:border-box; border-radius:10px; background:{{ K.surf2 }}; color:{{ K.ink }}; font:700 11px/20px 'Instrument Sans'; text-align:center">{{ c.n }}</span></button></sc-for>
+</div>
+</sc-if>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto">
+<div style="padding:0 16px 32px; display:flex; flex-direction:column; gap:12px">
+<sc-for list="{{ duaList }}" as="d" hint-placeholder-count="4">
+<sc-if value="{{ d.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; padding:8px 4px 0"><span style="font:500 18px 'Newsreader', serif">{{ d.headLabel }}</span><span dir="rtl" style="font:400 19px 'Scheherazade New', serif; color:{{ K.muted }}">{{ d.headAr }}</span></div></sc-if>
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px 18px; display:flex; flex-direction:column; gap:10px">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 14.5px 'Instrument Sans'">{{ d.title }}</span><span style="font:600 11.5px 'Instrument Sans'; padding:4px 8px; border-radius:10px; background:{{ K.surf2 }}; color:{{ K.muted }}; white-space:nowrap">{{ d.meta }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; column-gap:2px; font:400 25px/1.85 'Scheherazade New', serif"><sc-for list="{{ d.listToks }}" as="lt"><sc-if value="{{ lt.hasOnTap }}" hint-placeholder-val="{{ true }}"><span onClick="{{ lt.onTap }}" style="cursor:pointer; padding:0 2px; border-radius:4px; background:{{ lt.bg }}; color:{{ lt.fg }}">{{ lt.ar }}</span></sc-if><sc-if value="{{ lt.hasOnTap }}" hint-placeholder-val="{{ false }}"><span style="padding:0 2px; background:{{ lt.bg }}; color:{{ lt.fg }}">{{ lt.ar }}</span></sc-if></sc-for></div>
+<div dir="rtl" style="font:400 15px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ d.ur }}</div>
+<div style="display:flex; gap:8px">
+<button onClick="{{ d.toggle }}" style="flex:1; height:42px; border-radius:21px; border:0; background:{{ d.btnBg }}; color:{{ d.btnFg }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">{{ d.btnLabel }}</button>
+<sc-if value="{{ d.hasPage }}" hint-placeholder-val="{{ false }}"><button onClick="{{ d.viewInMushaf }}" style="height:42px; padding:0 14px; border-radius:21px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 13px 'Instrument Sans'; cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg>p. {{ d.duaPage }}</button></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isBookmarks }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Bookmarks" style="position:absolute; inset:0 0 64px 0; z-index:10; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 6px; min-height:56px">
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<span style="flex:1; font:600 17px 'Instrument Sans'">Bookmarks</span>
+<button onClick="{{ goMushaf }}" aria-label="Back to mushaf" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg></button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto; padding:4px 16px 32px; display:flex; flex-direction:column; gap:8px">
+<sc-for list="{{ bmList }}" as="b" hint-placeholder-count="1">
+<div style="display:flex; align-items:center; gap:4px; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:4px 4px 4px 0">
+<button onClick="{{ b.open }}" style="flex:1; min-width:0; display:flex; align-items:center; gap:14px; background:transparent; border:0; padding:10px 14px; color:inherit; cursor:pointer; text-align:left">
+<span style="width:40px; height:40px; flex:none; border-radius:12px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" style="fill:currentColor"><path d="M7 3.5h10a1 1 0 0 1 1 1V20.5l-6-4-6 4V4.5a1 1 0 0 1 1-1z"></path></svg></span>
+<span style="display:flex; flex-direction:column; gap:2px"><span style="font:600 14.5px 'Instrument Sans'">{{ b.title }}</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ b.sub }}</span></span>
+</button>
+<button onClick="{{ b.remove }}" aria-label="Remove bookmark" style="width:44px; height:44px; border:0; background:transparent; color:{{ K.muted }}; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+</sc-for>
+<sc-if value="{{ noBookmarks }}" hint-placeholder-val="{{ false }}">
+<div style="padding:48px 24px; text-align:center; font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}">No bookmarks yet. Tap the bookmark icon on any mushaf page to save it here.</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isFavourites }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Favourites" style="position:absolute; inset:0 0 64px 0; z-index:10; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 6px; min-height:56px">
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<span style="flex:1; font:600 17px 'Instrument Sans'">Favourites</span>
+<button onClick="{{ goMushaf }}" aria-label="Back to mushaf" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg></button>
+</div>
+<div style="padding:0 16px 8px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch">
+<sc-for list="{{ favChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.pick }}" style="flex:none; display:flex; align-items:center; gap:5px; height:34px; padding:0 10px 0 12px; border-radius:17px; border:1px solid {{ c.bd }}; background:{{ c.bg }}; color:{{ c.fg }}; font:600 12.5px 'Instrument Sans'; cursor:pointer; white-space:nowrap">{{ c.label }}<span style="min-width:18px; height:18px; padding:0 4px; box-sizing:border-box; border-radius:9px; background:{{ K.surf2 }}; color:{{ K.ink }}; font:700 10px/18px 'Instrument Sans'; text-align:center">{{ c.n }}</span></button></sc-for>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto; padding:0 16px 32px; display:flex; flex-direction:column; gap:10px">
+<sc-for list="{{ favList }}" as="f" hint-placeholder-count="1">
+<div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:14px 16px 12px; display:flex; flex-direction:column; gap:10px">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px">
+<div style="display:flex; align-items:center; gap:8px">
+<span style="font:600 11.5px 'Instrument Sans'; padding:3px 10px; border-radius:10px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}">{{ f.collection }}</span>
+<sc-if value="{{ f.hasLabel }}" hint-placeholder-val="{{ false }}"><span style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}; font-style:italic">{{ f.label }}</span></sc-if>
+</div>
+<button onClick="{{ f.remove }}" aria-label="Remove favourite" style="width:36px; height:36px; border:0; background:transparent; color:{{ K.muted }}; border-radius:18px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div dir="rtl" style="font:400 24px/1.7 'Scheherazade New', serif; text-align:right; color:{{ K.ink }}">{{ f.ar }}</div>
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px">
+<span style="font:600 13px 'Instrument Sans'; color:{{ K.brand }}">{{ f.ref }}</span>
+<span style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}">{{ f.addedAt }}</span>
+</div>
+<div style="display:flex; gap:8px">
+<button onClick="{{ f.open }}" style="flex:1; height:40px; border-radius:20px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 13px 'Instrument Sans'; cursor:pointer">Open in mushaf</button>
+<button onClick="{{ f.editLabel }}" style="height:40px; padding:0 16px; border-radius:20px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 13px 'Instrument Sans'; cursor:pointer">Edit</button>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ noFavourites }}" hint-placeholder-val="{{ false }}">
+<div style="padding:48px 24px; text-align:center; font:400 14px/1.6 'Instrument Sans'; color:{{ K.muted }}">No favourites yet. Open any ayah and tap<br><svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:-2px; fill:none; stroke:currentColor; stroke-width:2; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg> to save it here.</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isWords }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="My words" style="position:absolute; inset:0 0 64px 0; z-index:10; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 6px; min-height:56px">
+<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<span style="flex:1; font:600 17px 'Instrument Sans'">My words</span>
+<button onClick="{{ goMushaf }}" aria-label="Back to mushaf" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg></button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto">
+<div style="padding:4px 16px 32px; display:flex; flex-direction:column; gap:10px">
+<div style="background:{{ K.brand }}; color:{{ K.onBrand }}; border-radius:24px; padding:20px; display:flex; flex-direction:column; gap:14px; margin-bottom:8px">
+<div style="display:flex; flex-direction:column; gap:4px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase">Daily review</span><span style="font:500 26px/1.15 'Newsreader', serif">{{ rvInfo.title }}</span><span style="font:400 13.5px/1.45 'Instrument Sans'">Flip each card. +5 XP for every word you know, +20 for finishing.</span></div>
+<button onClick="{{ startReview }}" style="align-self:flex-start; height:44px; padding:0 22px; border-radius:22px; border:0; background:{{ K.onBrand }}; color:{{ K.brand }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ rvInfo.cta }}</button>
+</div>
+<div style="display:flex; align-items:baseline; justify-content:space-between; padding:0 4px"><span style="font:500 20px 'Newsreader', serif">Saved words</span><span style="font:500 13px 'Instrument Sans'; color:{{ K.muted }}">{{ savedCount }}</span></div>
+<span style="font:400 12.5px/1.45 'Instrument Sans'; color:{{ K.muted }}; padding:0 4px">Words you tap while reading are saved here automatically. Tap one to see it on its page.</span>
+<sc-for list="{{ savedList }}" as="w" hint-placeholder-count="4">
+<div style="display:flex; align-items:center; gap:2px; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:4px 4px 4px 0">
+<button onClick="{{ w.open }}" style="flex:1; min-width:0; display:flex; align-items:center; gap:12px; background:transparent; border:0; padding:8px 12px 8px 14px; color:inherit; cursor:pointer; text-align:left">
+<span style="display:flex; flex-direction:column; align-items:flex-start; gap:6px"><span style="font:600 12px 'Instrument Sans'; padding:3px 8px; border-radius:8px; background:{{ w.tagBg }}; color:{{ w.tagFg }}">{{ w.tag }}</span><span style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}; white-space:nowrap">{{ w.ref }}</span></span>
+<span style="flex:1; min-width:0; display:flex; flex-direction:column; align-items:flex-end"><span dir="rtl" style="font:400 26px/1.45 'Scheherazade New', serif">{{ w.ar }}</span><span dir="rtl" style="font:400 13.5px/2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}">{{ w.ur }}</span></span>
+</button>
+<button onClick="{{ w.remove }}" aria-label="Remove word" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:{{ K.muted }}; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+</sc-for>
+<sc-if value="{{ noSaved }}" hint-placeholder-val="{{ false }}"><div style="padding:40px 24px; text-align:center; font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}">No saved words yet. Tap any word while reading and it will appear here.</div></sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Review" style="position:absolute; inset:0; z-index:25; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:10px; padding:4px 16px 4px 6px; min-height:56px">
+<button onClick="{{ closeReview }}" aria-label="Close review" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<div style="flex:1; height:8px; border-radius:4px; background:{{ K.track }}; overflow:hidden"><div style="height:100%; width:{{ rvc.pct }}; background:{{ K.brand }}; border-radius:4px; transition:width .35s"></div></div>
+<span style="display:flex; align-items:center; gap:4px; font:700 13px 'Instrument Sans'; color:{{ K.gold }}"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:currentColor"><path d="M12 4l2.3 4.9 5.2.6-3.9 3.6 1.1 5.2L12 15.6l-4.7 2.7 1.1-5.2-3.9-3.6 5.2-.6z"></path></svg>{{ rvc.xp }}</span>
+</div>
+<sc-if value="{{ rvActive }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 24px; perspective:1200px">
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}; margin-bottom:14px">Card {{ rvc.n }} of {{ rvc.total }}</span>
+<div onClick="{{ flip }}" style="position:relative; width:100%; max-width:330px; height:380px; transform-style:preserve-3d; transform:rotateY({{ rvc.rot }}deg); transition:{{ rvc.tr }}; cursor:pointer">
+<div style="position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:28px; box-shadow:0 12px 32px rgba(0,0,0,0.08); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:24px">
+<span dir="rtl" style="font:400 64px/1.5 'Scheherazade New', serif; color:{{ K.ink }}">{{ rvc.ar }}</span>
+<span style="font:500 13px 'Instrument Sans'; color:{{ K.muted }}">{{ rvc.ref }}</span>
+<span style="position:absolute; bottom:22px; font:500 12.5px 'Instrument Sans'; color:{{ K.muted }}">Tap to reveal the meaning</span>
+</div>
+<div style="position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); background:{{ K.brand }}; color:{{ K.onBrand }}; border-radius:28px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:24px">
+<span dir="rtl" style="font:400 36px/1.5 'Scheherazade New', serif">{{ rvc.ar }}</span>
+<span dir="rtl" style="font:400 28px/2.2 'Noto Nastaliq Urdu', serif; text-align:center">{{ rvc.ur }}</span>
+<span style="font:500 13px 'Instrument Sans'">{{ rvc.ref }}</span>
+</div>
+</div>
+</div>
+<div style="padding:12px 20px 20px">
+<sc-if value="{{ rvc.front }}" hint-placeholder-val="{{ true }}"><button onClick="{{ flip }}" style="width:100%; height:52px; border-radius:26px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:600 15px 'Instrument Sans'; cursor:pointer">Show meaning</button></sc-if>
+<sc-if value="{{ rvc.flipped }}" hint-placeholder-val="{{ false }}"><div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px">
+<button onClick="{{ stillLearning }}" style="height:52px; border-radius:26px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:600 14.5px 'Instrument Sans'; cursor:pointer">Still learning</button>
+<button onClick="{{ knewIt }}" style="height:52px; border-radius:26px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 14.5px 'Instrument Sans'; cursor:pointer">I knew it · +5</button>
+</div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ rvDone }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; text-align:center">
+<div style="width:96px; height:96px; border-radius:48px; background:{{ K.goldSoft }}; color:{{ K.gold }}; display:flex; align-items:center; justify-content:center"><svg width="48" height="48" viewBox="0 0 24 24" style="fill:currentColor"><path d="M12 4l2.3 4.9 5.2.6-3.9 3.6 1.1 5.2L12 15.6l-4.7 2.7 1.1-5.2-3.9-3.6 5.2-.6z"></path></svg></div>
+<span style="font:500 30px/1.2 'Newsreader', serif">Review complete</span>
+<span style="font:400 14.5px/1.5 'Instrument Sans'; color:{{ K.muted }}">{{ rvc.knew }} known · {{ rvc.learning }} still learning</span>
+<span style="font:700 18px 'Instrument Sans'; color:{{ K.gold }}">+{{ rvc.xp }} XP</span>
+<button onClick="{{ closeReview }}" style="margin-top:8px; width:100%; max-width:320px; height:52px; border-radius:26px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 15px 'Instrument Sans'; cursor:pointer">Back to My words</button>
+<button onClick="{{ goMushaf }}" style="height:44px; padding:0 16px; border:0; background:transparent; color:{{ K.brand }}; font:600 14px 'Instrument Sans'; cursor:pointer">Continue reading</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isViewAll }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="View all" style="position:absolute; inset:0 0 64px 0; z-index:13; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:4px 10px 4px 6px; min-height:56px; border-bottom:1px solid {{ K.line }}">
+<button onClick="{{ backToSearch }}" aria-label="Back to results" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+<div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; padding:0 4px"><span style="font:600 16px/1.3 'Instrument Sans', 'Scheherazade New', 'Noto Nastaliq Urdu'">{{ vaTitle }}</span><span style="font:400 12.5px/1.3 'Instrument Sans'; color:{{ K.muted }}">{{ vaSub }}</span></div>
+<button onClick="{{ toggleVaTr }}" style="height:36px; flex:none; padding:0 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">{{ vaTrLabel }}</button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto; padding:12px 12px 20px">
+<div style="background:{{ K.page }}; border:1px solid {{ K.frame }}; border-radius:12px; padding:5px">
+<div style="border:1px solid {{ K.frame }}; border-radius:8px; padding:14px 10px 22px">
+<sc-for list="{{ vaBlocks }}" as="b" hint-placeholder-count="3">
+<sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:center; margin:6px 0 2px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ b.sAr }}</span></div></sc-if>
+<div style="display:flex; flex-direction:column; gap:6px; padding:12px 4px 14px; border-bottom:1px solid {{ b.bd }}">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:30px; padding:0 8px 0 12px; border-radius:15px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ b.short }} · p. {{ b.pg }}<svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button><button onClick="{{ b.wbw }}" style="height:30px; padding:0 8px; border:0; background:transparent; color:{{ K.muted }}; font:600 12px 'Instrument Sans'; cursor:pointer">Word by word</button></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.onTap }}" style="cursor:pointer; padding:0 3px; border-radius:6px; background:{{ t.bg }}; color:{{ t.fg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="padding:12px 8px 0; font:400 12.5px/1.5 'Instrument Sans'; color:{{ K.muted }}; text-align:center; text-wrap:pretty">Each ayah is shown on its own. Tap its reference to open it on its mushaf page.</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSearch }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Search" style="position:absolute; inset:0 0 64px 0; z-index:12; background:{{ K.bg }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; gap:4px; padding:6px 12px 6px 6px; min-height:60px">
+<button onClick="{{ goMushaf }}" aria-label="Back" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+<div style="flex:1; min-width:0; display:flex; align-items:center; gap:8px; height:48px; padding:0 6px 0 14px; border-radius:24px; background:{{ K.surf2 }}; color:{{ K.muted }}">
+<svg width="18" height="18" viewBox="0 0 24 24" style="flex:none; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
+<input ref="{{ searchRef }}" value="{{ q }}" onChange="{{ onQ }}" dir="auto" placeholder="Arabic phrase or Urdu word" style="flex:1; min-width:0; border:0; background:transparent; color:{{ K.ink }}; font:400 17px 'Instrument Sans', 'Scheherazade New', 'Noto Nastaliq Urdu'">
+<sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><button onClick="{{ clearQ }}" aria-label="Clear" style="width:36px; height:36px; flex:none; border:0; background:transparent; color:inherit; border-radius:18px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
+</div>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto">
+<div style="padding:8px 16px 32px; display:flex; flex-direction:column; gap:12px">
+<sc-if value="{{ noQuery }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex; flex-direction:column; gap:14px; padding:4px 4px 0">
+<span style="font:400 14px/1.55 'Instrument Sans'; color:{{ K.muted }}; text-wrap:pretty">Search Arabic words and phrases, or an Urdu meaning. Every matching ayah opens on the mushaf with the match highlighted.</span>
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Try</span>
+<div style="display:flex; flex-wrap:wrap; gap:8px">
+<sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="5">
+<button onClick="{{ s.pick }}" style="height:40px; padding:0 16px; border-radius:20px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:400 18px 'Scheherazade New', 'Noto Nastaliq Urdu', serif; cursor:pointer">{{ s.label }}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><div style="display:grid; grid-template-columns:1fr 1fr; padding:4px; border-radius:20px; background:{{ K.surf2 }}"><button onClick="{{ setWhole }}" style="height:32px; border:0; border-radius:16px; background:{{ segW.bg }}; color:{{ segW.fg }}; box-shadow:{{ segW.sh }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">Whole words</button><button onClick="{{ setAny }}" style="height:32px; border:0; border-radius:16px; background:{{ segA.bg }}; color:{{ segA.fg }}; box-shadow:{{ segA.sh }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">Any part of a word</button></div></sc-if>
+<sc-if value="{{ hasRes }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px"><span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">{{ resCount }}</span><button onClick="{{ toggleTrAll }}" style="height:32px; padding:0 12px; border-radius:16px; border:0; background:{{ K.surf2 }}; color:{{ K.ink }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ trAllLabel }}</button></div>
+<button onClick="{{ openViewAll }}" style="display:flex; align-items:center; gap:12px; min-height:56px; padding:8px 12px 8px 14px; border-radius:18px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; cursor:pointer; text-align:left">
+<svg width="22" height="22" viewBox="0 0 24 24" style="flex:none; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round; stroke-linecap:round"><path d="M6 3.5h12a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1zM8.5 8h7M8.5 12h7M8.5 16h4"></path></svg>
+<span style="flex:1; display:flex; flex-direction:column; gap:1px"><span style="font:600 14.5px 'Instrument Sans'">View all on one page</span><span style="font:500 12px 'Instrument Sans'">Every matching ayah together, mushaf-style</span></span>
+<svg width="18" height="18" viewBox="0 0 24 24" style="flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+<sc-for list="{{ results }}" as="r" hint-placeholder-count="3">
+<div style="width:100%; box-sizing:border-box; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:14px 16px 10px; display:flex; flex-direction:column; gap:8px; color:{{ K.ink }}">
+<span style="display:flex; align-items:center; justify-content:space-between; gap:8px; font:500 12.5px 'Instrument Sans'"><span><span style="font-weight:600">{{ r.ref }}</span><span style="color:{{ K.muted }}"> · {{ r.page }}</span></span></span>
+<span dir="rtl" style="display:flex; flex-wrap:wrap; gap:2px 3px; font:400 23px/1.75 'Scheherazade New', serif">
+<sc-for list="{{ r.toks }}" as="t"><span onClick="{{ t.onTap }}" style="cursor:pointer; padding:0 3px; border-radius:5px; background:{{ t.bg }}; color:{{ t.fg }}">{{ t.ar }}</span></sc-for>
+</span>
+<span dir="rtl" style="font:400 14px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ r.meaning }}</span>
+<sc-if value="{{ r.showTr }}" hint-placeholder-val="{{ false }}"><div style="background:{{ K.bg }}; border-radius:14px; padding:10px 14px; display:flex; flex-direction:column; gap:2px"><span style="font:600 11px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Translation</span><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.tr }}</div></div></sc-if>
+<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap">
+<button onClick="{{ r.toggleTr }}" style="height:36px; padding:0 14px; border-radius:18px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">{{ r.trLabel }}</button>
+<button onClick="{{ r.wbw }}" style="height:36px; padding:0 14px; border-radius:18px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">Word by word</button>
+<button onClick="{{ r.open }}" style="margin-left:auto; height:36px; padding:0 4px 0 10px; border:0; background:transparent; color:{{ K.brand }}; font:600 13px 'Instrument Sans'; display:flex; align-items:center; gap:2px; cursor:pointer">Open<svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+</div>
+</sc-for>
+</sc-if>
+<sc-if value="{{ noRes }}" hint-placeholder-val="{{ false }}">
+<div style="padding:40px 16px; text-align:center; font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}">No matches. Try another spelling or one of the suggestions.</div>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasGTip }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeGTip }}" style="position:fixed; left:{{ gTip.vx }}px; top:{{ gTip.vy }}px; transform:{{ gTip.tf }}; width:240px; z-index:90; box-sizing:border-box; background:{{ K.tipBg }}; color:{{ K.tipFg }}; border-radius:16px; padding:12px 14px; box-shadow:0 14px 36px rgba(0,0,0,0.25); display:flex; flex-direction:column; gap:2px">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.04em; opacity:0.8">{{ gTip.ref }}</span><span dir="rtl" style="font:400 24px/1.4 'Scheherazade New', serif">{{ gTip.ar }}</span></div>
+<span style="font:600 10px 'Instrument Sans'; letter-spacing:0.06em; text-transform:uppercase; opacity:0.55; margin-top:2px">Meaning</span>
+<div dir="rtl" style="font:400 18px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; margin-top:-4px">{{ gTip.ur }}</div>
+<button onClick="{{ gTipKnow }}" style="margin-top:6px; height:38px; border-radius:19px; border:0; background:{{ gTipBtn.bg }}; color:{{ gTipBtn.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">{{ gTipBtn.label }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; left:50%; bottom:142px; transform:translateX(-50%); z-index:60; display:flex; align-items:center; gap:8px; max-width:340px; box-sizing:border-box; padding:10px 16px 10px 12px; border-radius:22px; background:{{ toast.bg }}; color:{{ toast.fg }}; box-shadow:0 10px 30px rgba(0,0,0,0.2); font:500 13px/1.3 'Instrument Sans'; white-space:nowrap">
+<sc-if value="{{ toast.xp }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" style="flex:none; fill:currentColor"><path d="M12 4l2.3 4.9 5.2.6-3.9 3.6 1.1 5.2L12 15.6l-4.7 2.7 1.1-5.2-3.9-3.6 5.2-.6z"></path></svg></sc-if>
+<span style="font-weight:700">{{ toast.main }}</span><span style="white-space:normal">{{ toast.sub }}</span>
+</div>
+</sc-if>
+
+<div onClick="{{ closeSheet }}" style="position:absolute; inset:0; z-index:30; background:{{ K.scrim }}; opacity:{{ sh.o }}; pointer-events:{{ sh.pe }}; transition:opacity .25s"></div>
+<div style="position:absolute; left:0; right:0; bottom:0; z-index:31; max-height:82%; display:flex; flex-direction:column; background:{{ K.surf }}; border-radius:26px 26px 0 0; transform:translateY({{ sh.y }}); transition:transform .32s cubic-bezier(.2,.8,.2,1); box-shadow:0 -10px 40px rgba(0,0,0,0.12)">
+<div style="display:flex; justify-content:center; padding:10px 0 4px"><span style="width:36px; height:4px; border-radius:2px; background:{{ K.line }}"></span></div>
+<sc-if value="{{ isJump }}" hint-placeholder-val="{{ false }}">
+<div style="padding:6px 20px 12px; display:flex; flex-direction:column; gap:12px">
+<span style="font:500 22px 'Newsreader', serif">Go to</span>
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; padding:4px; border-radius:22px; background:{{ K.surf2 }}">
+<button onClick="{{ jumpSurah }}" style="height:36px; border:0; border-radius:18px; background:{{ jseg.s.bg }}; color:{{ jseg.s.fg }}; box-shadow:{{ jseg.s.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Surah</button>
+<button onClick="{{ jumpJuz }}" style="height:36px; border:0; border-radius:18px; background:{{ jseg.j.bg }}; color:{{ jseg.j.fg }}; box-shadow:{{ jseg.j.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Juz</button>
+<button onClick="{{ jumpPg }}" style="height:36px; border:0; border-radius:18px; background:{{ jseg.p.bg }}; color:{{ jseg.p.fg }}; box-shadow:{{ jseg.p.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Page</button>
+</div>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto; padding:0 12px 20px">
+<sc-if value="{{ isJumpSurah }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ surahs }}" as="s" hint-placeholder-count="8">
+<button onClick="{{ s.go }}" style="width:100%; display:flex; align-items:center; gap:14px; min-height:56px; padding:6px 12px; border:0; border-radius:16px; background:{{ s.bg }}; color:inherit; cursor:pointer; text-align:left">
+<span style="width:34px; height:34px; flex:none; border-radius:10px; background:{{ K.surf2 }}; display:flex; align-items:center; justify-content:center; font:600 12.5px 'Instrument Sans'">{{ s.n }}</span>
+<span style="flex:1; display:flex; flex-direction:column; gap:1px"><span style="font:600 14.5px 'Instrument Sans'">{{ s.name }}</span><span style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}">{{ s.pg }}</span></span>
+<span dir="rtl" style="font:400 22px 'Scheherazade New', serif">{{ s.ar }}</span>
+</button>
+</sc-for>
+
+</sc-if>
+<sc-if value="{{ isJumpJuz }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:8px; padding:4px 8px">
+<sc-for list="{{ juzList }}" as="j" hint-placeholder-count="30">
+<button onClick="{{ j.go }}" style="height:52px; border:0; border-radius:14px; background:{{ j.bg }}; color:{{ j.fg }}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; cursor:pointer"><span style="font:600 15px 'Instrument Sans'">{{ j.n }}</span><span style="font:400 10.5px 'Instrument Sans'; opacity:0.8">p. {{ j.pg }}</span></button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ isJumpPage }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex; flex-direction:column; gap:12px; padding:4px 8px">
+<div style="display:flex; gap:8px">
+<input value="{{ pageInput }}" onChange="{{ onPageInput }}" inputmode="numeric" placeholder="1 – 604" style="flex:1; min-width:0; height:52px; border-radius:16px; border:1px solid {{ K.line }}; background:{{ K.bg }}; color:{{ K.ink }}; padding:0 16px; font:500 18px 'Instrument Sans'; box-sizing:border-box">
+<button onClick="{{ goPageInput }}" style="height:52px; padding:0 24px; border-radius:16px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 15px 'Instrument Sans'; cursor:pointer">Go</button>
+</div>
+
+</div>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ isAyah }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 16px 10px 20px; display:flex; align-items:center; gap:8px">
+<div style="flex:1; display:flex; flex-direction:column; gap:2px"><span style="font:500 22px/1.2 'Newsreader', serif">{{ A.ref }}</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ A.sub }}</span></div>
+<button onClick="{{ A.prev }}" aria-label="Previous ayah" style="width:44px; height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; opacity:{{ A.prevOp }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<button onClick="{{ A.next }}" aria-label="Next ayah" style="width:44px; height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; opacity:{{ A.nextOp }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto; padding:0 20px 24px; display:flex; flex-direction:column; gap:14px">
+<div dir="rtl" style="font:400 27px/1.9 'Scheherazade New', serif; text-align:right">{{ A.ar }}</div>
+<div style="background:{{ K.bg }}; border-radius:18px; padding:12px 16px; display:flex; flex-direction:column; gap:2px">
+<span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">{{ A.trKind }}</span>
+<div dir="rtl" style="font:400 18px/2.3 'Noto Nastaliq Urdu', serif; text-align:right">{{ A.tr }}</div>
+</div>
+<div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Word by word</span><span style="font:500 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ A.knownLabel }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; gap:6px">
+<sc-for list="{{ A.words }}" as="w" hint-placeholder-count="4"><span style="display:flex; flex-direction:column; align-items:center; padding:4px 10px 0; border-radius:12px; background:{{ w.bg }}; color:{{ w.fg }}"><span style="font:400 21px/1.5 'Scheherazade New', serif">{{ w.ar }}</span><span style="font:400 12px/2 'Noto Nastaliq Urdu', serif">{{ w.ur }}</span></span></sc-for>
+</div>
+<div style="display:flex; gap:8px">
+<button onClick="{{ markAyah }}" style="flex:1; height:48px; border-radius:24px; border:0; background:{{ A.markBg }}; color:{{ A.markFg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ A.markLabel }}</button>
+<button onClick="{{ A.favBtn }}" aria-label="{{ A.favAria }}" style="width:48px; height:48px; border-radius:24px; border:0; background:{{ A.favBg }}; color:{{ A.favFg }}; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:{{ A.favFill }}; stroke:{{ A.favFg }}; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></button>
+</div>
+<sc-if value="{{ A.showOpen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ A.open }}" style="height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer">Open in mushaf</button></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ isDuaSheet }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1; min-height:0; overflow-y:auto; padding:4px 20px 24px; display:flex; flex-direction:column; gap:12px">
+<div style="display:flex; align-items:center; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; padding:4px 10px; border-radius:10px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}">Qur’anic dua</span><span style="font:500 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ D.meta }}</span></div>
+<span style="font:500 22px/1.2 'Newsreader', serif">{{ D.title }}</span>
+<sc-if value="{{ hasDuaTokens }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; column-gap:2px; row-gap:0; font-size:26px; line-height:1.85; font-family:'Scheherazade New', serif; color:{{ K.ink }}"><sc-for list="{{ duaTokens }}" as="dt" hint-placeholder-count="0"><sc-if value="{{ dt.isWord }}" hint-placeholder-val="{{ true }}"><span onClick="{{ dt.onTap }}" style="cursor:pointer; padding:0 2px; border-radius:4px; background:{{ dt.bg }}; color:{{ dt.fg }}">{{ dt.ar }}</span></sc-if></sc-for></div></sc-if>
+<sc-if value="{{ noDuaTokens }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 26px/1.85 'Scheherazade New', serif; text-align:right">{{ D.ar }}</div></sc-if>
+<div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ D.ur }}</div>
+<button onClick="{{ D.toggle }}" style="height:48px; border-radius:24px; border:0; background:{{ D.btnBg }}; color:{{ D.btnFg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ D.btnLabel }}</button>
+<sc-if value="{{ D.hasPage }}" hint-placeholder-val="{{ false }}"><button onClick="{{ D.viewInMushaf }}" style="height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px"><svg width="17" height="17" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg>View in Mushaf · p. {{ D.duaPage }}</button></sc-if>
+<button onClick="{{ D.all }}" style="height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ D.allLabel }}</button>
+</div>
+</sc-if>
+<sc-if value="{{ isFavSheet }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1; min-height:0; overflow-y:auto; padding:4px 20px 24px; display:flex; flex-direction:column; gap:12px">
+<div dir="rtl" style="font:400 22px/1.7 'Scheherazade New', serif; text-align:right; color:{{ K.ink }}">{{ A.ar }}</div>
+<div style="font:600 13px 'Instrument Sans'; color:{{ K.brand }}">{{ A.ref }}</div>
+<div style="display:flex; flex-direction:column; gap:6px">
+<label style="font:600 12px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.05em; text-transform:uppercase">Label (optional)</label>
+<input value="{{ favLabel }}" onInput="{{ onFavLabel }}" placeholder="e.g. Morning reminder" maxlength="60" style="height:44px; border-radius:22px; border:1.5px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:400 14px 'Instrument Sans'; padding:0 16px; outline:none; width:100%; box-sizing:border-box">
+</div>
+<div style="display:flex; flex-direction:column; gap:8px">
+<label style="font:600 12px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.05em; text-transform:uppercase">Collection</label>
+<input value="{{ favCollection }}" onInput="{{ onFavCollection }}" placeholder="e.g. Healing, Gratitude" maxlength="30" style="height:44px; border-radius:22px; border:1.5px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:400 14px 'Instrument Sans'; padding:0 16px; outline:none; width:100%; box-sizing:border-box">
+<div style="display:flex; gap:8px; flex-wrap:wrap">
+<sc-for list="{{ favColChips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.pick }}" style="height:30px; padding:0 12px; border-radius:15px; border:1px solid {{ K.line }}; background:{{ K.surf2 }}; color:{{ K.ink }}; font:500 12.5px 'Instrument Sans'; cursor:pointer">{{ c.label }}</button></sc-for>
+</div>
+</div>
+<button onClick="{{ saveFav }}" style="height:52px; border-radius:26px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 15px 'Instrument Sans'; cursor:pointer">Save to favourites</button>
+</div>
+</sc-if>
+<sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+<div style="padding:6px 20px 28px; display:flex; flex-direction:column; gap:14px">
+<span style="font:500 22px 'Newsreader', serif">Reading</span>
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Arabic size</span>
+<div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px">
+<sc-for list="{{ sizes }}" as="z" hint-placeholder-count="3">
+<button onClick="{{ z.pick }}" style="height:84px; border-radius:16px; border:0; background:{{ K.bg }}; box-shadow:inset 0 0 0 2px {{ z.bd }}; color:{{ K.ink }}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; cursor:pointer"><span style="font-family:'Scheherazade New', serif; font-size:{{ z.px }}px; line-height:1.3">بِسْمِ</span><span style="font:500 12px 'Instrument Sans'; color:{{ K.muted }}">{{ z.label }}</span></button>
+</sc-for>
+</div>
+<button onClick="{{ togglePagePreview }}" style="display:flex; align-items:center; gap:12px; min-height:52px; padding:0; border:0; background:transparent; color:inherit; cursor:pointer; text-align:left">
+<span style="width:40px; height:40px; flex:none; border-radius:12px; background:{{ pvPreviewBg2 }}; color:{{ pvPreviewFg2 }}; display:flex; align-items:center; justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+<span style="flex:1; display:flex; flex-direction:column; gap:2px"><span style="font:600 14.5px 'Instrument Sans'">Whole page view</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">See the full page at once, like a mushaf</span></span>
+<span style="width:48px; height:28px; flex:none; border-radius:14px; background:{{ pvSw.bg }}; position:relative; transition:background .2s"><span style="position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:11px; background:{{ pvSw.knob }}; transform:translateX({{ pvSw.x }}); transition:transform .2s"></span></span>
+</button>
+<button onClick="{{ toggleTint }}" style="display:flex; align-items:center; gap:12px; min-height:52px; padding:0; border:0; background:transparent; color:inherit; cursor:pointer; text-align:left">
+<span style="flex:1; display:flex; flex-direction:column; gap:2px"><span style="font:600 14.5px 'Instrument Sans'">Tint known words</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">Known words show in <span style="color:{{ K.knownInk }}; font-weight:600">green</span> everywhere they appear</span></span>
+<span style="width:48px; height:28px; flex:none; border-radius:14px; background:{{ tintSw.bg }}; position:relative; transition:background .2s"><span style="position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:11px; background:{{ tintSw.knob }}; transform:translateX({{ tintSw.x }}); transition:transform .2s"></span></span>
+</button>
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Daily goal</span>
+<div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px">
+<sc-for list="{{ goalPills }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.pick }}" style="height:44px; border-radius:14px; border:0; background:{{ g.bg }}; color:{{ g.fg }}; box-shadow:inset 0 0 0 1px {{ g.bd }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ g.g }} pages</button></sc-for>
+</div>
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}; margin-top:6px">Appearance</span>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px">
+<button onClick="{{ setLight }}" style="height:64px; border-radius:16px; border:0; background:#FDFBF4; box-shadow:inset 0 0 0 2px {{ th.light }}; color:#18201C; font:600 14px 'Instrument Sans'; cursor:pointer">Light</button>
+<button onClick="{{ setDark }}" style="height:64px; border-radius:16px; border:0; background:#121815; box-shadow:inset 0 0 0 2px {{ th.dark }}; color:#E9E7DF; font:600 14px 'Instrument Sans'; cursor:pointer">Dark</button>
+</div>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ showSplash }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Splash" onClick="{{ skipSplash }}" style="position:absolute; inset:0; z-index:90; background:radial-gradient(circle at 50% 38%, #1E4A38 0%, #10271F 75%); color:#F5F2EA; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:28px; opacity:{{ splash.o }}; transition:opacity .5s; cursor:pointer">
+<span style="position:relative; width:76px; height:76px; flex:none; border-radius:22px; background:#1E4A38; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px rgba(227,180,92,0.35)"><svg width="76" height="76" viewBox="0 0 100 100" style="position:absolute; inset:0; fill:none; stroke:#E3B45C; stroke-width:2.6"><rect x="24" y="24" width="52" height="52" rx="3"></rect><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"></rect></svg><span dir="rtl" style="position:relative; font:700 21px/1 'Scheherazade New', serif; color:#F5F2EA; margin-top:-4px">اقرأ</span></span>
+<div style="display:flex; flex-direction:column; align-items:center; gap:4px"><span style="font:500 34px/1 'Newsreader', serif">Iqra</span><span style="font:400 13.5px 'Instrument Sans'; color:#CFE0D6">Learn the Quran, word by word</span></div>
+<div dir="rtl" style="display:flex; gap:0; margin:6px 0"><div style="width:148px; height:214px; box-sizing:border-box; background:#FDFBF4; padding:6px; border-radius:3px 10px 10px 3px; box-shadow:0 14px 30px rgba(0,0,0,0.35), inset 10px 0 12px -10px rgba(0,0,0,0.35)"><div style="height:100%; box-sizing:border-box; border:1.5px solid #C9A24E; outline:1px solid #C9A24E; outline-offset:2px; border-radius:3px; padding:9px 7px 7px; display:flex; flex-direction:column; align-items:center; gap:6px; overflow:hidden"><div style="align-self:stretch; padding:2px 0 3px; border-radius:10px; background:#1E4A38; color:#E3B45C; text-align:center; font:700 11px/1.5 'Scheherazade New', serif">سُورَةُ ٱلْفَاتِحَةِ</div><div dir="rtl" style="font:400 11px/1.95 'Scheherazade New', serif; color:#18201C; text-align:center">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ﴿١﴾ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ ﴿٢﴾ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ﴿٣﴾ مَٰلِكِ يَوْمِ ٱلدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ ﴿٦﴾ صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ ﴿٧﴾</div></div></div><div style="width:148px; height:214px; box-sizing:border-box; background:#FDFBF4; padding:6px; border-radius:10px 3px 3px 10px; box-shadow:0 14px 30px rgba(0,0,0,0.35), inset -10px 0 12px -10px rgba(0,0,0,0.35)"><div style="height:100%; box-sizing:border-box; border:1.5px solid #C9A24E; outline:1px solid #C9A24E; outline-offset:2px; border-radius:3px; padding:9px 7px 7px; display:flex; flex-direction:column; align-items:center; gap:6px; overflow:hidden"><div style="align-self:stretch; padding:2px 0 3px; border-radius:10px; background:#1E4A38; color:#E3B45C; text-align:center; font:700 11px/1.5 'Scheherazade New', serif">سُورَةُ البَقَرَةِ</div><div dir="rtl" style="font:400 9.5px/1.95 'Scheherazade New', serif; color:#18201C; text-align:center">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ<br>الٓمٓ ﴿١﴾ ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ ﴿٢﴾ ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَٰهُمْ يُنفِقُونَ ﴿٣﴾ وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ ﴿٤﴾</div></div></div></div>
+<div style="display:flex; flex-direction:column; align-items:center; gap:8px"><div style="width:160px; height:3px; border-radius:2px; background:rgba(245,242,234,0.18); overflow:hidden"><div style="height:100%; width:{{ splash.pct }}; background:#E3B45C; border-radius:2px; transition:width 2.6s cubic-bezier(.2,.7,.2,1)"></div></div><span style="font:500 12px 'Instrument Sans'; color:#CFE0D6">{{ splash.label }}</span></div>
+</div>
+</sc-if>
+
+<div style="position:absolute; left:0; right:0; bottom:0; height:64px; z-index:20; display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); background:{{ K.surf }}; border-top:1px solid {{ K.line }}">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.go }}" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:0; background:transparent; color:{{ t.fg }}; cursor:pointer; font:600 11px 'Instrument Sans'"><span style="width:52px; height:28px; border-radius:14px; background:{{ t.pill }}; display:flex; align-items:center; justify-content:center; transition:background .2s"><svg width="21" height="21" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="{{ t.icon }}"></path></svg></span>{{ t.label }}</button></sc-for>
+</div>
+
+<sc-if value="{{ hasLu }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Level up" style="position:absolute; inset:0; z-index:70; background:{{ K.brand }}; color:{{ K.onBrand }}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:32px; text-align:center; opacity:{{ lu.o }}; transition:opacity .3s">
+<span style="font:700 12px 'Instrument Sans'; letter-spacing:0.14em; text-transform:uppercase">Level up</span>
+<div style="position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center">
+<sc-for list="{{ lu.dots }}" as="d"><span style="position:absolute; left:50%; top:50%; width:{{ d.s }}px; height:{{ d.s }}px; border-radius:50%; background:{{ d.c }}; transform:translate(-50%, -50%) translate({{ d.x }}px, {{ d.y }}px); opacity:{{ d.o }}; transition:transform 1s cubic-bezier(.15,.8,.2,1), opacity .8s"></span></sc-for>
+<div style="width:140px; height:140px; border-radius:70px; background:{{ K.gold }}; color:{{ K.onBrand }}; box-shadow:0 0 0 10px {{ K.onBrandTrack }}; display:flex; flex-direction:column; align-items:center; justify-content:center; transform:scale({{ lu.sc }}); transition:transform .7s cubic-bezier(.3,1.6,.5,1)"><span style="font:600 12px 'Instrument Sans'; letter-spacing:0.1em; text-transform:uppercase">Level</span><span style="font:500 64px/1 'Newsreader', serif">{{ lu.n }}</span></div>
+</div>
+<span style="font:500 36px/1.1 'Newsreader', serif">{{ lu.name }}</span>
+<span style="font:400 14.5px/1.5 'Instrument Sans'; max-width:280px">{{ lu.sub }}</span>
+<button onClick="{{ closeLu }}" style="margin-top:12px; height:52px; padding:0 36px; border-radius:26px; border:0; background:{{ K.onBrand }}; color:{{ K.brand }}; font:600 15px 'Instrument Sans'; cursor:pointer">Keep going</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ showOb }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Onboarding" style="position:absolute; inset:0; z-index:80; background:{{ K.bg }}; color:{{ K.ink }}; display:flex; flex-direction:column">
+<div style="display:flex; align-items:center; justify-content:space-between; padding:8px 8px 0; min-height:56px">
+<button onClick="{{ obBack }}" aria-label="Back" style="width:44px; height:44px; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:{{ obs.backOp }}"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+<div style="display:flex; gap:6px"><sc-for list="{{ obDots }}" as="d" hint-placeholder-count="4"><span style="width:{{ d.w }}; height:8px; border-radius:4px; background:{{ d.bg }}; transition:width .3s, background .3s"></span></sc-for></div>
+<button onClick="{{ obSkip }}" style="height:44px; padding:0 14px; border:0; background:transparent; color:{{ K.muted }}; font:600 14px 'Instrument Sans'; cursor:pointer">Skip</button>
+</div>
+<div style="flex:1; min-height:0; overflow-y:auto; padding:12px 24px 16px; display:flex; flex-direction:column">
+<sc-if value="{{ obs.s0 }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1; display:flex; flex-direction:column; margin:-12px -24px 0; position:relative; overflow:hidden">
+<!-- Hero background: geometric Islamic pattern -->
+<div style="position:absolute; inset:0; background:#1E4A38; overflow:hidden">
+  <svg width="100%" height="100%" viewBox="0 0 412 420" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;opacity:0.18">
+    <defs>
+      <pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <g fill="none" stroke="#E3B45C" stroke-width="0.8">
+          <polygon points="40,4 76,22 76,58 40,76 4,58 4,22" />
+          <polygon points="40,14 66,28 66,52 40,66 14,52 14,28" />
+          <line x1="40" y1="4" x2="40" y2="14"/><line x1="76" y1="22" x2="66" y2="28"/><line x1="76" y1="58" x2="66" y2="52"/><line x1="40" y1="76" x2="40" y2="66"/><line x1="4" y1="58" x2="14" y2="52"/><line x1="4" y1="22" x2="14" y2="28"/>
+          <circle cx="40" cy="40" r="10" />
+          <circle cx="40" cy="40" r="6" />
+        </g>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#geo)"/>
+  </svg>
+  <!-- Gradient overlay bottom fade -->
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(30,74,56,0.2) 0%, rgba(30,74,56,0.6) 55%, #1E4A38 100%)"></div>
+  <!-- Quran verse text decoration -->
+  <div style="position:absolute;top:52px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 24px">
+    <span dir="rtl" style="font:700 46px/1.2 ‘Scheherazade New’,serif;color:rgba(227,180,92,0.9);text-align:center;text-shadow:0 2px 16px rgba(0,0,0,0.4)">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
+    <span style="font:400 11px/1.4 ‘Instrument Sans’,sans-serif;color:rgba(227,180,92,0.6);letter-spacing:0.12em;text-transform:uppercase">In the name of Allah, the Most Gracious, the Most Merciful</span>
+  </div>
+  <!-- Logo centered in hero -->
+  <div style="position:absolute;top:195px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div style="width:72px;height:72px;border-radius:20px;background:rgba(0,0,0,0.3);border:1px solid rgba(227,180,92,0.5);display:flex;align-items:center;justify-content:center;position:relative">
+      <svg width="72" height="72" viewBox="0 0 100 100" style="position:absolute;inset:0;fill:none;stroke:#E3B45C;stroke-width:2.2"><rect x="24" y="24" width="52" height="52" rx="3"/><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"/></svg>
+      <span dir="rtl" style="position:relative;font:700 12px/1 ‘Scheherazade New’,serif;color:#F5F2EA">اقرأ</span>
+    </div>
+    <span style="font:500 32px/1 ‘Newsreader’,serif;color:#F5F2EA;letter-spacing:-0.01em">Iqra</span>
+    <span dir="rtl" style="font:400 28px/1.3 ‘Scheherazade New’,serif;color:rgba(227,180,92,0.85)">اقْرَأْ</span>
+  </div>
+</div>
+<!-- Content card at bottom -->
+<div style="position:absolute;bottom:0;left:0;right:0;background:{{ K.bg }};border-radius:28px 28px 0 0;padding:28px 24px 16px;display:flex;flex-direction:column;gap:16px">
+  <p style="margin:0;font:400 15px/1.6 ‘Instrument Sans’;color:{{ K.muted }}">Read the Quran in Arabic. Tap any word to see its meaning, and watch your comprehension grow page by page.</p>
+  <div style="display:flex; flex-direction:column; gap:12px">
+    <div style="display:flex; align-items:center; gap:14px">
+      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px ‘Instrument Sans’">1</span>
+      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px ‘Instrument Sans’">Tap a word</span><span style="font:400 12.5px ‘Instrument Sans’; color:{{ K.muted }}">Urdu meaning appears instantly</span></span>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px">
+      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px ‘Instrument Sans’">2</span>
+      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px ‘Instrument Sans’">Words become familiar</span><span style="font:400 12.5px ‘Instrument Sans’; color:{{ K.muted }}">Known words turn green across every page</span></span>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px">
+      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px ‘Instrument Sans’">3</span>
+      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px ‘Instrument Sans’">Earn XP and build a streak</span><span style="font:400 12.5px ‘Instrument Sans’; color:{{ K.muted }}">Daily page goals keep you consistent</span></span>
+    </div>
+  </div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ obs.s1 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex; flex-direction:column; gap:12px; padding-top:12px">
+<span style="font:500 28px/1.2 'Newsreader', serif; text-wrap:pretty">How much Quranic Arabic do you know?</span>
+<span style="font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">We’ll start your word list from the right place.</span>
+<sc-for list="{{ obLevels }}" as="o" hint-placeholder-count="3">
+<button onClick="{{ o.pick }}" style="display:flex; align-items:center; gap:14px; padding:16px; border-radius:18px; border:0; background:{{ K.surf }}; box-shadow:inset 0 0 0 2px {{ o.bd }}; color:{{ K.ink }}; cursor:pointer; text-align:left">
+<span style="flex:1; display:flex; flex-direction:column; gap:3px"><span style="font:600 15.5px 'Instrument Sans'">{{ o.t }}</span><span style="font:400 13px/1.45 'Instrument Sans', 'Scheherazade New'; color:{{ K.muted }}">{{ o.s }}</span></span>
+<span style="width:22px; height:22px; flex:none; border-radius:11px; box-shadow:inset 0 0 0 2px {{ o.bd }}; display:flex; align-items:center; justify-content:center"><span style="width:12px; height:12px; border-radius:6px; background:{{ o.dot }}"></span></span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ obs.s2 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex; flex-direction:column; gap:12px; padding-top:12px">
+<span style="font:500 28px/1.2 'Newsreader', serif">Set a daily goal</span>
+<span style="font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">Reach it for a +50 XP bonus. You can change it any time in reading settings.</span>
+<sc-for list="{{ obGoals }}" as="o" hint-placeholder-count="3">
+<button onClick="{{ o.pick }}" style="display:flex; align-items:center; gap:14px; padding:14px 16px 14px 14px; border-radius:18px; border:0; background:{{ K.surf }}; box-shadow:inset 0 0 0 2px {{ o.bd }}; color:{{ K.ink }}; cursor:pointer; text-align:left">
+<span style="width:52px; height:52px; flex:none; border-radius:16px; background:{{ K.surf2 }}; display:flex; flex-direction:column; align-items:center; justify-content:center"><span style="font:500 22px/1 'Newsreader', serif">{{ o.g }}</span><span style="font:600 10px 'Instrument Sans'; color:{{ K.muted }}">pages</span></span>
+<span style="flex:1; display:flex; flex-direction:column; gap:3px"><span style="font:600 15.5px 'Instrument Sans'">{{ o.t }}</span><span style="font:400 13px 'Instrument Sans'; color:{{ K.muted }}">{{ o.s }}</span></span>
+<span style="width:22px; height:22px; flex:none; border-radius:11px; box-shadow:inset 0 0 0 2px {{ o.bd }}; display:flex; align-items:center; justify-content:center"><span style="width:12px; height:12px; border-radius:6px; background:{{ o.dot }}"></span></span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ obs.s3 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex; flex-direction:column; gap:12px; padding-top:12px">
+<span style="font:500 28px/1.2 'Newsreader', serif">Choose your look</span>
+<span style="font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">Dark mode is easier on the eyes at night.</span>
+<div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px">
+<button onClick="{{ setLight }}" style="display:flex; flex-direction:column; gap:10px; padding:10px 10px 14px; border-radius:20px; border:0; background:{{ K.surf }}; box-shadow:inset 0 0 0 2px {{ obTheme.light }}; color:{{ K.ink }}; cursor:pointer">
+<span style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; height:150px; border-radius:12px; background:#FDFBF4; border:1px solid #CFC6AC; color:#18201C"><span dir="rtl" style="font:400 24px/1.4 'Scheherazade New', serif">بِسْمِ <span style="color:#2F6F52">اللَّهِ</span></span><span style="width:60%; height:6px; border-radius:3px; background:#E3DED1"></span><span style="width:44%; height:6px; border-radius:3px; background:#E3DED1"></span></span>
+<span style="font:600 14.5px 'Instrument Sans'">Light</span>
+</button>
+<button onClick="{{ setDark }}" style="display:flex; flex-direction:column; gap:10px; padding:10px 10px 14px; border-radius:20px; border:0; background:{{ K.surf }}; box-shadow:inset 0 0 0 2px {{ obTheme.dark }}; color:{{ K.ink }}; cursor:pointer">
+<span style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; height:150px; border-radius:12px; background:#121815; border:1px solid #34443A; color:#E9E7DF"><span dir="rtl" style="font:400 24px/1.4 'Scheherazade New', serif">بِسْمِ <span style="color:#8FCBAE">اللَّهِ</span></span><span style="width:60%; height:6px; border-radius:3px; background:#26302B"></span><span style="width:44%; height:6px; border-radius:3px; background:#26302B"></span></span>
+<span style="font:600 14.5px 'Instrument Sans'">Dark</span>
+</button>
+</div>
+</div>
+</sc-if>
+</div>
+<div style="padding:12px 24px 20px"><button onClick="{{ obNext }}" style="width:100%; height:54px; border-radius:27px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 16px 'Instrument Sans'; cursor:pointer">{{ obs.cta }}</button></div>
+</div>
+</sc-if>
+
+<div onClick="{{ closeDrawer }}" style="position:absolute; inset:0; z-index:40; background:{{ K.scrim }}; opacity:{{ dr.o }}; pointer-events:{{ dr.pe }}; transition:opacity .25s"></div>
+<div data-screen-label="Drawer" style="position:absolute; top:0; bottom:0; left:0; width:304px; z-index:41; display:flex; flex-direction:column; background:{{ K.surf }}; border-radius:0 26px 26px 0; transform:translateX({{ dr.x }}); transition:transform .32s cubic-bezier(.2,.8,.2,1); overflow:hidden">
+<div style="padding:22px 20px 16px; display:flex; flex-direction:column; gap:16px">
+<div style="display:flex; align-items:baseline; gap:10px"><span style="display:flex; align-items:center; gap:10px"><span style="position:relative; width:44px; height:44px; flex:none; border-radius:13px; background:#1E4A38; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px rgba(227,180,92,0.35)"><svg width="44" height="44" viewBox="0 0 100 100" style="position:absolute; inset:0; fill:none; stroke:#E3B45C; stroke-width:2.6"><rect x="24" y="24" width="52" height="52" rx="3"></rect><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"></rect></svg><span dir="rtl" style="position:relative; font:700 12px/1 'Scheherazade New', serif; color:#F5F2EA; margin-top:-2px">اقرأ</span></span><span style="font:500 30px/1 'Newsreader', serif">Iqra</span></span><span dir="rtl" style="font:400 22px/1 'Scheherazade New', serif; color:{{ K.muted }}">اقْرَأْ</span></div>
+<button onClick="{{ goProgress }}" style="display:flex; flex-direction:column; gap:10px; padding:14px; border:0; border-radius:18px; background:{{ K.soft }}; color:{{ K.softInk }}; cursor:pointer; text-align:left">
+<span style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 14px 'Instrument Sans'">Level {{ lvl.n }} · {{ lvl.name }}</span><span style="display:flex; align-items:center; gap:3px; font:700 13px 'Instrument Sans'; color:{{ K.gold }}"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:currentColor"><path d="M12 3.5c.6 3.2 4.5 5 4.5 9.2a4.5 4.5 0 0 1-9 0c0-2.2 1.1-3.6 2.3-4.6.1 1.6.9 2.6 2.1 2.9-.9-2.6-.5-5.1.1-7.5z"></path></svg>{{ streak }}</span></span>
+<span style="display:block; height:6px; border-radius:3px; background:{{ K.track }}; overflow:hidden"><span style="display:block; height:100%; width:{{ lvl.pct }}; background:{{ K.brand }}; border-radius:3px"></span></span>
+<span style="font:500 12px 'Instrument Sans'">{{ lvl.toNext }}</span>
+</button>
+</div>
+<div style="padding:0 12px; display:flex; flex-direction:column; gap:2px">
+<button onClick="{{ goHome }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ navH.bg }}; color:{{ navH.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M4 11l8-6.5L20 11v8.5a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"></path></svg><span style="flex:1">Home</span></button>
+<button onClick="{{ goMushaf }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.mushaf.bg }}; color:{{ nav.mushaf.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg><span style="flex:1">Mushaf</span><span style="font:500 12px 'Instrument Sans'; opacity:0.75">p. {{ rp.page }}</span></button>
+<button onClick="{{ openSearch }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.search.bg }}; color:{{ nav.search.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg><span style="flex:1">Search</span></button>
+<button onClick="{{ goProgress }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.progress.bg }}; color:{{ nav.progress.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg><span style="flex:1">Progress</span></button>
+<button onClick="{{ goLearn }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.learn.bg }}; color:{{ nav.learn.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round; stroke-linecap:round"><path d="M12 3.5l8.5 4.25L12 12 3.5 7.75z M3.5 12.25L12 16.5l8.5-4.25 M3.5 16.5L12 20.75l8.5-4.25"></path></svg><span style="flex:1">Words &amp; Qawaid</span></button>
+<button onClick="{{ goWords }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ navW.bg }}; color:{{ navW.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span style="flex:1">My words</span><span style="font:600 12px 'Instrument Sans'; padding:0 8px; height:22px; border-radius:11px; background:{{ K.surf2 }}; display:flex; align-items:center">Review</span></button>
+<button onClick="{{ goDuas }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.duas.bg }}; color:{{ nav.duas.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"></path></svg><span style="flex:1">Duas</span></button>
+<button onClick="{{ goBookmarks }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.bookmarks.bg }}; color:{{ nav.bookmarks.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M7 3.5h10a1 1 0 0 1 1 1V20.5l-6-4-6 4V4.5a1 1 0 0 1 1-1z"></path></svg><span style="flex:1">Bookmarks</span><span style="font:600 12px 'Instrument Sans'; min-width:22px; height:22px; border-radius:11px; background:{{ K.surf2 }}; display:flex; align-items:center; justify-content:center">{{ bmCount }}</span></button>
+<button onClick="{{ goFavourites }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.favourites.bg }}; color:{{ nav.favourites.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:{{ nav.favourites.heartFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span style="flex:1">Favourites</span><span style="font:600 12px 'Instrument Sans'; min-width:22px; height:22px; border-radius:11px; background:{{ K.surf2 }}; display:flex; align-items:center; justify-content:center">{{ favCount }}</span></button>
+</div>
+<div style="flex:1"></div>
+<div style="padding:12px 20px 20px; display:flex; flex-direction:column; gap:12px; border-top:1px solid {{ K.line }}">
+<button onClick="{{ toggleDark }}" style="display:flex; align-items:center; gap:12px; height:48px; padding:0; border:0; background:transparent; color:inherit; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left">
+<span style="flex:1">Dark mode</span>
+<span style="width:48px; height:28px; border-radius:14px; background:{{ sw.bg }}; position:relative; transition:background .2s"><span style="position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:11px; background:{{ sw.knob }}; transform:translateX({{ sw.x }}); transition:transform .2s"></span></span>
+</button>
+<a href="https://github.com/baheesa/iqra-quran-learning/blob/main/docs/Quran-Learning-System-User-Manual.pdf" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:12px; height:44px; color:{{ K.ink }}; text-decoration:none; font:600 14.5px 'Instrument Sans'"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round; stroke-linecap:round"><path d="M14 3.5H7a1.5 1.5 0 0 0-1.5 1.5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8zM14 3.5V8h4.5M9 12.5h6M9 16h4"></path></svg><span style="flex:1">User manual (PDF)</span><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:{{ K.muted }}; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M14 5h5v5M19 5l-8 8M17 14v4a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 5 18V8.5A1.5 1.5 0 0 1 6.5 7H10"></path></svg></a>
+<span style="display:flex; align-items:center; gap:8px; font:400 12.5px/1.4 'Instrument Sans'; color:{{ K.muted }}"><span style="width:8px; height:8px; border-radius:4px; background:{{ K.brand }}"></span>Offline · all 604 pages on this device</span>
+</div>
+</div>
+
+</div>
+</x-import>
+
+<aside style="max-width:320px; display:flex; flex-direction:column; gap:18px; padding-top:12px; color:#2A302C">
+<div style="display:flex; flex-direction:column; gap:10px"><span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Logo</span>
+<div style="display:flex; align-items:center; gap:16px"><span style="position:relative; width:88px; height:88px; flex:none; border-radius:24px; background:#1E4A38; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px rgba(227,180,92,0.35)"><svg width="88" height="88" viewBox="0 0 100 100" style="position:absolute; inset:0; fill:none; stroke:#E3B45C; stroke-width:2.6"><rect x="24" y="24" width="52" height="52" rx="3"></rect><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"></rect></svg><span dir="rtl" style="position:relative; font:700 24px/1 'Scheherazade New', serif; color:#F5F2EA; margin-top:-4px">اقرأ</span></span><div style="display:flex; flex-direction:column; gap:4px"><span style="font:500 34px/1 'Newsreader', serif">Iqra</span><span dir="rtl" style="font:400 22px/1.2 'Scheherazade New', serif; color:#59625C; text-align:left">اقْرَأْ</span></div></div>
+<p style="margin:0; font:400 13px/1.55 'Instrument Sans'; color:#3C443F; text-wrap:pretty">The eight-point star is the rub el hizb, the marker that divides the mushaf into quarters. The word inside is the app’s name, اقرأ (read), the first word revealed.</p></div>
+<div style="display:flex; flex-direction:column; gap:6px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.1em; text-transform:uppercase; color:#1E4A38">Iqra · Android redesign</span><span style="font:500 30px/1.15 'Newsreader', serif">Reader-first prototype</span></div>
+<p style="margin:0; font:400 14px/1.6 'Instrument Sans'; text-wrap:pretty">The app opens straight onto the mushaf. Everything else lives in the drawer, and the page stays clean: word tips appear only on tap. Reading, words and duas earn XP toward levels, a daily page goal and a streak.</p>
+<div style="display:flex; flex-direction:column; gap:8px">
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Try</span>
+<ul style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font:400 13.5px/1.5 'Instrument Sans'">
+<li>Go through onboarding (4 steps)</li>
+<li>Tap a word, then “Full ayah translation”</li>
+<li>Tap an ayah number, or the gold Dua tag after ayah 7</li>
+<li>Turn to page 2: the words you didn’t tap on page 1 turn green (familiar)</li>
+<li>Search <span style="font-family:'Noto Nastaliq Urdu', serif">ہدایت</span> or <span style="font-family:'Scheherazade New', serif; font-size:17px">الرحمن</span></li>
+<li>Tap the title bar to jump by surah, juz or page</li>
+<li>In search results, use Translation or Word by word</li>
+<li>☰ → My words → Start review for flashcards</li>
+<li>Progress → Preview level-up, or Replay onboarding</li>
+</ul>
+</div>
+<div style="display:flex; flex-direction:column; gap:8px">
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Assumptions</span>
+<ul style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font:400 13px/1.5 'Instrument Sans'; color:#3C443F">
+<li>All 604 pages, word meanings, units, qawaid and duas load from the repo’s data/ JSON.</li>
+<li>Scheherazade New and Noto Nastaliq Urdu stand in for the Indo-Pak script and Jameel Noori Nastaleeq.</li>
+<li>XP values, levels and badges are proposals. Progress saves in this browser.</li>
+<li>Full-ayah translation uses the repo’s word-order gloss, except Al-Fatiha and Al-Baqarah 1–5, which use my ba-muhawara wording.</li>
+</ul>
+</div>
+</aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;bubble&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
+class Component extends DCLogic {
+  static KEY = 'iqra-proto-v4';
+  static D = null;
+  static PAGES = {};
+  static AY = {};
+  static ALLK = [];
+  static SUR = [];
+  static UNITS = [];
+  static DUAS = { quranic: [], masnoon: [] };
+  static DMARK = {};
+  static DCAT = {};
+  static FREQ = {};
+  static TOP = [];
+  static TOTAL = 1;
+  static VOCAB_TOTAL = 0;
+  static PREF = new Set(['', 'و', 'ف', 'ب', 'ل', 'ك', 'ال', 'وال', 'فال', 'بال', 'لل', 'ول', 'وب', 'فب', 'فل', 'س', 'وس', 'ا']);
+  static SUF = new Set(['', 'ه', 'ها', 'هم', 'هما', 'كم', 'كما', 'كن', 'هن', 'نا', 'ك', 'ي', 'ني', 'ون', 'ين', 'ان', 'ات', 'ت', 'وا', 'تم', 'ا']);
+  static STARTER = ['اللَّه', 'رَبّ', 'كِتَاب', 'يَوْم', 'دِين', 'أَرْض', 'سَمَاء', 'قَلْب'];
+  static STUB = { p: 1, juz: 1, surahNo: 1, surah: 'Loading mushaf…', header: '…', ayahs: [] };
+  static TR = {
+    '1:1': 'شروع اللہ کے نام سے جو بڑا مہربان، نہایت رحم والا ہے۔', '1:2': 'سب تعریف اللہ ہی کے لیے ہے جو تمام جہانوں کا پالنے والا ہے۔', '1:3': 'جو بڑا مہربان، نہایت رحم والا ہے۔', '1:4': 'جو روزِ جزا کا مالک ہے۔', '1:5': 'ہم تیری ہی عبادت کرتے ہیں اور تجھ ہی سے مدد مانگتے ہیں۔', '1:6': 'ہمیں سیدھے راستے پر چلا۔', '1:7': 'ان لوگوں کے راستے پر جن پر تو نے انعام کیا، نہ ان کے جن پر غضب ہوا اور نہ گمراہوں کے۔',
+    '2:1': 'الٓمٓ۔', '2:2': 'یہ وہ کتاب ہے جس میں کوئی شک نہیں؛ پرہیزگاروں کے لیے ہدایت ہے۔', '2:3': 'جو غیب پر ایمان لاتے ہیں، نماز قائم کرتے ہیں، اور جو کچھ ہم نے انہیں دیا ہے اس میں سے خرچ کرتے ہیں۔', '2:4': 'اور جو اس پر ایمان لاتے ہیں جو آپ پر نازل کیا گیا اور جو آپ سے پہلے نازل کیا گیا، اور آخرت پر یقین رکھتے ہیں۔', '2:5': 'یہی لوگ اپنے رب کی طرف سے ہدایت پر ہیں، اور یہی کامیاب ہونے والے ہیں۔'
+  };
+  static JUZ = [1,22,42,62,82,102,122,142,162,182,202,222,242,262,282,302,322,342,362,382,402,422,442,462,482,503,522,542,562,582];
+  static JUZ_NAMES = ['الم', 'سيقول', 'تلك الرسل', 'لن تنالوا', 'والمحصنات', 'لا يحب الله', 'وإذا سمعوا', 'ولو أننا', 'قال الملأ', 'واعلموا', 'يعتذرون', 'وما من دابة', 'وما أبرئ', 'ربما', 'سبحان الذي', 'قال ألم', 'اقترب للناس', 'قد أفلح', 'وقال الذين', 'أمن خلق', 'اتل ما أوحي', 'ومن يقنت', 'وما لي', 'فمن أظلم', 'إليه يرد', 'حم', 'قال فما خطبكم', 'قد سمع الله', 'تبارك الذي', 'عم'];
+  static LEVELS = ['Beginner','Reader','Seeker','Student','Reciter','Scholar'];
+  static THEMES = {
+    light: { bg:'#F5F2EA', surf:'#FDFBF6', surf2:'#ECE7DA', ink:'#18201C', muted:'#59625C', line:'#E0DACB', brand:'#1E4A38', onBrand:'#F5F2EA', onBrandTrack:'rgba(245,242,234,0.25)', soft:'#DCE7DE', softInk:'#15392B', track:'#E3DED1', gold:'#A8741F', gold2:'#E3B45C', goldSoft:'#F4E7C8', goldInk:'#5E3F0C', hl:'#F1DE98', page:'#FDFBF4', frame:'#CFC6AC', scrim:'rgba(14,20,17,0.42)', tipBg:'#18201C', tipFg:'#F5F2EA', sel:'#DCE7DE', knownInk:'#2F6F52', brandMid:'#9DB8A9', ice:'#2F6690', iceSoft:'#DCE8F1', tipLine:'rgba(245,242,234,0.25)' },
+    dark: { bg:'#0E1311', surf:'#161C19', surf2:'#1F2723', ink:'#E9E7DF', muted:'#9EA7A0', line:'#28312C', brand:'#86C9A7', onBrand:'#0E1311', onBrandTrack:'rgba(14,19,17,0.22)', soft:'#1D3529', softInk:'#CFEBDC', track:'#26302B', gold:'#E3B45C', gold2:'#8A5E14', goldSoft:'#382C14', goldInk:'#F2D9A4', hl:'#5A4818', page:'#121815', frame:'#34443A', scrim:'rgba(0,0,0,0.55)', tipBg:'#E9E7DF', tipFg:'#0E1311', sel:'#1D3529', knownInk:'#8FCBAE', brandMid:'#3E6A55', ice:'#8DB9DC', iceSoft:'#1C2A35', tipLine:'rgba(14,19,17,0.22)' }
+  };
+
+  pageRef = React.createRef();
+  scrollRef = React.createRef();
+  searchRef = React.createRef();
+  state = this.init();
+
+  norm(s) {
+    return (s || '').replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
+      .replace(/[أإآٱ]/g, 'ا').replace(/[ىی]/g, 'ي').replace(/ک/g, 'ك').replace(/[ہۃة]/g, 'ه')
+      .replace(/[،؛,.]/g, '').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي').replace(/\s+/g, ' ').trim();
+  }
+  key(s) {
+    const n = this.norm(s);
+    if (/^(و|ف)?(ب|ت|ل)?(ا)?لله(م)?$/.test(n)) return n.endsWith('م') ? 'اللهم' : 'الله';
+    let m = n.match(/^(و|ف)?(ب|ك|ل)?ال(.{2,})$/); if (m) return m[3];
+    m = n.match(/^(و|ف)?لل(.{2,})$/); if (m) return m[2];
+    return n;
+  }
+  resetLearned() {
+    if (!this.state.confirmReset) { this.setState({ confirmReset: true }); clearTimeout(this.rt); this.rt = setTimeout(() => this.setState({ confirmReset: false }), 3500); return; }
+    clearTimeout(this.rt); this.setState({ known: {}, seen: {}, visit: {}, memorised: {}, bookmarks: [], read: [], saved: [], xp: 0, todayPages: 0, streak: 0, freezes: 0, weekPages: [0, 0, 0, 0, 0, 0], weekFrozen: -1, weekXp: 0, weekWords: 0, lastWeek: { pages: 0, words: 0, xp: 0 }, reviewedToday: false, lastPage: 1, page: 1, hl: null, rv: null, lu: null, confirmReset: false, tip: null, screen: 'home' }); this.info('All progress reset. Start fresh from page 1.');
+  }
+  arNum(n) { return String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]); }
+
+  seedKnown(level) {
+    const known = {}, C = Component;
+    if (level >= 1) C.STARTER.forEach(a => { known[this.key(a)] = 'k'; });
+    if (level === 2 && C.UNITS.length) C.UNITS.slice(0, 3).forEach(u => u.words.forEach(w => { known[this.key(w[0])] = 'k'; }));
+    return known;
+  }
+  seed() {
+    const seen = {}; ['الْحَمْدُ', 'الْعَالَمِينَ', 'الرَّحْمَٰنِ', 'الرَّحِيمِ', 'مَالِكِ'].forEach(a => seen[this.key(a)] = 2);
+    return { known: this.seedKnown(1), seen, memorised: { 'quran-1:5-7': 1, wake: 1 }, bookmarks: [{ page: 2, at: 'Sep 24' }], read: [1, 2], lastPage: 1, dark: false, fontStep: 1, xp: 340, todayPages: 2, streak: 6, goal: 5, tint: true,
+      saved: [{ id: 'w1-2-2', ar: 'رَبِّ', ur: 'رب، پالنے والا', ref: 'Al-Fatiha 1:2', page: 1 }, { id: 'w1-4-2', ar: 'الدِّينِ', ur: 'جزا، بدلہ', ref: 'Al-Fatiha 1:4', page: 1 }, { id: 'w1-5-3', ar: 'نَسْتَعِينُ', ur: 'ہم مدد مانگتے ہیں', ref: 'Al-Fatiha 1:5', page: 1 }, { id: 'w2-2-5', ar: 'هُدًى', ur: 'ہدایت', ref: 'Al-Baqarah 2:2', page: 2 }, { id: 'w2-5-7', ar: 'الْمُفْلِحُونَ', ur: 'کامیاب ہونے والے', ref: 'Al-Baqarah 2:5', page: 2 }],
+      freezes: 2, weekPages: [0, 2, 0, 5, 4, 3], weekFrozen: 2, weekXp: 185, weekWords: 9, lastWeek: { pages: 14, words: 6, xp: 150 }, reviewedToday: false, onboarded: false,
+      favAyahs: [] };
+  }
+  init() {
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(Component.KEY)); } catch (e) {}
+    const p = Object.assign(this.seed(), saved || {});
+    return { ...p, page: p.lastPage, screen: 'home', splash: true, splashOut: false, splashPct: 8, exact: true, drawer: false, sheetOpen: false, sheet: 'jump', tip: null, gTip: null, hl: null, unit: 1, unitTab: 'words', duaTab: 'quranic', jumpTab: 'surah', pageInput: '', q: '', toast: null, pt: { x: 0, o: 1, tr: 'none' }, ayah: null, duaId: null, trOpen: {}, trAll: false, rv: null, lu: null, luIn: false, visit: {}, ob: { step: 0, level: 1, goal: p.goal || 5 }, favPending: null, favLabel: '', favCollection: 'General', favColFilter: null, pagePreview: false, pvScale: 1, pvFontPx: null };
+  }
+  componentDidMount() {
+    this.t0 = Date.now(); setTimeout(() => this.setState({ splashPct: 82 }), 60); setTimeout(() => this.endSplash(), 1950);
+    if (Component.D) { this.setState({ splashPct: 100 }); return; }
+    const f = n => fetch(`data/${n}.json`).then(r => r.json());
+    Promise.all(['ayah-cards', 'wbw-urdu', 'surahs', 'juz-index', 'unit-vocabulary', 'learner-rules', 'daily-duas'].map(f))
+      .then(([ac, wbw, sur, juz, voc, rules, duas]) => { this.build(ac, wbw, sur, juz, voc, rules, duas); this.setState({ loaded: true, splashPct: 100 }, () => this.endSplash()); })
+      .catch(err => { console.error(err); this.info('Could not load the Quran data files'); });
+  }
+  build(ac, wbw, sur, juz, voc, rules, duas) {
+    const C = Component, M = (wbw && wbw.meanings) || {};
+    C.SUR = sur; C.JUZ = juz.map(j => j.startPage);
+    const juzOf = p => { let j = 1; C.JUZ.forEach((s, i) => { if (p >= s) j = i + 1; }); return j; };
+    const keys = Object.keys(ac.ayahs).sort((a, b) => { const x = a.split(':'), y = b.split(':'); return (x[0] - y[0]) || (x[1] - y[1]); });
+    const freq = {}, form = {}; let total = 0;
+    keys.forEach((k, idx) => {
+      const [s, n] = k.split(':').map(Number), a = ac.ayahs[k], w = [];
+      a.ar.split(/\s+/).forEach((t, i) => {
+        if (!t) return;
+        if (!this.norm(t)) { if (w.length) w[w.length - 1][0] += ' ' + t; return; }
+        w.push([t, M[`${s}:${n}:${i + 1}`] || '']);
+        const kk = this.key(t); freq[kk] = (freq[kk] || 0) + 1; if (!form[kk]) form[kk] = t; total++;
+      });
+      const bismN = n === 1 && s !== 1 && w.length > 4 && this.norm(w[0][0]) === 'بسم' ? 4 : 0;
+      const nw = w.map(x => this.norm(x[0])); let joined = ''; const st = [];
+      nw.forEach((x, i) => { if (i) joined += ' '; st.push(joined.length); joined += x; });
+      const ay = { k, s, n, p: a.p, idx, w, ur: a.ur, bismN, nw, joined, st };
+      C.AY[k] = ay; C.ALLK.push(k);
+      (C.PAGES[a.p] = C.PAGES[a.p] || { p: a.p, juz: juzOf(a.p), ayahs: [] }).ayahs.push(ay);
+    });
+    Object.values(C.PAGES).forEach(P => { const s0 = sur[P.ayahs[0].s - 1]; P.surahNo = s0.id; P.surah = s0.nameEnglish; P.header = s0.nameArabic; });
+    C.FREQ = freq; C.TOTAL = total || 1;
+    C.TOP = Object.keys(freq).filter(k => k.length > 1).sort((a, b) => freq[b] - freq[a]).slice(0, 400).map(k => [k, form[k], freq[k]]);
+    const wm = {}; Object.values(C.AY).forEach(ay => { ay.w.forEach(([ar, ur]) => { if (ar && ur && !wm[this.key(ar)]) wm[this.key(ar)] = { ar, ur }; }); }); C.WMAP = wm;
+    const byUnit = {}; ((rules && rules.rules) || []).forEach(r => (byUnit[r.unit] = byUnit[r.unit] || []).push(r));
+    C.UNITS = ((voc && voc.units) || []).map(u => ({ n: u.unit, wc: u.wordCount, pc: u.phraseCount, words: u.words.map(x => [x.arabic, x.meaning || '', x.kind]), rules: (byUnit[u.unit] || []).sort((a, b) => a.order - b.order) }));
+    C.VOCAB_TOTAL = C.UNITS.reduce((a, u) => a + u.words.length, 0);
+    ((duas && duas.categories) || []).forEach(c => { C.DCAT[c.id] = c; });
+    const q = [], m = [];
+    ((duas && duas.duas) || []).forEach(d => {
+      if (d.category === 'quranic') {
+        q.push({ id: d.id, title: d.surahNameEnglish || d.occasion, meta: `${d.ref} · Juz ${d.juz}`, ar: d.arabic, ur: d.urdu, juz: d.juz, page: d.page, surahId: d.surahId, ayahFrom: d.ayahFrom, ayahTo: d.ayahTo });
+        if (d.surahId && d.ayahTo) C.DMARK[`${d.surahId}:${d.ayahTo}`] = d.id;
+      } else m.push({ id: d.id, title: d.occasion, meta: (C.DCAT[d.category] || {}).label || 'Daily', cat: d.category, ar: d.arabic, ur: d.urdu });
+    });
+    C.DUAS = { quranic: q, masnoon: m };
+    C.D = true;
+  }
+  componentDidUpdate(pp, ps) {
+    const S = this.state;
+    try { this.pk = this.pk || Object.keys(this.seed()); const o = {}; this.pk.forEach(k => o[k] = S[k]); localStorage.setItem(Component.KEY, JSON.stringify(o)); } catch (e) {}
+    if (S.screen === 'search' && ps.screen !== 'search') setTimeout(() => this.searchRef.current && this.searchRef.current.focus(), 60);
+  }
+  componentWillUnmount() { clearTimeout(this.tt); }
+
+  showToast(t) { clearTimeout(this.tt); this.setState({ toast: t }); this.tt = setTimeout(() => this.setState({ toast: null }), 2200); }
+  info(msg) { this.showToast({ main: '', sub: msg, xp: false }); }
+  gain(n, why, quiet) {
+    const before = this.state.xp, after = Math.max(0, before + n);
+    this.setState(s => ({ xp: Math.max(0, s.xp + n), weekXp: Math.max(0, s.weekXp + n) }));
+    if (n > 0 && !quiet && this.props.showXp !== false) this.showToast({ main: `+${n} XP`, sub: why, xp: true });
+    if (Math.floor(after / 200) > Math.floor(before / 200)) setTimeout(() => this.levelUp(Math.floor(after / 200) + 1), quiet ? 300 : 900);
+  }
+  levelUp(n) { this.setState({ lu: { n }, luIn: false }, () => setTimeout(() => this.setState({ luIn: true }), 40)); }
+
+  go(screen) { this.setState({ screen, drawer: false, tip: null, sheetOpen: false }); }
+  openSheet(sheet) { this.setState({ sheet, sheetOpen: true, tip: null }); }
+
+  goPage(p, o = {}) {
+    p = +p; const S = this.state;
+    if (!(p >= 1 && p <= 604)) return; if (!Component.D) { this.info('Loading the mushaf…'); return; }
+    const turned = p !== S.page;
+    const read = S.read.includes(p) ? S.read : [...S.read, p];
+    const goal = S.goal || 5;
+    let seen = S.seen || {}, known = S.known, promoted = 0;
+    if (turned) {
+      seen = { ...seen }; known = { ...S.known };
+      this.pageWords(S.page).forEach(ar => { const k = this.key(ar); if (S.visit[k]) return; seen[k] = (seen[k] || 0) + 1; if (!known[k] && seen[k] >= 3) { known[k] = 'f'; promoted++; } });
+    }
+    const today = S.todayPages + (turned ? 1 : 0);
+    this.setState({ page: p, lastPage: p, read, seen, known, weekWords: S.weekWords + promoted, visit: turned ? {} : S.visit, tip: null, sheetOpen: false, drawer: false, screen: 'mushaf', hl: o.hl !== undefined ? o.hl : S.hl, todayPages: today, pt: { x: (o.dir || 0) * 56, o: o.dir ? 0 : 1, tr: 'none' } }, () => {
+      if (this.scrollRef.current) this.scrollRef.current.scrollTop = 0;
+      if (o.dir) requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ pt: { x: 0, o: 1, tr: 'transform .32s cubic-bezier(.2,.7,.2,1), opacity .32s' } })));
+    });
+    if (turned) {
+      if (today === goal) this.gain(60, 'Daily goal reached · page read');
+      else this.gain(10, 'Page read');
+      if (promoted) setTimeout(() => this.info(`${promoted} word${promoted > 1 ? 's' : ''} you read past are now familiar`), 2300);
+    }
+  }
+  next() { this.goPage(this.state.page + 1, { dir: -1 }); }
+  prev() { if (this.state.page > 1) this.goPage(this.state.page - 1, { dir: 1 }); }
+
+  tap(e, w) {
+    e.stopPropagation();
+    if (this.state.tip && this.state.tip.id === w.id) { this.setState({ tip: null }); return; }
+    {
+      const S = this.state, k = this.key(w.ar);
+      let known = S.known; if (known[k] === 'f') { known = { ...known }; delete known[k]; }
+      const has = S.saved.some(x => this.key(x.ar) === k);
+      const saved = has || known[k] === 'k' ? S.saved : [{ id: w.id, ar: w.ar, ur: w.ur, ref: w.refN, page: w.page }, ...S.saved];
+      this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved });
+    }
+    const el = this.pageRef.current; if (!el) return;
+    const c = el.getBoundingClientRect(), r = e.currentTarget.getBoundingClientRect();
+    const s = (c.width / el.offsetWidth) || 1, W = el.offsetWidth, H = el.offsetHeight;
+    const cx = (r.left + r.width / 2 - c.left) / s;
+    const x = Math.max(6, Math.min(W - 246, cx - 120));
+    const top = (r.top - c.top) / s, bot = (r.bottom - c.top) / s;
+    const above = bot > H - 250 && top > 250;
+    this.setState({ tip: { ...w, x, y: above ? top - 6 : bot + 6, tf: above ? 'translateY(-100%)' : 'none' } });
+  }
+  tapGlobal(e, w) {
+    e.stopPropagation();
+    const S = this.state;
+    if (S.gTip && S.gTip.id === w.id) { this.setState({ gTip: null }); return; }
+    { const k = this.key(w.ar); let known = S.known; if (known[k] === 'f') { known = { ...known }; delete known[k]; } const has = S.saved.some(x => this.key(x.ar) === k); const saved = has || known[k] === 'k' ? S.saved : [{ id: w.id, ar: w.ar, ur: w.ur, ref: w.refN, page: w.page }, ...S.saved]; this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved }); }
+    const r = e.currentTarget.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.bottom + 8;
+    const above = cy > window.innerHeight * 0.6;
+    this.setState({ gTip: { ...w, vx: Math.max(8, Math.min(window.innerWidth - 248, cx - 120)), vy: above ? r.top - 8 : cy, tf: above ? 'translateY(-100%)' : 'none' } });
+  }
+  toggleKnown(ar) {
+    const k = this.key(ar), known = { ...this.state.known };
+    if (known[k]) { delete known[k]; this.setState({ known }); this.gain(-5); }
+    else { known[k] = 'k'; this.setState({ known, weekWords: this.state.weekWords + 1 }); this.gain(5, `Known everywhere · ${Component.FREQ[k] || 1}× in the Quran`); }
+  }
+  toggleDua(id) {
+    const m = { ...this.state.memorised };
+    if (m[id]) { delete m[id]; this.setState({ memorised: m }); this.gain(-25); }
+    else { m[id] = 1; this.setState({ memorised: m }); this.gain(25, 'Dua memorised'); }
+  }
+  toggleBookmark() {
+    const S = this.state, has = S.bookmarks.some(b => b.page === S.page);
+    if (has) { this.setState({ bookmarks: S.bookmarks.filter(b => b.page !== S.page) }); this.info('Bookmark removed'); }
+    else { this.setState({ bookmarks: [{ page: S.page, at: new Date().toLocaleDateString('en', { month: 'short', day: 'numeric' }) }, ...S.bookmarks] }); this.info(`Page ${S.page} bookmarked`); }
+  }
+  togglePagePreview() {
+    const S = this.state;
+    if (S.pagePreview) { this.setState({ pagePreview: false, pvScale: 1, pvFontPx: null }); return; }
+    const pvFontPx = Math.min(15, [24, 28, 32][S.fontStep] || 28);
+    this.setState({ pagePreview: true, pvScale: 1, pvFontPx }, () => {
+      const el = this.pageRef.current, sc = this.scrollRef.current;
+      if (el && sc) {
+        const scaleH = (sc.clientHeight - 24) / el.offsetHeight;
+        const scaleW = (sc.clientWidth - 24) / el.offsetWidth;
+        const pvScale = Math.min(1, scaleH, scaleW);
+        if (pvScale < 1) this.setState({ pvScale });
+      }
+    });
+  }
+  openAddFav(k) {
+    const S = this.state, existing = S.favAyahs.find(f => f.k === k);
+    if (existing) { this.setState({ favAyahs: S.favAyahs.filter(f => f.k !== k) }); this.info('Removed from favourites'); return; }
+    const cols = [...new Set(S.favAyahs.map(f => f.collection))];
+    this.setState({ favPending: k, favLabel: '', favCollection: cols[0] || 'General', sheet: 'addFav', sheetOpen: true, tip: null });
+  }
+  saveFav() {
+    const S = this.state; if (!S.favPending) return;
+    const C = Component, ay = C.AY[S.favPending]; if (!ay) return;
+    const sI = C.SUR[ay.s - 1] || {};
+    const ref = `${sI.nameEnglish} ${ay.k}`;
+    const existing = S.favAyahs.find(f => f.k === S.favPending);
+    const label = S.favLabel.trim(), collection = (S.favCollection.trim()) || 'General';
+    if (existing) {
+      const updated = S.favAyahs.map(f => f.k === S.favPending ? { ...f, label, collection } : f);
+      this.setState({ favAyahs: updated, sheetOpen: false, favPending: null });
+      this.info(`Updated in ${collection}`); return;
+    }
+    const entry = { id: S.favPending + '_' + Date.now(), k: S.favPending, ar: ay.w.map(w => w[0]).join(' ') + ` ﴿${this.arNum(ay.n)}﴾`, ur: ay.ur, ref, page: ay.p, label, collection, addedAt: new Date().toLocaleDateString('en', { month: 'short', day: 'numeric' }) };
+    this.setState({ favAyahs: [entry, ...S.favAyahs], sheetOpen: false, favPending: null });
+    this.info(`Saved to ${entry.collection}`);
+  }
+
+  endSplash(force) {
+    const S = this.state; if (!S.splash || S.splashOut) return;
+    if (!force && !(Component.D && Date.now() - this.t0 >= 1900)) return;
+    this.setState({ splashOut: true }); setTimeout(() => this.setState({ splash: false }), 520);
+  }
+  homeVals(S, K, P, goalN) {
+    const C = Component, sI = C.SUR[P.surahNo - 1], R = 2 * Math.PI * 22, gp = Math.min(1, S.todayPages / goalN), hr = new Date().getHours();
+    const icons = { home: 'M4 11l8-6.5L20 11v8.5a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z', mushaf: 'M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14', search: 'M11 4.5a6.5 6.5 0 1 1 0 13a6.5 6.5 0 1 1 0-13zM16 16l4.5 4.5', words: 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z', more: 'M4 7h16M4 12h16M4 17h16' };
+    const act = { home: ['home'], mushaf: ['mushaf'], search: ['search', 'viewall'], words: ['words', 'review'], more: ['progress', 'learn', 'unit', 'duas', 'bookmarks'] };
+    const tabs = [['home', 'Home'], ['mushaf', 'Mushaf'], ['search', 'Search'], ['words', 'My words'], ['more', 'More']].map(([id, label]) => { const on = act[id].includes(S.screen);
+      return { label, icon: icons[id], fg: on ? K.softInk : K.muted, pill: on ? K.soft : 'transparent', go: () => id === 'more' ? this.setState({ drawer: true, tip: null }) : this.go(id) }; });
+    return {
+      navH: S.screen === 'home' ? { bg: K.soft, fg: K.softInk } : { bg: 'transparent', fg: K.ink }, isHome: S.screen === 'home', goHome: () => this.go('home'), tabs,
+      home: { greet: hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening', surah: sI ? sI.nameEnglish : 'Loading…', surahAr: sI ? sI.nameArabic : '', page: S.page, juz: P.juz,
+        readPct: Math.max(1, S.read.length / 604 * 100) + '%', readLabel: `${S.read.length} of 604 pages read`, dash: `${gp * R} ${R}`, goalLabel: `${Math.min(S.todayPages, goalN)}/${goalN}`,
+        review: S.reviewedToday ? 'Done for today ✓' : `${Math.min(S.saved.length, 10)} words ready`, saved: `${S.saved.length} saved words` },
+      showSplash: !!S.splash, splash: { o: S.splashOut ? 0 : 1, pct: (S.splashPct || 8) + '%', label: Component.D ? 'Ready' : 'Preparing 604 pages…' }, skipSplash: () => this.endSplash(true),
+      exactLabel: S.exact === false ? 'Any part of a word' : 'Whole words', matchSeg: { w: S.exact !== false, a: S.exact === false },
+      segW: S.exact !== false ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' },
+      segA: S.exact === false ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' },
+      setWhole: () => this.setState({ exact: true }), setAny: () => this.setState({ exact: false })
+    };
+  }
+  pageWords(p) { const P = Component.PAGES[p]; return P ? P.ayahs.flatMap(a => a.w.map(w => w[0])) : []; }
+  openAyah(k, from) { if (!Component.AY[k]) return; this.setState({ sheet: 'ayah', sheetOpen: true, tip: null, ayah: { k, from } }); }
+  openDua(id) { this.setState({ sheet: 'dua', sheetOpen: true, tip: null, duaId: id }); }
+  markAyah() {
+    const ay = Component.AY[this.state.ayah.k], known = { ...this.state.known };
+    let c = 0; ay.w.forEach(w => { const k = this.key(w[0]); if (known[k] !== 'k') { if (!known[k]) c++; known[k] = 'k'; } });
+    this.setState({ known, weekWords: this.state.weekWords + c });
+    if (c) this.gain(c * 5, `${c} word${c > 1 ? 's' : ''} marked known`); else this.info('Every word in this ayah is marked known');
+  }
+  startReview() {
+    const S = this.state, deck = [...S.saved].sort((a, b) => (S.known[this.key(a.ar)] ? 1 : 0) - (S.known[this.key(b.ar)] ? 1 : 0)).slice(0, 10);
+    if (!deck.length) { this.info('Tap words while reading to collect them here'); return; }
+    this.setState({ screen: 'review', drawer: false, rv: { deck, i: 0, flipped: false, knew: 0, learning: 0, xp: 0, done: false } });
+  }
+  answer(knew) {
+    const S = this.state, rv = S.rv, w = rv.deck[rv.i], k = this.key(w.ar), known = { ...S.known };
+    const isNew = knew && known[k] !== 'k'; if (knew) known[k] = 'k';
+    const done = rv.i + 1 >= rv.deck.length, xp = (knew ? 5 : 1) + (done ? 20 : 0);
+    this.setState({ known, weekWords: S.weekWords + (isNew ? 1 : 0), reviewedToday: done || S.reviewedToday, rv: { ...rv, i: done ? rv.i : rv.i + 1, flipped: false, noAnim: true, knew: rv.knew + (knew ? 1 : 0), learning: rv.learning + (knew ? 0 : 1), xp: rv.xp + xp, done } });
+    setTimeout(() => this.state.rv && this.setState({ rv: { ...this.state.rv, noAnim: false } }), 60);
+    this.gain(xp, '', true);
+  }
+  finishOb() {
+    const o = this.state.ob;
+    this.setState({ onboarded: true, goal: o.goal, known: this.seedKnown(o.level), screen: 'mushaf', ob: { ...o, step: 0 } });
+    this.info('Bismillah. Tap any word to see its meaning.');
+  }
+  search(q, K) {
+    q = (q || '').trim(); if (q.length < 2 || !Component.D) return null;
+    const C = Component, S = this.state, nq = this.norm(q), res = []; let total = 0;
+    for (const k of C.ALLK) {
+      const ay = C.AY[k], m = new Set();
+      if (nq) { let idx = ay.joined.indexOf(nq); while (idx > -1) { const end = idx + nq.length, hit = []; ay.nw.forEach((w, i) => { if (ay.st[i] < end && ay.st[i] + w.length > idx) hit.push(i); }); const f = hit[0], l = hit[hit.length - 1]; if (S.exact === false || (C.PREF.has(ay.nw[f].slice(0, idx - ay.st[f])) && C.SUF.has(ay.nw[l].slice(end - ay.st[l])))) hit.forEach(i => m.add(i)); idx = ay.joined.indexOf(nq, idx + 1); } }
+      ay.w.forEach((w, i) => { if (w[1] && w[1].includes(q)) m.add(i); });
+      if (!m.size) continue;
+      total++; if (res.length >= 150) continue;
+      const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
+      res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
+        toks: ay.w.map((w, i) => { const kn = !!S.known[this.key(w[0])]; const id = `sw${ay.s}-${ay.n}-${i}`; const refN = `${sI.nameEnglish} ${k}`; return { ar: w[0], bg: m.has(i) ? K.hl : (kn ? K.soft : 'transparent'), fg: kn ? K.softInk : K.ink, onTap: e => this.tapGlobal(e, { id, ar: w[0], ur: w[1], ref: refN.toUpperCase(), refN, page: ay.p, ak: k }) }; }),
+        meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
+        open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
+        tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
+        toggleTr: () => this.setState(s => ({ trOpen: { ...s.trOpen, [k]: !s.trOpen[k] } })),
+        wbw: () => this.openAyah(k, 'search') });
+    }
+    res.total = total;
+    return res;
+  }
+  viewAll(results, S) {
+    const r = results || [], toks = []; let last = null;
+    r.forEach(x => {
+      if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
+      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, bg: t.bg, onTap: () => this.openAyah(x.k, 'search') }));
+      toks.push({ isMarker: true, num: this.arNum(x.an), open: () => x.open() });
+    });
+    const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
+    return {
+      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks, tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
+      isViewAll: S.screen === 'viewall', vaFlow: !S.vaTr, vaTrOn: !!S.vaTr,
+      vaTitle: `“${S.q.trim()}”`, vaSub: `${tot} ayah${tot === 1 ? '' : 's'}${tot > r.length ? ` · first ${r.length} shown` : ''}`,
+      vaTrLabel: S.vaTr ? 'Hide translation' : 'Translation',
+      toggleVaTr: () => this.setState({ vaTr: !S.vaTr }),
+      openViewAll: () => this.setState({ screen: 'viewall' }), backToSearch: () => this.setState({ screen: 'search' })
+    };
+  }
+  extra(S, K, P, goalN, knownCount, memCount, curKnown, lvlN) {
+    const C = Component, tip = S.tip;
+    const sw = on => ({ bg: on ? K.brand : K.surf2, knob: on ? K.onBrand : '#FFFFFF', x: on ? '20px' : '0' });
+    const duaAll = [...C.DUAS.quranic, ...C.DUAS.masnoon], duaTotal = duaAll.length;
+    let A = { words: [] };
+    if (S.ayah && C.AY[S.ayah.k]) {
+      const ay = C.AY[S.ayah.k], ap = ay.p, sI = C.SUR[ay.s - 1], all = C.ALLK, idx = ay.idx;
+      const kc = ay.w.filter(w => S.known[this.key(w[0])]).length, done = kc === ay.w.length, ref = `${sI.nameEnglish} ${ay.k}`;
+      const mv = j => this.setState({ ayah: { ...S.ayah, k: all[j] } });
+      A = { ref, sub: `Page ${ap} · Juz ${C.PAGES[ap].juz}`, ar: ay.w.map(w => w[0]).join(' ') + ` ﴿${this.arNum(ay.n)}﴾`, tr: C.TR[ay.k] || ay.ur, trKind: C.TR[ay.k] ? 'Translation · ba-muhawara' : 'Translation · word order',
+        words: ay.w.map(([a, u]) => { const kn = !!S.known[this.key(a)]; return { ar: a, ur: u, bg: kn ? K.soft : K.bg, fg: kn ? K.softInk : K.ink }; }),
+        knownLabel: `${kc} of ${ay.w.length} known`, markLabel: done ? 'All words known ✓' : `Mark ayah as known · +${(ay.w.length - kc) * 5} XP`,
+        markBg: done ? K.soft : K.brand, markFg: done ? K.softInk : K.onBrand,
+        prevOp: idx > 0 ? 1 : 0.35, nextOp: idx < all.length - 1 ? 1 : 0.35,
+        prev: () => { if (idx > 0) mv(idx - 1); }, next: () => { if (idx < all.length - 1) mv(idx + 1); },
+        showOpen: S.ayah.from === 'search' || ap !== S.page || S.screen !== 'mushaf',
+        open: () => this.goPage(ap, { hl: { ids: ay.w.map((w, i) => `w${ay.s}-${ay.n}-${i}`), label: ref } }),
+        isFavd: S.favAyahs.some(f => f.k === S.ayah.k),
+        favBtn: () => this.openAddFav(S.ayah.k),
+        favBg: S.favAyahs.some(f => f.k === S.ayah.k) ? K.goldSoft : K.surf2,
+        favFg: S.favAyahs.some(f => f.k === S.ayah.k) ? K.goldInk : K.muted,
+        favFill: S.favAyahs.some(f => f.k === S.ayah.k) ? K.gold : 'none',
+        favAria: S.favAyahs.some(f => f.k === S.ayah.k) ? 'Remove from favourites' : 'Add to favourites' };
+    }
+    const dq = S.duaId ? duaAll.find(d => d.id === S.duaId) : null, dmem = !!(dq && S.memorised[dq.id]);
+    const duaPage = dq ? (dq.page || null) : null;
+    const D = dq ? { ...dq, btnBg: dmem ? K.soft : K.brand, btnFg: dmem ? K.softInk : K.onBrand, btnLabel: dmem ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(dq.id), all: () => this.setState({ screen: 'duas', duaTab: dq.juz ? 'quranic' : 'masnoon', duaJuz: dq.juz || null, sheetOpen: false, drawer: false }), allLabel: dq.juz ? `All duas in Juz ${dq.juz}` : 'All daily duas', hasPage: !!duaPage, duaPage: duaPage || '', viewInMushaf: () => { if (duaPage) this.goPage(duaPage); } } : {};
+    const duaTokens = (dq && dq.surahId && dq.ayahFrom) ? (() => {
+      const toks = [];
+      for (let n = dq.ayahFrom; n <= (dq.ayahTo || dq.ayahFrom); n++) {
+        const k = `${dq.surahId}:${n}`, ay = C.AY[k];
+        if (!ay) continue;
+        const sI = C.SUR[dq.surahId - 1] || {}, refN = `${sI.nameEnglish || ''} ${k}`;
+        ay.w.forEach(([ar, ur], wi) => {
+          if (wi < (ay.bismN || 0)) return;
+          const kn = !!S.known[this.key(ar)];
+          toks.push({ isWord: true, ar, bg: kn ? K.soft : 'transparent', fg: kn ? K.softInk : K.ink, onTap: e => this.tapGlobal(e, { id: `dw${dq.surahId}-${n}-${wi}`, ar, ur, ref: refN.toUpperCase(), refN, page: S.page, ak: k }) });
+        });
+      }
+      return toks;
+    })() : [];
+    const wp = [...S.weekPages, S.todayPages], mx = Math.max(goalN, ...wp), dn = ['S', 'M', 'T', 'W', 'T', 'F', 'S'], td = new Date().getDay();
+    const chart = wp.map((p, i) => { const fr = i === S.weekFrozen; return { d: dn[(td - 6 + i + 7) % 7], h: fr || !p ? '0%' : Math.max(6, p / mx * 78) + '%', bg: p >= goalN ? K.brand : K.brandMid, frozen: fr, colBg: fr ? K.iceSoft : 'transparent', v: fr ? '' : (p || ''), lc: i === 6 ? K.ink : K.muted }; });
+    const wsum = wp.reduce((a, b) => a + b, 0), LW = S.lastWeek || { pages: 0, words: 0, xp: 0 };
+    const dl = (a, b) => ({ d: `${a >= b ? '+' : '−'}${Math.abs(a - b)} vs last`, dc: a >= b ? K.knownInk : K.gold });
+    let rw = 0; Object.keys(S.known).forEach(k => { rw += C.FREQ[k] || 0; });
+    const recPct = Math.min(100, rw / C.TOTAL * 100);
+    const qd = C.DUAS.quranic, curJuz = P.juz, selJ = S.mapJuz || curJuz; let jDone = 0;
+    const qmap = C.JUZ.map((s, i) => {
+      const n = i + 1, e = i < 29 ? C.JUZ[i + 1] - 1 : 604, tot = e - s + 1; let r = 0;
+      for (let pg = s; pg <= e; pg++) if (S.read.includes(pg)) r++;
+      if (r === tot) jDone++;
+      const dc = qd.filter(d => d.juz === n).length, sel = n === selJ;
+      return { n, name: C.JUZ_NAMES[i], pct: (r / tot * 100) + '%', bg: sel ? K.brand : K.bg, fg: sel ? K.onBrand : K.ink, sub: sel ? K.onBrand : K.muted, track: sel ? K.onBrandTrack : K.track, bar: sel ? K.onBrand : K.brand, bd: n === curJuz ? K.gold : (sel ? K.brand : K.line), hasDua: dc > 0, dc, go: () => this.setState({ mapJuz: n }) };
+    });
+    const js = C.JUZ[selJ - 1], je = selJ < 30 ? C.JUZ[selJ] - 1 : 604, jPages = []; let jr = 0;
+    for (let pg = js; pg <= je; pg++) { const rd = S.read.includes(pg), cur = pg === S.page; if (rd) jr++; jPages.push({ n: pg, bg: rd ? K.brand : K.surf, fg: rd ? K.onBrand : K.muted, bd: cur ? K.gold : (rd ? K.brand : K.line), go: () => this.goPage(pg) }); }
+    const jDuas = qd.filter(d => d.juz === selJ).map(d => ({ title: d.title, meta: d.meta.split(' · ')[0], memLabel: S.memorised[d.id] ? ' · Memorised ✓' : '', open: () => this.openDua(d.id) }));
+    const mj = { n: selJ, name: C.JUZ_NAMES[selJ - 1], sub: `Pages ${js}–${je} · ${jr} of ${je - js + 1} read`, pages: jPages, duas: jDuas, noDuas: !jDuas.length, duaHead: jDuas.length ? `${jDuas.length} Qur’anic dua${jDuas.length === 1 ? '' : 's'} in this juz` : 'Duas in this juz', open: () => this.goPage(js) };
+    const qs = [...qd].sort((a, b) => a.juz - b.juz), dj = S.duaJuz || null;
+    const src = S.duaTab === 'quranic' ? qs.filter(d => !dj || d.juz === dj) : C.DUAS.masnoon; let lastH = null;
+    const duaList = src.map(d => { const m = !!S.memorised[d.id], isQ = S.duaTab === 'quranic', hk = isQ ? d.juz : d.cat, head = hk !== lastH, cat = C.DCAT[d.cat] || {}; lastH = hk;
+      const dp = d.page || null;
+      const listToks = (() => {
+        if (d.surahId && d.ayahFrom) {
+          const toks = [];
+          for (let n = d.ayahFrom; n <= (d.ayahTo || d.ayahFrom); n++) {
+            const k = `${d.surahId}:${n}`, ay = C.AY[k]; if (!ay) continue;
+            const sI = C.SUR[d.surahId - 1] || {}, refN = `${sI.nameEnglish || ''} ${k}`;
+            ay.w.forEach(([ar, ur], wi) => {
+              if (wi < (ay.bismN || 0)) return;
+              const kn = !!S.known[this.key(ar)];
+              toks.push({ ar, bg: kn ? K.soft : 'transparent', fg: kn ? K.softInk : K.ink, hasOnTap: true, onTap: e => this.tapGlobal(e, { id: `dl${d.surahId}-${n}-${wi}`, ar, ur, ref: refN.toUpperCase(), refN, page: d.page || S.page, ak: k }) });
+            });
+          }
+          return toks;
+        }
+        return (d.ar || '').split(/\s+/).filter(Boolean).map((ar, wi) => {
+          const kn = !!S.known[this.key(ar)], lk = (C.WMAP || {})[this.key(ar)];
+          return { ar, bg: kn ? K.soft : 'transparent', fg: kn ? K.softInk : K.ink, onTap: lk ? (e => this.tapGlobal(e, { id: `dm${d.id}-${wi}`, ar: lk.ar, ur: lk.ur, ref: (d.title || 'DUA').toUpperCase(), refN: d.title || '', page: S.page, ak: null })) : null, hasOnTap: !!lk };
+        });
+      })();
+      return { ...d, head, headLabel: isQ ? `Juz ${d.juz}` : (cat.label || ''), headAr: isQ ? C.JUZ_NAMES[d.juz - 1] : (cat.labelUrdu || ''), btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id), hasPage: !!dp, duaPage: dp || '', viewInMushaf: () => { if (dp) this.goPage(dp); }, listToks }; });
+    const duaChips = [{ label: 'All juz', n: qs.length, j: null }, ...[...new Set(qs.map(d => d.juz))].map(j => ({ label: `Juz ${j}`, n: qs.filter(d => d.juz === j).length, j }))]
+      .map(c => ({ ...c, bg: dj === c.j ? K.brand : K.surf, fg: dj === c.j ? K.onBrand : K.ink, bd: dj === c.j ? K.brand : K.line, pick: () => this.setState({ duaJuz: c.j }) }));
+    const ob = S.ob, step = ob.step, opt = on => ({ bd: on ? K.brand : K.line, dot: on ? K.brand : 'transparent' });
+    const rv = S.rv, cd = rv && rv.deck[rv.i];
+    const inW = S.screen === 'words' || S.screen === 'review';
+    return {
+      tipAyah: e => { e.stopPropagation(); if (tip) this.openAyah(tip.ak); },
+      tipNote: tip && S.known[this.key(tip.ar)] === 'k' ? `Known everywhere · ${C.FREQ[this.key(tip.ar)] || 1}× in the Quran` : `Saved to My words · appears ${C.FREQ[tip ? this.key(tip.ar) : ''] || 1}×`,
+      resetLearned: () => this.resetLearned(), resetLabel: S.confirmReset ? 'Tap again to erase all progress' : 'Reset all progress', resetFg: S.confirmReset ? '#FFFFFF' : '#B3261E', resetBg: S.confirmReset ? '#B3261E' : 'transparent',
+      isAyah: S.sheet === 'ayah', isDuaSheet: S.sheet === 'dua', A, D, duaTokens, hasDuaTokens: duaTokens.length > 0, noDuaTokens: duaTokens.length === 0, markAyah: () => this.markAyah(),
+      totals: [
+        { label: 'Pages read', v: S.read.length, of: 'of 604', pct: Math.max(1, S.read.length / 604 * 100) + '%', bd: K.line },
+        { label: 'Words known', v: knownCount, of: `· ${curKnown}/${C.VOCAB_TOTAL} in units`, pct: (curKnown / Math.max(1, C.VOCAB_TOTAL) * 100) + '%', bd: K.line },
+        { label: 'Duas memorised', v: memCount, of: `of ${duaTotal}`, pct: (memCount / duaTotal * 100) + '%', bd: 'transparent' }
+      ],
+      duaSum: `${memCount} of ${duaTotal} memorised`, duaPct: (memCount / duaTotal * 100) + '%',
+      chart, wk: { goalB: (goalN / mx * 78) + '%', stats: [{ v: wsum, l: 'pages', ...dl(wsum, LW.pages) }, { v: S.weekWords, l: 'new words', ...dl(S.weekWords, LW.words) }, { v: S.weekXp, l: 'XP earned', ...dl(S.weekXp, LW.xp) }] },
+      freezeLabel: `${S.freezes} streak freeze${S.freezes === 1 ? '' : 's'} left`,
+      rec: { pct: recPct.toFixed(1) + '%', bar: Math.max(1, recPct) + '%', next: C.TOP.filter(([k]) => !S.known[k]).slice(0, 4).map(([k, w, c]) => ({ ar: w, c: c.toLocaleString(), go: () => this.setState({ screen: 'search', q: w, drawer: false }) })) },
+      qmap, mj, mapSum: `${S.read.length} of 604 pages · ${jDone} of 30 juz`,
+      duaList, duaChips, isQuranicTab: S.duaTab === 'quranic',
+      hasLu: !!S.lu, closeLu: () => this.setState({ lu: null, luIn: false }), previewLu: () => this.levelUp(lvlN),
+      lu: S.lu ? { n: S.lu.n, name: C.LEVELS[Math.min(S.lu.n - 1, C.LEVELS.length - 1)], sub: `You’ve reached ${S.xp} XP. Level ${S.lu.n + 1} unlocks at ${S.lu.n * 200} XP.`, sc: S.luIn ? 1 : 0.3, o: S.luIn ? 1 : 0,
+        dots: Array.from({ length: 14 }, (_, i) => { const a = i / 14 * Math.PI * 2, r = S.luIn ? (i % 2 ? 128 : 100) : 0; return { x: Math.cos(a) * r, y: Math.sin(a) * r, o: S.luIn ? 1 : 0, s: i % 3 === 0 ? 12 : 8, c: [K.gold2, K.onBrand, K.gold][i % 3] }; }) } : { dots: [] },
+      showOb: !S.onboarded,
+      obs: { s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3, backOp: step > 0 ? 1 : 0, cta: ['Get started', 'Continue', 'Continue', 'Start reading'][step] },
+      obDots: [0, 1, 2, 3].map(i => ({ w: i === step ? '22px' : '8px', bg: i <= step ? K.brand : K.line })),
+      obLevels: [['Just starting', 'I can read the script but know few meanings'], ['I know some words', 'Common words like رب، يوم، كتاب'], ['I’ve studied Muallim-ul-Quran', 'Units 1–3 will be marked as known']].map(([t, s], i) => ({ t, s, ...opt(ob.level === i), pick: () => this.setState({ ob: { ...ob, level: i } }) })),
+      obGoals: [[2, 'Light', 'About 10 minutes a day'], [5, 'Steady', 'About 20 minutes · recommended'], [10, 'Committed', 'About 40 minutes a day']].map(([g, t, s]) => ({ g, t, s, ...opt(ob.goal === g), pick: () => this.setState({ ob: { ...ob, goal: g } }) })),
+      obTheme: { light: S.dark ? K.line : K.brand, dark: S.dark ? K.brand : K.line },
+      obNext: () => { if (step < 3) this.setState({ ob: { ...ob, step: step + 1 } }); else this.finishOb(); },
+      obBack: () => { if (step > 0) this.setState({ ob: { ...ob, step: step - 1 } }); },
+      obSkip: () => this.finishOb(),
+      replayOb: () => this.setState({ onboarded: false, drawer: false, ob: { step: 0, level: 1, goal: S.goal || 5 } }),
+      isWords: S.screen === 'words', isReview: S.screen === 'review', goWords: () => this.go('words'),
+      navW: { bg: inW ? K.soft : 'transparent', fg: inW ? K.softInk : K.ink },
+      savedList: S.saved.map(w => { const st = S.known[this.key(w.ar)]; return { ...w, tag: st === 'f' ? 'Familiar' : st ? 'Known' : 'Learning', tagBg: st ? K.soft : K.goldSoft, tagFg: st ? K.softInk : K.goldInk, open: () => this.goPage(w.page, { hl: { ids: [w.id], label: w.ar } }), remove: () => this.setState({ saved: S.saved.filter(x => x.id !== w.id) }) }; }),
+      noSaved: !S.saved.length, savedCount: `${S.saved.length} words`,
+      rvInfo: { title: S.reviewedToday ? 'Done for today ✓' : `${Math.min(S.saved.length, 10)} words to review`, cta: S.reviewedToday ? 'Review again' : 'Start review' },
+      startReview: () => this.startReview(),
+      rvActive: !!rv && !rv.done, rvDone: !!rv && rv.done,
+      rvc: rv ? { ar: cd.ar, ur: cd.ur, ref: cd.ref, n: rv.i + 1, total: rv.deck.length, pct: ((rv.done ? rv.deck.length : rv.i) / rv.deck.length * 100) + '%', rot: rv.flipped ? 180 : 0, tr: rv.noAnim ? 'none' : 'transform .5s cubic-bezier(.3,.7,.3,1)', flipped: !!rv.flipped, front: !rv.flipped, xp: rv.xp, knew: rv.knew, learning: rv.learning } : {},
+      flip: () => { if (rv && !rv.done) this.setState({ rv: { ...rv, flipped: !rv.flipped } }); },
+      knewIt: () => this.answer(true), stillLearning: () => this.answer(false), closeReview: () => this.setState({ screen: 'words', rv: null }),
+      goalPills: [2, 5, 10].map(g => ({ g, bg: S.goal === g ? K.brand : K.bg, fg: S.goal === g ? K.onBrand : K.ink, bd: S.goal === g ? K.brand : K.line, pick: () => this.setState({ goal: g }) })),
+      tintSw: sw(S.tint !== false), toggleTint: () => this.setState({ tint: S.tint === false }),
+      trAllLabel: S.trAll ? 'Hide translations' : 'Show all translations', toggleTrAll: () => this.setState({ trAll: !S.trAll, trOpen: {} })
+    };
+  }
+  renderVals() {
+    const S = this.state, C = Component, K = C.THEMES[S.dark ? 'dark' : 'light'];
+    const P = C.PAGES[S.page] || C.STUB;
+    const goalN = S.goal || 5, tipStyle = this.props.tipStyle ?? 'bubble';
+    const knownCount = Object.keys(S.known).length, memCount = Object.keys(S.memorised).length;
+    const lvlN = Math.floor(S.xp / 200) + 1, into = S.xp % 200;
+    const hl = (S.hl && S.hl.ids) || [], sel = S.tip && S.tip.id;
+
+    const tokens = [];
+    const tint = S.tint !== false; let pKn = 0, pTot = 0;
+    const mk = (id, ar, ur, ref, refN, ak) => { const kn = !!S.known[this.key(ar)]; pTot++; if (kn) pKn++; return { isWord: true, ar, fg: kn && tint ? K.knownInk : K.ink, bg: id === sel ? K.sel : (hl.includes(id) ? K.hl : 'transparent'), line: id === sel ? K.brand : 'transparent', onTap: e => this.tap(e, { id, ar, ur, ref, refN, page: S.page, ak }) }; };
+    P.ayahs.forEach((ay, ai) => {
+      const sI = C.SUR[ay.s - 1] || {}, refN = `${sI.nameEnglish} ${ay.k}`, REF = refN.toUpperCase();
+      if (ay.n === 1 && ai > 0) tokens.push({ isHead: true, ar: sI.nameArabic });
+      ay.w.forEach(([a, u], i) => {
+        const b = i < ay.bismN;
+        tokens.push(mk(`w${ay.s}-${ay.n}-${i}`, a, u, b ? 'BISMILLAH' : REF, b ? 'Bismillah' : refN, ay.k));
+        if (ay.bismN && i === ay.bismN - 1) tokens.push({ isBreak: true });
+      });
+      tokens.push({ isMarker: true, num: this.arNum(ay.n), onTap: e => { e.stopPropagation(); this.openAyah(ay.k); } });
+      const dm = C.DMARK[ay.k]; if (dm) tokens.push({ isDua: true, onTap: e => { e.stopPropagation(); this.openDua(dm); } });
+    });
+    const pageRec = Math.round(pKn / Math.max(1, pTot) * 100) + '%';
+
+    const units = C.UNITS.map(u => { const k = u.words.filter(w => S.known[this.key(w[0])]).length; return { ...u, k, total: u.words.length, pct: (k / Math.max(1, u.words.length) * 100) + '%' }; });
+    const curN = (units.find(u => u.k < u.total) || units[units.length - 1] || { n: 1 }).n;
+    const unitCards = units.map(u => {
+      const done = u.k === u.total, cur = u.n === curN;
+      return { n: u.n, title: `${u.wc} words · ${u.pc} phrases`, k: u.k, total: u.total, pct: u.pct, ruleTitle: `${u.rules.length} rules`,
+        nodeBg: done ? K.brand : (cur ? K.soft : K.surf), nodeFg: done ? K.onBrand : (cur ? K.softInk : K.muted), nodeBd: done ? K.brand : (cur ? K.brand : K.line),
+        cardBg: K.surf, cardBd: cur ? K.brand : K.line, open: () => this.setState({ screen: 'unit', unit: u.n, unitTab: 'words' }) };
+    });
+    const Uu = units.find(u => u.n === S.unit) || units[0];
+    const U = Uu ? { n: Uu.n, title: `Muallim-ul-Quran · Unit ${Uu.n}`, k: Uu.k, total: Uu.total, pct: Uu.pct,
+      words: Uu.words.map(([ar, ur]) => { const kn = !!S.known[this.key(ar)]; return { ar, ur, toggle: () => this.toggleKnown(ar), ckBg: kn ? K.brand : 'transparent', ckBd: kn ? K.brand : K.frame, ckOp: kn ? 1 : 0 }; }),
+      rules: Uu.rules.map(r => { const ex = (r.examples || []).slice(0, 4); return { order: r.order, title: r.title, definition: r.definition, hasEx: ex.length > 0,
+        examples: ex.map(e => { const exTokens = e.arabic.split(/\s+/).filter(Boolean).map(ar => { const kn = !!S.known[this.key(ar)]; const lk = (C.WMAP || {})[this.key(ar)]; return { ar, bg: kn ? K.soft : 'transparent', fg: kn ? K.softInk : K.ink, onTap: lk ? (ev => this.tapGlobal(ev, { id: `qw${this.key(ar)}`, ar: lk.ar, ur: lk.ur, ref: 'QAWAID', refN: r.title, page: S.page, ak: null })) : null, hasLk: !!lk, noLk: !lk }; }); return { ar: e.arabic, ur: e.meaning || '', hasUr: !!e.meaning, exTokens, find: () => this.setState({ screen: 'search', q: e.arabic }) }; }) }; }) } : { words: [], rules: [] };
+    const curKnown = units.reduce((a, u) => a + u.k, 0);
+
+    const seg = on => on ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' };
+    const navS = id => { const a = S.screen === id || (id === 'learn' && S.screen === 'unit'); return { bg: a ? K.soft : 'transparent', fg: a ? K.softInk : K.ink }; };
+    const bm = S.bookmarks.some(b => b.page === S.page);
+    const tip = S.tip, tipKnown = tip && !!S.known[this.key(tip.ar)];
+    const results = (S.screen === 'search' || S.screen === 'viewall') ? this.search(S.q, K) : null;
+    const R14 = 2 * Math.PI * 14, R34 = 2 * Math.PI * 34, gp = Math.min(1, S.todayPages / goalN);
+    const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    const badges = [
+      { name: 'First page', sub: 'Read a page', on: S.read.length >= 1, g: '١' },
+      { name: 'Al-Fatiha', sub: 'Read page 1', on: S.read.includes(1), g: 'ف' },
+      { name: 'Unit 1', sub: `All ${units[0] ? units[0].total : 0} words`, on: !!units[0] && units[0].k === units[0].total, g: 'ا' },
+      { name: '7-day streak', sub: S.streak >= 7 ? 'Earned' : `${7 - S.streak} day to go`, on: S.streak >= 7, g: '٧' },
+      { name: '25 words', sub: `${Math.min(knownCount, 25)} of 25`, on: knownCount >= 25, g: '٢٥' },
+      { name: 'Dua keeper', sub: `${Math.min(memCount, 5)} of 5 duas`, on: memCount >= 5, g: 'د' }
+    ];
+    const sizes = [24, 28, 32];
+
+    return {
+      K, dark: S.dark, streak: S.streak, xp: S.xp,
+      rp: { surah: P.surah, juz: P.juz, page: S.page, header: P.header },
+      tokens, fontPx: (S.pagePreview && S.pvFontPx) ? S.pvFontPx : (sizes[S.fontStep] || 28),
+      pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, pt: S.pt,
+      bmFill: bm ? 'currentColor' : 'none', bmColor: bm ? K.brand : K.ink,
+      hasHl: hl.length > 0, hlLabel: S.hl ? `Highlighting “${S.hl.label}”` : '', clearHl: () => this.setState({ hl: null }),
+      tip: tip || {}, tipBubble: !!tip && tipStyle === 'bubble', tipSheet: !!tip && tipStyle === 'sheet',
+      tipBtn: tipKnown ? { bg: S.dark ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)', fg: K.tipFg, sbg: K.soft, sfg: K.softInk, label: 'Known word ✓' } : { bg: '#E3B45C', fg: '#1B1405', sbg: K.brand, sfg: K.onBrand, label: 'I know this · +5 XP' },
+      tipKnow: e => { e.stopPropagation(); if (tip) this.toggleKnown(tip.ar); },
+      stop: e => e.stopPropagation(),
+      closeTip: () => { if (this.swiped) { this.swiped = false; return; } if (S.tip) this.setState({ tip: null }); },
+      onDown: e => { this.sx = e.clientX; this.swiped = false; },
+      onUp: e => { const dx = e.clientX - (this.sx ?? e.clientX); if (Math.abs(dx) > 60) { this.swiped = true; dx > 0 ? this.next() : this.prev(); } },
+      nextPage: () => this.next(), prevPage: () => this.prev(),
+      nextOp: S.page < 604 ? 1 : 0.5, prevOp: S.page > 1 ? 1 : 0.4,
+      goal: { label: `${Math.min(S.todayPages, goalN)}/${goalN}`, dash: `${gp * R14} ${R14}`, bigDash: `${gp * R34} ${R34}`, sub: S.todayPages >= goalN ? 'Goal reached today' : `${goalN - S.todayPages} more for +50 XP bonus` },
+      lvl: { n: lvlN, name: C.LEVELS[Math.min(lvlN - 1, C.LEVELS.length - 1)], pct: (into / 200 * 100) + '%', toNext: `${200 - into} XP to level ${lvlN + 1}` },
+      week: days.map((d, i) => ({ d, bg: i >= 7 - S.streak ? K.brand : K.surf2, ring: i === 6 ? K.gold : 'transparent' })),
+      totals: [
+        { label: 'Pages read', v: S.read.length, of: 'of 604', pct: Math.max(1, S.read.length / 604 * 100) + '%', bd: K.line },
+        { label: 'Words known', v: knownCount, of: `· ${curKnown}/56 in units`, pct: (curKnown / 56 * 100) + '%', bd: K.line },
+        { label: 'Duas memorised', v: memCount, of: 'of 10', pct: (memCount / 10 * 100) + '%', bd: 'transparent' }
+      ],
+      badges: badges.map(b => ({ ...b, bg: b.on ? K.goldSoft : K.surf2, bd: b.on ? K.gold : K.line, fg: b.on ? K.goldInk : K.muted, op: b.on ? 1 : 0.75 })),
+      badgeCount: `${badges.filter(b => b.on).length} of ${badges.length}`,
+      units: unitCards, learnSum: `${curKnown} of ${C.VOCAB_TOTAL} words known · ${units.length} units`,
+      U, isUnitWords: S.unitTab === 'words', isUnitRules: S.unitTab === 'rules',
+      useg: { words: seg(S.unitTab === 'words'), rules: seg(S.unitTab === 'rules') },
+      unitWords: () => this.setState({ unitTab: 'words' }), unitRules: () => this.setState({ unitTab: 'rules' }),
+      duaList: C.DUAS[S.duaTab].map(d => { const m = !!S.memorised[d.id]; const dp = d.page || null; return { ...d, btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id), hasPage: !!dp, duaPage: dp || '', viewInMushaf: () => { if (dp) this.goPage(dp); } }; }),
+      duaSum: `${memCount} of 10 memorised`, duaPct: (memCount / 10 * 100) + '%',
+      dseg: { q: seg(S.duaTab === 'quranic'), m: seg(S.duaTab === 'masnoon') },
+      duaQuranic: () => this.setState({ duaTab: 'quranic' }), duaMasnoon: () => this.setState({ duaTab: 'masnoon' }),
+      bmList: S.bookmarks.map(b => { const pg = C.PAGES[b.page]; return { title: `Page ${b.page} · ${pg ? pg.surah : ''}`, sub: `Juz ${pg ? pg.juz : ''} · saved ${b.at}`, open: () => this.goPage(b.page), remove: () => this.setState({ bookmarks: S.bookmarks.filter(x => x.page !== b.page) }) }; }),
+      noBookmarks: S.bookmarks.length === 0, bmCount: S.bookmarks.length,
+      q: S.q, onQ: e => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }), hasQ: S.q.length > 0,
+      noQuery: !results, hasRes: !!results && results.length > 0, noRes: !!results && results.length === 0, results: results || [],
+      resCount: results ? `${results.total} ayah${results.total === 1 ? '' : 's'}${results.total > results.length ? ` · first ${results.length} shown` : ''}` : '',
+      suggestions: ['الرحمن', 'هدى', 'ہدایت', 'رب', 'الذين'].map(label => ({ label, pick: () => this.setState({ q: label }) })),
+      isProgress: S.screen === 'progress', isLearn: S.screen === 'learn', isUnit: S.screen === 'unit', isDuas: S.screen === 'duas', isBookmarks: S.screen === 'bookmarks', isSearch: S.screen === 'search', isFavourites: S.screen === 'favourites',
+      openDrawer: () => this.setState({ drawer: true, tip: null }), closeDrawer: () => this.setState({ drawer: false }),
+      goMushaf: () => this.go('mushaf'), goProgress: () => this.go('progress'), goLearn: () => this.go('learn'), goDuas: () => this.go('duas'), goBookmarks: () => this.go('bookmarks'), openSearch: () => this.go('search'), goFavourites: () => this.go('favourites'),
+      isFavSheet: S.sheet === 'addFav',
+      favCount: S.favAyahs.length,
+      noFavourites: S.favAyahs.length === 0,
+      favLabel: S.favLabel, onFavLabel: e => this.setState({ favLabel: e.target.value }),
+      favCollection: S.favCollection, onFavCollection: e => this.setState({ favCollection: e.target.value }),
+      saveFav: () => this.saveFav(),
+      favColChips: [...new Set(S.favAyahs.map(f => f.collection))].slice(0, 5).map(label => ({ label, pick: () => this.setState({ favCollection: label }) })),
+      favChips: (() => { const cols = ['All', ...new Set(S.favAyahs.map(f => f.collection))]; return cols.map(label => { const isSel = label === 'All' ? S.favColFilter === null : S.favColFilter === label; const n = label === 'All' ? S.favAyahs.length : S.favAyahs.filter(f => f.collection === label).length; return { label, n, pick: () => this.setState({ favColFilter: label === 'All' ? null : label }), bg: isSel ? K.brand : K.surf, fg: isSel ? K.onBrand : K.ink, bd: isSel ? K.brand : K.line }; }); })(),
+      favList: (() => { const list = S.favColFilter ? S.favAyahs.filter(f => f.collection === S.favColFilter) : S.favAyahs; return list.map(f => ({ ...f, hasLabel: !!f.label, remove: () => this.setState({ favAyahs: S.favAyahs.filter(x => x.id !== f.id) }), open: () => { this.goPage(f.page); this.setState({ sheetOpen: false }); }, editLabel: () => this.setState({ favPending: f.k, favLabel: f.label, favCollection: f.collection, sheet: 'addFav', sheetOpen: true }) })); })(),
+      nav: { mushaf: navS('mushaf'), search: navS('search'), progress: navS('progress'), learn: navS('learn'), duas: navS('duas'), bookmarks: navS('bookmarks'), favourites: { bg: S.screen === 'favourites' ? K.soft : 'transparent', fg: S.screen === 'favourites' ? K.brand : K.ink, heartFill: S.screen === 'favourites' ? K.brand : 'none' } },
+      dr: { x: S.drawer ? '0' : '-105%', o: S.drawer ? 1 : 0, pe: S.drawer ? 'auto' : 'none' },
+      sh: { y: S.sheetOpen ? '0' : '105%', o: S.sheetOpen ? 1 : 0, pe: S.sheetOpen ? 'auto' : 'none' },
+      closeSheet: () => this.setState({ sheetOpen: false }),
+      openJump: () => this.openSheet('jump'), openSettings: () => this.openSheet('settings'),
+      isJump: S.sheet === 'jump', isSettings: S.sheet === 'settings',
+      jseg: { s: seg(S.jumpTab === 'surah'), j: seg(S.jumpTab === 'juz'), p: seg(S.jumpTab === 'page') },
+      jumpSurah: () => this.setState({ jumpTab: 'surah' }), jumpJuz: () => this.setState({ jumpTab: 'juz' }), jumpPg: () => this.setState({ jumpTab: 'page' }),
+      isJumpSurah: S.jumpTab === 'surah', isJumpJuz: S.jumpTab === 'juz', isJumpPage: S.jumpTab === 'page',
+      surahs: C.SUR.map(s => ({ n: s.id, name: s.nameEnglish, ar: s.nameArabic.replace(/^سُورَةُ\s*/, ''), pg: `Page ${s.startPage} · ${s.ayahCount} ayahs`, bg: P.surahNo === s.id ? K.soft : 'transparent', go: () => this.goPage(s.startPage) })),
+      juzList: C.JUZ.map((pg, i) => ({ n: i + 1, pg, bg: P.juz === i + 1 ? K.brand : K.surf2, fg: P.juz === i + 1 ? K.onBrand : K.ink, go: () => this.goPage(pg) })),
+      pageInput: S.pageInput, onPageInput: e => this.setState({ pageInput: e.target.value.replace(/\D/g, '').slice(0, 3) }),
+      goPageInput: () => { const n = +S.pageInput; if (n >= 1 && n <= 604) this.goPage(n); else this.info('Enter a page from 1 to 604'); },
+      sizes: [['Small', 0], ['Medium', 1], ['Large', 2]].map(([label, i]) => ({ label, px: sizes[i] - 4, bd: S.fontStep === i ? K.brand : K.line, pick: () => this.setState({ fontStep: i }) })),
+      th: { light: S.dark ? K.line : K.brand, dark: S.dark ? K.brand : 'transparent' },
+      setLight: () => this.setState({ dark: false }), setDark: () => this.setState({ dark: true }),
+      toggleDark: () => this.setState({ dark: !S.dark }),
+      sw: { bg: S.dark ? K.brand : K.surf2, knob: S.dark ? K.onBrand : '#FFFFFF', x: S.dark ? '20px' : '0' },
+      hasGTip: !!S.gTip,
+      gTip: S.gTip || {},
+      gTipBtn: S.gTip && S.known[this.key(S.gTip.ar)] ? { bg: S.dark ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)', fg: K.tipFg, label: 'Known word ✓' } : { bg: '#E3B45C', fg: '#1B1405', label: 'I know this · +5 XP' },
+      gTipKnow: e => { e.stopPropagation(); if (S.gTip) this.toggleKnown(S.gTip.ar); },
+      closeGTip: e => { e.stopPropagation(); this.setState({ gTip: null }); },
+      dismissGTip: () => { if (S.gTip) this.setState({ gTip: null }); },
+      hasToast: !!S.toast,
+      toast: S.toast ? { ...S.toast, bg: S.toast.xp ? K.goldSoft : K.tipBg, fg: S.toast.xp ? K.goldInk : K.tipFg } : {},
+      toggleBookmark: () => this.toggleBookmark(),
+      togglePagePreview: () => this.togglePagePreview(),
+      pvScale: S.pagePreview ? (S.pvScale || 1) : 1,
+      pvOvY: S.pagePreview ? 'hidden' : 'auto',
+      pvPreviewBg: S.pagePreview ? K.soft : 'transparent',
+      pvPreviewBg2: S.pagePreview ? K.soft : K.surf2,
+      pvPreviewFg2: S.pagePreview ? K.softInk : K.muted,
+      pvSw: { bg: S.pagePreview ? K.brand : K.surf2, knob: S.pagePreview ? K.onBrand : '#FFFFFF', x: S.pagePreview ? '20px' : '0' },
+      pvPreviewFg: S.pagePreview ? K.softInk : K.muted,
+      resetDemo: () => { const s = this.seed(); this.setState({ ...s, onboarded: true, page: s.lastPage, hl: null, tip: null, rv: null }); this.info('Demo data reset'); },
+      pageRec, ...this.homeVals(S, K, P, goalN), ...this.viewAll(results, S), ...this.extra(S, K, P, goalN, knownCount, memCount, curKnown, lvlN)
+    };
+  }
+}
+</script>
+</body>
+</html>
