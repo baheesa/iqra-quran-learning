@@ -14,7 +14,7 @@
 </helmet>
 <div style="min-height:100vh; display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:56px; padding:40px 24px; box-sizing:border-box; font-family:'Instrument Sans', system-ui, sans-serif">
 <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ dark }}" bg="{{ K.bg }}" hint-size="412px,892px">
-<div style="height:100%; position:relative; overflow:hidden; background:{{ K.bg }}; color:{{ K.ink }}; font-family:'Instrument Sans', system-ui, sans-serif">
+<div ref="{{ appRef }}" style="height:100%; position:relative; overflow:hidden; background:{{ K.bg }}; color:{{ K.ink }}; font-family:'Instrument Sans', system-ui, sans-serif">
 
 <div data-screen-label="Mushaf" style="position:absolute; inset:{{ fpInset }}; display:flex; flex-direction:column">
 <sc-if value="{{ fpMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleFp }}" style="position:absolute; top:12px; right:12px; z-index:100; width:36px; height:36px; border:0; border-radius:18px; background:rgba(0,0,0,0.45); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round"><path d="M5 5l14 14M5 19L19 5"></path></svg></button></sc-if>
@@ -78,7 +78,7 @@
 
 <sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:absolute; inset:0; z-index:19"></div>
-<div onClick="{{ stop }}" style="position:absolute; left:10px; right:10px; bottom:70px; z-index:20; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:22px; padding:16px 18px; box-shadow:0 14px 40px rgba(0,0,0,0.18); display:flex; flex-direction:column; gap:4px">
+<div onClick="{{ stop }}" style="position:absolute; left:10px; right:10px; top:{{ tipSheetTop }}; bottom:{{ tipSheetBot }}; z-index:20; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:22px; padding:16px 18px; box-shadow:0 14px 40px rgba(0,0,0,0.18); display:flex; flex-direction:column; gap:4px">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 12px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.04em">{{ tip.ref }}</span><span dir="rtl" style="font:400 32px/1.4 'Scheherazade New', serif">{{ tip.ar }}</span></div>
 <div dir="rtl" style="font:400 20px/2.2 'Noto Nastaliq Urdu', serif; text-align:right">{{ tip.ur }}</div>
 <button onClick="{{ tipKnow }}" style="margin-top:6px; height:44px; border-radius:22px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ tipBtn.label }}</button>
@@ -323,7 +323,7 @@
 <div dir="rtl" style="font:400 15px/2.3 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.definition }}</div>
 <sc-if value="{{ r.hasEx }}" hint-placeholder-val="{{ false }}"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Examples</span></sc-if>
 <sc-for list="{{ r.examples }}" as="e"><button onClick="{{ e.find }}" style="display:flex; flex-direction:column; align-items:flex-end; padding:8px 12px; border-radius:14px; border:0; background:{{ K.bg }}; color:{{ K.ink }}; cursor:pointer; text-align:right">
-<span dir="rtl" style="font:400 22px/1.7 'Amiri Quran', 'Scheherazade New', serif; display:flex; flex-wrap:wrap; justify-content:flex-start; gap:0 2px"><sc-for list="{{ e.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; transition:background .12s">{{ w.ar }}</span></sc-for></span>
+<span dir="rtl" style="font:400 22px/1.7 'Amiri Quran', 'Scheherazade New', serif; display:flex; flex-wrap:wrap; justify-content:flex-start; gap:0 2px"><sc-for list="{{ e.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; transition:background .12s; background:{{ tip.ar && w.ar === tip.ar ? K.sel : 'transparent' }}">{{ w.ar }}</span></sc-for></span>
 <sc-if value="{{ e.hasUr }}" hint-placeholder-val="{{ false }}"><span dir="rtl" style="font:400 13.5px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}">{{ e.ur }}</span></sc-if>
 <span style="align-self:flex-start; font:600 11.5px 'Instrument Sans'; color:{{ K.brand }}">Find in the Quran ›</span>
 </button></sc-for>
@@ -360,7 +360,7 @@
 <sc-if value="{{ d.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; padding:8px 4px 0"><span style="font:500 18px 'Newsreader', serif">{{ d.headLabel }}</span><span dir="rtl" style="font:400 19px 'Scheherazade New', serif; color:{{ K.muted }}">{{ d.headAr }}</span></div></sc-if>
 <div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px 18px; display:flex; flex-direction:column; gap:10px">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 14.5px 'Instrument Sans'">{{ d.title }}</span><span style="font:600 11.5px 'Instrument Sans'; padding:4px 8px; border-radius:10px; background:{{ K.surf2 }}; color:{{ K.muted }}; white-space:nowrap">{{ d.meta }}</span></div>
-<div dir="rtl" style="font:400 26px/1.85 'Amiri Quran', 'Scheherazade New', serif; display:flex; flex-wrap:wrap; justify-content:flex-start; gap:0 2px"><sc-for list="{{ d.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 4px; border-radius:6px; transition:background .12s">{{ w.ar }}</span></sc-for></div>
+<div dir="rtl" style="font:400 26px/1.85 'Amiri Quran', 'Scheherazade New', serif; display:flex; flex-wrap:wrap; justify-content:flex-start; gap:0 2px"><sc-for list="{{ d.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 4px; border-radius:6px; transition:background .12s; background:{{ tip.ar && w.ar === tip.ar ? K.sel : 'transparent' }}">{{ w.ar }}</span></sc-for></div>
 <div dir="rtl" style="font:400 15px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ d.ur }}</div>
 <button onClick="{{ d.toggle }}" style="height:42px; border-radius:21px; border:0; background:{{ d.btnBg }}; color:{{ d.btnFg }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">{{ d.btnLabel }}</button>
 </div>
@@ -482,7 +482,7 @@
 <sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:center; margin:6px 0 2px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ b.sAr }}</span></div></sc-if>
 <div style="display:flex; flex-direction:column; gap:6px; padding:12px 4px 14px; border-bottom:1px solid {{ b.bd }}">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:30px; padding:0 8px 0 12px; border-radius:15px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ b.short }} · p. {{ b.pg }}<svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button><button onClick="{{ b.wbw }}" style="height:30px; padding:0 8px; border:0; background:transparent; color:{{ K.muted }}; font:600 12px 'Instrument Sans'; cursor:pointer">Word by word</button></div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:6px; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:6px; background:{{ tip.ar && t.ar === tip.ar ? K.sel : t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
 <sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
@@ -528,7 +528,7 @@
 <div style="width:100%; box-sizing:border-box; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:14px 16px 10px; display:flex; flex-direction:column; gap:8px; color:{{ K.ink }}">
 <span style="display:flex; align-items:center; justify-content:space-between; gap:8px; font:500 12.5px 'Instrument Sans'"><span><span style="font-weight:600">{{ r.ref }}</span><span style="color:{{ K.muted }}"> · {{ r.page }}</span></span></span>
 <span dir="rtl" style="display:flex; flex-wrap:wrap; gap:2px 3px; font:400 23px/1.75 'Scheherazade New', serif">
-<sc-for list="{{ r.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; background:{{ t.bg }}">{{ t.ar }}</span></sc-for>
+<sc-for list="{{ r.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; background:{{ tip.ar && t.ar === tip.ar ? K.sel : t.bg }}">{{ t.ar }}</span></sc-for>
 </span>
 <span dir="rtl" style="font:400 14px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ r.meaning }}</span>
 <sc-if value="{{ r.showTr }}" hint-placeholder-val="{{ false }}"><div style="background:{{ K.bg }}; border-radius:14px; padding:10px 14px; display:flex; flex-direction:column; gap:2px"><span style="font:600 11px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Translation</span><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.tr }}</div></div></sc-if>
@@ -844,6 +844,7 @@ class Component extends DCLogic {
   pageRef = React.createRef();
   scrollRef = React.createRef();
   searchRef = React.createRef();
+  appRef = React.createRef();
   state = this.init();
 
   norm(s) {
@@ -1000,23 +1001,24 @@ class Component extends DCLogic {
     let known = S.known; if (known[k] === 'f') { known = { ...known }; delete known[k]; }
     const has = S.saved.some(x => this.key(x.ar) === k);
     const saved = has || known[k] === 'k' ? S.saved : [{ ar: w.ar, ur: w.ur, ref: w.ref }, ...S.saved];
-    this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none' } });
+    let tsy = null;
+    try {
+      const app = this.appRef && this.appRef.current;
+      if (app) {
+        const aR = app.getBoundingClientRect(), wR = e.currentTarget.getBoundingClientRect();
+        const relTop = wR.top - aR.top, relBot = wR.bottom - aR.top;
+        const pH = 240;
+        tsy = relBot > aR.height * 0.55 ? Math.max(8, relTop - pH - 8) : Math.min(aR.height - pH - 8, relBot + 8);
+      }
+    } catch(x) {}
+    this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none', tsy } });
   }
   toggleFp() {
     const S = this.state;
-    if (S.fpMode) { this.setState({ fpMode: false, fpScale: 1 }); return; }
-    this.setState({ fpMode: true, fpScale: 1 }, () => {
-      const sc = this.scrollRef && this.scrollRef.current;
-      const pg = this.pageRef && this.pageRef.current;
-      if (sc && pg) {
-        const availH = sc.clientHeight - 20;
-        const availW = sc.clientWidth - 10;
-        const scaleH = availH / pg.offsetHeight;
-        const scaleW = availW / pg.offsetWidth;
-        const scale = Math.min(1, scaleH, scaleW);
-        if (scale < 0.99) this.setState({ fpScale: scale });
-      }
-    });
+    if (S.fpMode) { this.setState({ fpMode: false, fpFontPx: null }); return; }
+    const appH = window.innerHeight || 812;
+    const fpFontPx = Math.max(18, Math.floor((appH - 90) / (15 * 1.95)));
+    this.setState({ fpMode: true, fpFontPx });
   }
   toggleKnown(ar) {
     const k = this.key(ar), known = { ...this.state.known };
@@ -1200,10 +1202,10 @@ class Component extends DCLogic {
       obSkip: () => this.finishOb(),
       replayOb: () => this.setState({ onboarded: false, drawer: false, ob: { step: 0, level: 1, goal: S.goal || 5 } }),
       fpMode: !!S.fpMode, fpInset: S.fpMode ? '0' : '0 0 64px 0', fpTbDisplay: S.fpMode ? 'none' : 'flex', toggleFp: () => this.toggleFp(),
-      fpOverflow: S.fpMode ? 'hidden' : 'auto', fpPad: S.fpMode ? '4px' : '12px 12px 16px',
-      fpTransform: S.fpMode ? `scale(${S.fpScale || 1})` : `translateX(${S.pt.x}px)`,
-      fpTransOrigin: S.fpMode ? 'top center' : 'left center',
-      fpOpacity: S.fpMode ? 1 : S.pt.o, fpTr: S.fpMode ? 'transform .15s' : S.pt.tr,
+      fpOverflow: S.fpMode ? 'hidden' : 'auto', fpPad: S.fpMode ? '6px 8px' : '12px 12px 16px',
+      fpTransform: `translateX(${S.fpMode ? 0 : S.pt.x}px)`,
+      fpTransOrigin: 'left center',
+      fpOpacity: S.fpMode ? 1 : S.pt.o, fpTr: S.fpMode ? 'none' : S.pt.tr,
       isWords: S.screen === 'words', isReview: S.screen === 'review', goWords: () => this.go('words'),
       navW: { bg: inW ? K.soft : 'transparent', fg: inW ? K.softInk : K.ink },
       savedList: S.saved.map(w => { const st = S.known[this.key(w.ar)]; return { ...w, tag: st === 'f' ? 'Familiar' : st ? 'Known' : 'Learning', tagBg: st ? K.soft : K.goldSoft, tagFg: st ? K.softInk : K.goldInk, open: () => this.goPage(w.page, { hl: { ids: [w.id], label: w.ar } }), remove: () => this.setState({ saved: S.saved.filter(x => x.id !== w.id) }) }; }),
@@ -1278,11 +1280,13 @@ class Component extends DCLogic {
     return {
       K, dark: S.dark, streak: S.streak, xp: S.xp,
       rp: { surah: P.surah, juz: P.juz, page: S.page, header: P.header },
-      tokens, fontPx: sizes[S.fontStep] || 28,
-      pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, pt: S.pt,
+      tokens, fontPx: S.fpMode ? (S.fpFontPx || 24) : (sizes[S.fontStep] || 28),
+      pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, appRef: this.appRef, pt: S.pt,
       bmFill: bm ? 'currentColor' : 'none', bmColor: bm ? K.brand : K.ink,
       hasHl: hl.length > 0, hlLabel: S.hl ? `Highlighting “${S.hl.label}”` : '', clearHl: () => this.setState({ hl: null }),
       tip: tip || {}, tipBubble: !!tip && tipStyle === 'bubble' && S.screen === 'mushaf', tipSheet: !!tip && (tipStyle === 'sheet' || S.screen !== 'mushaf'),
+      tipSheetTop: (tip && tip.tsy != null) ? tip.tsy + 'px' : 'auto',
+      tipSheetBot: (tip && tip.tsy != null) ? 'auto' : '70px',
       tipBtn: tipKnown ? { bg: S.dark ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)', fg: K.tipFg, sbg: K.soft, sfg: K.softInk, label: 'Known word ✓' } : { bg: '#E3B45C', fg: '#1B1405', sbg: K.brand, sfg: K.onBrand, label: 'I know this · +5 XP' },
       tipKnow: e => { e.stopPropagation(); if (tip) this.toggleKnown(tip.ar); },
       stop: e => e.stopPropagation(),
