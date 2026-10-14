@@ -1,0 +1,14 @@
+{
+  "appId": "com.baheesa.iqra",
+  "appName": "Iqra",
+  "webDir": "assets",
+  "android": {
+    "minSdkVersion": 22
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "launchShowDuration": 0
+    }
+  }
+}

@@ -1,29 +1,35 @@
 <div align="center">
 
-# Iqra
+# إقرأ · Iqra
 
-### Learn the Quran word by word — Arabic text, Urdu meanings, built-in progress tracking. Offline PWA + Android.
+### Learn the Quran word by word — Arabic text, Urdu meanings, built-in progress tracking.
 
-**Open the app → tap any word → see its Urdu meaning → build vocabulary you keep.**  
-All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No internet needed after install.
+**Tap any word → see its Urdu meaning → build vocabulary you keep.**  
+All 604 Quran pages · Word-by-word Urdu meanings · Search · Duas · Qawaid · Works offline
 
 <br />
 
-[![Open Web App](https://img.shields.io/badge/Open_Web_App-1E4A38?style=for-the-badge&logo=googlechrome&logoColor=white)](https://iqra-quran-learning-eight.vercel.app)
+[![Open Web App](https://img.shields.io/badge/🌐%20Open%20Web%20App-1E4A38?style=for-the-badge)](https://iqra-quran-learning-eight.vercel.app)
 &nbsp;&nbsp;
-[![Download APK](https://img.shields.io/badge/Download_APK-android-1E4A38?style=for-the-badge&logo=android&logoColor=white)](https://github.com/baheesa/iqra-quran-learning/releases/latest)
-
-<br />
-
-[📘 PDF Manual](https://github.com/baheesa/iqra-quran-learning/raw/main/docs/manual/user-manual.pdf) · React PWA · Offline-ready
+[![Download APK](https://img.shields.io/badge/📱%20Download%20APK-android-1E4A38?style=for-the-badge)](https://github.com/baheesa/iqra-quran-learning/releases/latest/download/iqra-latest.apk)
 
 <br />
 
 <img src="docs/images/home.jpg" width="220" alt="Iqra home screen" />
 
-<sub>Offline PWA · Android APK · No account needed</sub>
+<sub>PWA · Android APK · No account needed · No internet after install</sub>
 
 </div>
+
+---
+
+## Install
+
+| Platform | How |
+| --- | --- |
+| **Android** | [Download APK →](https://github.com/baheesa/iqra-quran-learning/releases/latest) · tap the `.apk` file · enable *Install from unknown sources* if asked |
+| **iPhone / iPad** | Open [the web app](https://iqra-quran-learning-eight.vercel.app) in Safari → Share → *Add to Home Screen* |
+| **Web browser** | Open [iqra-quran-learning-eight.vercel.app](https://iqra-quran-learning-eight.vercel.app) — works on any device |
 
 ---
 
@@ -31,9 +37,9 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 
 Most people who grew up reciting the Quran can read Arabic without stumbling — and understand almost none of it. They know the sounds, not the words.
 
-Tafseer apps give you full commentary. Translation apps show sentence-level Urdu. Neither tells you what the individual word in front of you means — so vocabulary never sticks.
+Tafseer apps give full commentary. Translation apps show sentence-level Urdu. Neither tells you what the individual word in front of you means — so vocabulary never sticks.
 
-Iqra is built for that gap. Tap any Arabic word on any of the 604 pages, and a panel shows its Urdu meaning right there in context. Once you know الرَّحْمَٰنِ, you've unlocked a word that shows up 169 times across the Quran. That compounds.
+Iqra is built for that gap. Tap any Arabic word on any of the 604 pages, and a panel shows its Urdu meaning right there in context. Once you know الرَّحْمَٰنِ, you've unlocked a word that appears 169 times across the Quran. That compounds.
 
 | Who | What they get |
 | --- | --- |
@@ -44,16 +50,16 @@ Iqra is built for that gap. Tap any Arabic word on any of the 604 pages, and a p
 
 ---
 
-## What's in the app?
+## Features
 
 | Feature | Detail |
 | --- | --- |
-| Quran pages | All 604 pages with Scheherazade Arabic font |
-| Word meanings | Tap any word → Urdu meaning + transliteration |
-| Search | Search by surah name, ayah number, or keyword |
-| Duas | Daily duas with Arabic and Urdu |
-| Qawaid | Basic Tajweed rules with examples |
-| Progress | Track pages read, daily goal, streaks |
+| Quran pages | All 604 pages in IndoPak calligraphic font |
+| Word meanings | Tap any word → Urdu meaning instantly |
+| Search | Search in Arabic or Urdu across the whole Quran |
+| Duas | Quranic duas + daily masnoon duas, with word-by-word meanings |
+| Qawaid | Grammar rules with Quranic examples |
+| Progress | Pages read, words known, daily goal, streaks |
 | Offline | Works fully without internet after first load |
 
 <p align="center">
@@ -65,116 +71,16 @@ Iqra is built for that gap. Tap any Arabic word on any of the 604 pages, and a p
 </p>
 
 <p align="center">
-  <sub>Left: Mushaf view · Center: Word meaning popup · Right: Search</sub>
+  <sub>Mushaf view · Word meaning popup · Search</sub>
 </p>
-
----
-
-## Feature walkthrough
-
-<table>
-<tr>
-<td width="50%" valign="top" align="center">
-
-### Home
-Continue reading where you left off. Your streak, daily pages, and level at a glance.
-
-<img src="docs/images/home.jpg" width="240" alt="Home screen" />
-
-</td>
-<td width="50%" valign="top" align="center">
-
-### Mushaf
-Full-page Arabic text. Swipe to turn pages. Tap any word for its meaning.
-
-<img src="docs/images/mushaf.jpg" width="240" alt="Mushaf page" />
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top" align="center">
-
-### Word meanings
-Tap a word — its Urdu meaning, transliteration, and how many times it appears in the Quran.
-
-<img src="docs/images/wordtap.jpg" width="240" alt="Word meaning popup" />
-
-</td>
-<td width="50%" valign="top" align="center">
-
-### Search
-Search by Arabic word, Urdu meaning, or surah name. Results open directly on the mushaf.
-
-<img src="docs/images/search.jpg" width="240" alt="Search results" />
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top" align="center">
-
-### Duas
-Quranic duas and daily masnoon duas, browseable by Juz.
-
-<img src="docs/images/duas.jpg" width="240" alt="Duas screen" />
-
-</td>
-<td width="50%" valign="top" align="center">
-
-### Progress
-Weekly pages, new words, XP earned — with a bar chart and streak counter.
-
-<img src="docs/images/progress.jpg" width="240" alt="Progress screen" />
-
-</td>
-</tr>
-</table>
 
 ---
 
 ## User manual
 
-Full walkthrough — every screen, every feature:
+Full walkthrough of every screen and feature:
 
 **[📘 Download PDF Manual](https://github.com/baheesa/iqra-quran-learning/raw/main/docs/manual/user-manual.pdf)**
-
----
-
-## Try it now
-
-**Web (no install):**
-
-Open [iqra-quran-learning-eight.vercel.app](https://iqra-quran-learning-eight.vercel.app) in any browser. Works on phone and desktop. Add to home screen for offline access.
-
-**Android APK:**
-
-Download from [Releases](https://github.com/baheesa/iqra-quran-learning/releases/latest). Install the APK directly — no Play Store needed. Enable "Install from unknown sources" in Android settings if prompted.
-
----
-
-## Run locally
-
-No build step required:
-
-```bash
-cd assets
-python3 -m http.server 5173
-```
-
-Open [http://localhost:5173](http://localhost:5173).
-
-Or open `assets/index.html` directly in a browser.
-
----
-
-## Project layout
-
-```text
-assets/               Static PWA (HTML · CSS · JS · data)
-assets/index.html     Single-file app entry point
-assets/data/          Quran data: surahs, wbw-urdu, duas, qawaid
-docs/images/          README screenshots
-docs/manual/          PDF user manual
-```
 
 ---
 
@@ -183,7 +89,8 @@ docs/manual/          PDF user manual
 | Layer | Tech |
 | --- | --- |
 | UI | React 18 (UMD, no build step) |
-| Fonts | Scheherazade New · Noto Nastaliq Urdu · Instrument Sans |
+| Fonts | Amiri Quran · Scheherazade New · Noto Nastaliq Urdu · Instrument Sans |
 | Data | Static JSON — all Quran data bundled |
-| Hosting | Vercel (web) · Direct APK (Android) |
+| Web hosting | Vercel |
+| Android | Capacitor · GitHub Actions CI build |
 | Offline | PWA manifest + service worker |
