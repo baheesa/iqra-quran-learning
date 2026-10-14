@@ -27,7 +27,7 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 
 <br />
 
-<img src="docs/images/home.jpg" width="260" alt="Iqra home screen — Quran page list" />
+<img src="docs/images/home.jpg" width="220" alt="Iqra home screen" />
 
 <sub>Offline PWA · Android APK · No account needed</sub>
 
@@ -37,18 +37,18 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 
 ## Who is this for?
 
-**The problem:** Most people who grew up reciting the Quran can read Arabic without stumbling — and understand almost none of it. They know the sounds, not the words.
+Most people who grew up reciting the Quran can read Arabic without stumbling — and understand almost none of it. They know the sounds, not the words.
 
-**The gap:** Tafseer apps give you full commentary per verse. Translation apps show sentence-level English or Urdu. Neither tells you what the individual word in front of you means — so vocabulary never builds.
+Tafseer apps give you full commentary. Translation apps show sentence-level Urdu. Neither tells you what the individual word in front of you means — so vocabulary never sticks.
 
-**What Iqra does:** Tap any Arabic word on any page. A panel shows its Urdu meaning, transliteration, and root — right there, in context. Once you know الرَّحْمَٰنِ, you've unlocked a word that appears 169 times across the Quran. That compounds.
+Iqra is built for that gap. Tap any Arabic word on any of the 604 pages, and a panel shows its Urdu meaning right there in context. Once you know الرَّحْمَٰنِ, you've unlocked a word that shows up 169 times across the Quran. That compounds.
 
-| Who | How Iqra helps |
+| Who | What they get |
 | --- | --- |
-| Adults who recite daily but don't understand | Tap words during your regular tilawat — no separate study session needed |
-| Students learning Quranic Arabic | Use word tap + Qawaid rules together to connect grammar to real ayaat |
-| Parents teaching children | Simple screen, no ads, no accounts — hand it to a child and it works |
-| Anyone starting Quran reading from scratch | Built-in progress tracker with daily goals keeps the habit going |
+| People who recite daily but don't understand | Tap words during regular tilawat — no separate study session needed |
+| Students learning Quranic Arabic | Word meanings + Qawaid rules together, anchored to real ayaat |
+| Parents teaching children | No ads, no account, no setup — hand it over and it works |
+| Anyone starting Quran from scratch | Daily goal + streak counter to keep the habit going |
 
 ---
 
@@ -65,11 +65,11 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 | Offline | Works fully without internet after first load |
 
 <p align="center">
-  <img src="docs/images/mushaf.jpg" width="230" alt="Mushaf view — Quran page" />
+  <img src="docs/images/mushaf.jpg" width="190" alt="Mushaf view" />
   &nbsp;
-  <img src="docs/images/wordtap.jpg" width="230" alt="Word tap — Urdu meaning popup" />
+  <img src="docs/images/wordtap.jpg" width="190" alt="Word meaning popup" />
   &nbsp;
-  <img src="docs/images/search.jpg" width="230" alt="Search results" />
+  <img src="docs/images/search.jpg" width="190" alt="Search results" />
 </p>
 
 <p align="center">
@@ -85,17 +85,17 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 <td width="50%" valign="top" align="center">
 
 ### Home
-All surahs listed with Juz indicator. Tap any to jump straight to that page.
+Continue reading where you left off. Your streak, daily pages, and level at a glance.
 
-<img src="docs/images/home.jpg" alt="Home screen" />
+<img src="docs/images/home.jpg" width="240" alt="Home screen" />
 
 </td>
 <td width="50%" valign="top" align="center">
 
 ### Mushaf
-Full-page Arabic text. Swipe left/right to turn pages. Tap a word to see its meaning.
+Full-page Arabic text. Swipe to turn pages. Tap any word for its meaning.
 
-<img src="docs/images/mushaf.jpg" alt="Mushaf page view" />
+<img src="docs/images/mushaf.jpg" width="240" alt="Mushaf page" />
 
 </td>
 </tr>
@@ -103,17 +103,17 @@ Full-page Arabic text. Swipe left/right to turn pages. Tap a word to see its mea
 <td width="50%" valign="top" align="center">
 
 ### Word meanings
-Tap any Arabic word. A panel slides up showing the Urdu meaning, transliteration, and root.
+Tap a word — its Urdu meaning, transliteration, and how many times it appears in the Quran.
 
-<img src="docs/images/wordtap.jpg" alt="Word meaning popup" />
+<img src="docs/images/wordtap.jpg" width="240" alt="Word meaning popup" />
 
 </td>
 <td width="50%" valign="top" align="center">
 
 ### Search
-Search by surah name, Juz number, or keyword. Results link directly to the page.
+Search by Arabic word, Urdu meaning, or surah name. Results open directly on the mushaf.
 
-<img src="docs/images/search.jpg" alt="Search results" />
+<img src="docs/images/search.jpg" width="240" alt="Search results" />
 
 </td>
 </tr>
@@ -121,17 +121,17 @@ Search by surah name, Juz number, or keyword. Results link directly to the page.
 <td width="50%" valign="top" align="center">
 
 ### Duas
-Daily duas with full Arabic text, Urdu translation, and occasion notes.
+Quranic duas and daily masnoon duas, browseable by Juz.
 
-<img src="docs/images/duas.jpg" alt="Duas screen" />
+<img src="docs/images/duas.jpg" width="240" alt="Duas screen" />
 
 </td>
 <td width="50%" valign="top" align="center">
 
 ### Progress
-Daily reading goal, streak counter, and a log of pages completed.
+Weekly pages, new words, XP earned — with a bar chart and streak counter.
 
-<img src="docs/images/progress.jpg" alt="Progress screen" />
+<img src="docs/images/progress.jpg" width="240" alt="Progress screen" />
 
 </td>
 </tr>

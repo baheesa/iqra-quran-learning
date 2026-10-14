@@ -1,0 +1,4 @@
+{
+  "outputDirectory": "assets",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
