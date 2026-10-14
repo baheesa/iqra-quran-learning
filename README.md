@@ -15,7 +15,7 @@ All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No intern
 
 <br />
 
-[📘 PDF Manual](docs/manual/user-manual.pdf) · React PWA · Offline-ready
+[📘 PDF Manual](https://github.com/baheesa/iqra-quran-learning/raw/main/docs/manual/user-manual.pdf) · React PWA · Offline-ready
 
 <br />
 
@@ -135,7 +135,7 @@ Weekly pages, new words, XP earned — with a bar chart and streak counter.
 
 Full walkthrough — every screen, every feature:
 
-**[📘 Download PDF Manual](docs/manual/user-manual.pdf)**
+**[📘 Download PDF Manual](https://github.com/baheesa/iqra-quran-learning/raw/main/docs/manual/user-manual.pdf)**
 
 ---
 
