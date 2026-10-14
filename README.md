@@ -4,26 +4,18 @@
 
 ### Learn the Quran word by word — Arabic text, Urdu meanings, built-in progress tracking. Offline PWA + Android.
 
-<img src="https://img.shields.io/badge/Live-Web_App-1E4A38?style=for-the-badge" alt="Live web app" />
-&nbsp;
-<img src="https://img.shields.io/badge/Download-APK-1E4A38?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" />
-&nbsp;
-<img src="https://img.shields.io/badge/Stack-React_PWA-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React PWA" />
-&nbsp;
-<img src="https://img.shields.io/badge/Offline-Ready-59625C?style=for-the-badge" alt="Offline" />
-
-<br /><br />
-
 **Open the app → tap any word → see its Urdu meaning → build vocabulary you keep.**  
 All 604 Quran pages. Urdu word-by-word meanings. Search. Duas. Qawaid. No internet needed after install.
 
 <br />
 
-[Open Web App](https://iqra-quran-learning-eight.vercel.app)
-&nbsp;&nbsp;·&nbsp;&nbsp;
-[Download APK](https://github.com/baheesa/iqra-quran-learning/releases/latest)
-&nbsp;&nbsp;·&nbsp;&nbsp;
-[📘 PDF Manual](docs/manual/user-manual.pdf)
+[![Open Web App](https://img.shields.io/badge/Open_Web_App-1E4A38?style=for-the-badge&logo=googlechrome&logoColor=white)](https://iqra-quran-learning-eight.vercel.app)
+&nbsp;&nbsp;
+[![Download APK](https://img.shields.io/badge/Download_APK-android-1E4A38?style=for-the-badge&logo=android&logoColor=white)](https://github.com/baheesa/iqra-quran-learning/releases/latest)
+
+<br />
+
+[📘 PDF Manual](docs/manual/user-manual.pdf) · React PWA · Offline-ready
 
 <br />
 
@@ -78,7 +70,7 @@ Iqra is built for that gap. Tap any Arabic word on any of the 604 pages, and a p
 
 ---
 
-## Screenshots
+## Feature walkthrough
 
 <table>
 <tr>
