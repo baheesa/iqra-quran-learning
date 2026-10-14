@@ -478,7 +478,7 @@
 <sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:center; margin:6px 0 2px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ b.sAr }}</span></div></sc-if>
 <div style="display:flex; flex-direction:column; gap:6px; padding:12px 4px 14px; border-bottom:1px solid {{ b.bd }}">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:30px; padding:0 8px 0 12px; border-radius:15px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ b.short }} · p. {{ b.pg }}<svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button><button onClick="{{ b.wbw }}" style="height:30px; padding:0 8px; border:0; background:transparent; color:{{ K.muted }}; font:600 12px 'Instrument Sans'; cursor:pointer">Word by word</button></div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span style="padding:0 3px; border-radius:6px; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:6px; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
 <sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
@@ -524,7 +524,7 @@
 <div style="width:100%; box-sizing:border-box; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:14px 16px 10px; display:flex; flex-direction:column; gap:8px; color:{{ K.ink }}">
 <span style="display:flex; align-items:center; justify-content:space-between; gap:8px; font:500 12.5px 'Instrument Sans'"><span><span style="font-weight:600">{{ r.ref }}</span><span style="color:{{ K.muted }}"> · {{ r.page }}</span></span></span>
 <span dir="rtl" style="display:flex; flex-wrap:wrap; gap:2px 3px; font:400 23px/1.75 'Scheherazade New', serif">
-<sc-for list="{{ r.toks }}" as="t"><span style="padding:0 3px; border-radius:5px; background:{{ t.bg }}">{{ t.ar }}</span></sc-for>
+<sc-for list="{{ r.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; background:{{ t.bg }}">{{ t.ar }}</span></sc-for>
 </span>
 <span dir="rtl" style="font:400 14px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ r.meaning }}</span>
 <sc-if value="{{ r.showTr }}" hint-placeholder-val="{{ false }}"><div style="background:{{ K.bg }}; border-radius:14px; padding:10px 14px; display:flex; flex-direction:column; gap:2px"><span style="font:600 11px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Translation</span><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.tr }}</div></div></sc-if>
@@ -988,6 +988,15 @@ class Component extends DCLogic {
     const above = bot > H - 250 && top > 250;
     this.setState({ tip: { ...w, x, y: above ? top - 6 : bot + 6, tf: above ? 'translateY(-100%)' : 'none' } });
   }
+  tapSheet(e, w) {
+    e.stopPropagation();
+    if (this.state.tip && this.state.tip.ar === w.ar) { this.setState({ tip: null }); return; }
+    const S = this.state, k = this.key(w.ar);
+    let known = S.known; if (known[k] === 'f') { known = { ...known }; delete known[k]; }
+    const has = S.saved.some(x => this.key(x.ar) === k);
+    const saved = has || known[k] === 'k' ? S.saved : [{ ar: w.ar, ur: w.ur, ref: w.ref }, ...S.saved];
+    this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none' } });
+  }
   toggleKnown(ar) {
     const k = this.key(ar), known = { ...this.state.known };
     if (known[k]) { delete known[k]; this.setState({ known }); this.gain(-5); }
@@ -1065,7 +1074,7 @@ class Component extends DCLogic {
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
       res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
-        toks: ay.w.map((w, i) => ({ ar: w[0], bg: m.has(i) ? K.hl : 'transparent' })),
+        toks: ay.w.map((w, i) => ({ ar: w[0], ur: w[1], bg: m.has(i) ? K.hl : 'transparent' })),
         meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
         tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
@@ -1079,12 +1088,12 @@ class Component extends DCLogic {
     const r = results || [], toks = []; let last = null;
     r.forEach(x => {
       if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
-      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, bg: t.bg, onTap: () => this.openAyah(x.k, 'search') }));
+      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, ur: t.ur, bg: t.bg, onTap: e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) }));
       toks.push({ isMarker: true, num: this.arNum(x.an), open: () => x.open() });
     });
     const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
     return {
-      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks, tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
+      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks.map(t => ({ ...t, tap: t.ur ? e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) : null })), tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
       isViewAll: S.screen === 'viewall', vaFlow: !S.vaTr, vaTrOn: !!S.vaTr,
       vaTitle: `“${S.q.trim()}”`, vaSub: `${tot} ayah${tot === 1 ? '' : 's'}${tot > r.length ? ` · first ${r.length} shown` : ''}`,
       vaTrLabel: S.vaTr ? 'Hide translation' : 'Translation',
@@ -1246,7 +1255,7 @@ class Component extends DCLogic {
       pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, pt: S.pt,
       bmFill: bm ? 'currentColor' : 'none', bmColor: bm ? K.brand : K.ink,
       hasHl: hl.length > 0, hlLabel: S.hl ? `Highlighting “${S.hl.label}”` : '', clearHl: () => this.setState({ hl: null }),
-      tip: tip || {}, tipBubble: !!tip && tipStyle === 'bubble', tipSheet: !!tip && tipStyle === 'sheet',
+      tip: tip || {}, tipBubble: !!tip && tipStyle === 'bubble' && S.screen === 'mushaf', tipSheet: !!tip && (tipStyle === 'sheet' || S.screen !== 'mushaf'),
       tipBtn: tipKnown ? { bg: S.dark ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)', fg: K.tipFg, sbg: K.soft, sfg: K.softInk, label: 'Known word ✓' } : { bg: '#E3B45C', fg: '#1B1405', sbg: K.brand, sfg: K.onBrand, label: 'I know this · +5 XP' },
       tipKnow: e => { e.stopPropagation(); if (tip) this.toggleKnown(tip.ar); },
       stop: e => e.stopPropagation(),
@@ -1308,6 +1317,29 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function() {
+  var btn = document.createElement('button');
+  var full = false;
+  btn.textContent = '⧂ Full page';
+  btn.style.cssText = 'position:fixed;bottom:20px;right:16px;z-index:99999;height:36px;padding:0 16px;border-radius:18px;border:none;background:#1E4A38;color:#F5F2EA;font:600 13px "Instrument Sans",system-ui;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3)';
+  btn.onclick = function() {
+    full = !full;
+    var aside = document.querySelector('aside');
+    var canvas = document.querySelector('x-dc > div') || document.querySelector('body > div');
+    if (full) {
+      if (aside) aside.style.display = 'none';
+      if (canvas) { canvas.style.padding = '0'; canvas.style.gap = '0'; canvas.style.alignItems = 'stretch'; canvas.style.minHeight = '100vh'; }
+      btn.textContent = '✕ Exit full';
+    } else {
+      if (aside) aside.style.display = '';
+      if (canvas) { canvas.style.padding = ''; canvas.style.gap = ''; canvas.style.alignItems = ''; canvas.style.minHeight = ''; }
+      btn.textContent = '⧂ Full page';
+    }
+  };
+  document.body.appendChild(btn);
+})();
 </script>
 </body>
 </html>
