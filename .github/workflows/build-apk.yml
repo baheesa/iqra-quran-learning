@@ -13,11 +13,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
+
+      - name: Install Android SDK 36
+        run: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-36" \
+            "build-tools;36.0.0" \
+            --sdk_root=$ANDROID_SDK_ROOT || true
 
       - name: Copy web assets into Android project
         run: |
@@ -30,9 +37,9 @@ jobs:
 
       - name: Build release APK
         working-directory: android
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease --no-daemon
         env:
-          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+          ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
       - name: Sign APK
         run: |
@@ -46,8 +53,8 @@ jobs:
             -keypass iqrapass \
             -dname "CN=Iqra, OU=App, O=Baheesa, L=Unknown, S=Unknown, C=US"
 
-          BUILD_TOOLS=$(ls /usr/local/lib/android/sdk/build-tools | sort -V | tail -1)
-          /usr/local/lib/android/sdk/build-tools/$BUILD_TOOLS/apksigner sign \
+          BUILD_TOOLS=$(ls $ANDROID_SDK_ROOT/build-tools | sort -V | tail -1)
+          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS/apksigner sign \
             --ks iqra-release.keystore \
             --ks-alias iqra \
             --ks-pass pass:iqrapass \
