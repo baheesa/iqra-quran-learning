@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("file:///android_asset/public/index.html");
+        webView.loadUrl("file:///android_asset/public/bundled.html");
     }
 
     @Override
