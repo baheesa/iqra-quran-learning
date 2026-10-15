@@ -57,7 +57,7 @@ jobs:
 
       - name: Sign APK
         run: |
-          keytool -genkey -v \
+          keytool -genkeypair -v \
             -keystore iqra-release.keystore \
             -alias iqra \
             -keyalg RSA \
@@ -67,14 +67,19 @@ jobs:
             -keypass iqrapass \
             -dname "CN=Iqra, OU=App, O=Baheesa, L=Unknown, S=Unknown, C=US"
 
+          APK=$(find android/app/build/outputs/apk/release/ -name "*.apk" | head -1)
+          echo "Signing APK: $APK"
+
           BUILD_TOOLS=$(ls $ANDROID_SDK_ROOT/build-tools | sort -V | tail -1)
+          echo "Using build-tools: $BUILD_TOOLS"
+
           $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS/apksigner sign \
             --ks iqra-release.keystore \
             --ks-alias iqra \
             --ks-pass pass:iqrapass \
             --key-pass pass:iqrapass \
             --out iqra-${{ github.ref_name }}.apk \
-            android/app/build/outputs/apk/release/app-release-unsigned.apk
+            "$APK"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
