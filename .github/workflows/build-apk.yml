@@ -31,6 +31,9 @@ jobs:
           mkdir -p android/app/src/main/assets/public
           cp -r assets/. android/app/src/main/assets/public/
 
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
@@ -39,7 +42,13 @@ jobs:
 
       - name: Build release APK
         working-directory: android
-        run: ./gradlew assembleRelease --no-daemon --stacktrace
+        run: |
+          ./gradlew assembleRelease --no-daemon 2>&1 | tee /tmp/gradle.log
+          EXIT=${PIPESTATUS[0]}
+          if [ $EXIT -ne 0 ]; then
+            echo "::error::$(grep -iE 'error:|FAILED|Exception' /tmp/gradle.log | head -8 | tr '\n' ' | ')"
+            exit $EXIT
+          fi
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
