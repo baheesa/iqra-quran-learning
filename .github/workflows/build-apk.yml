@@ -19,6 +19,13 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Install Android SDK platform 34
+        run: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            --sdk_root=$ANDROID_SDK_ROOT 2>&1 | tail -5 || true
+
       - name: Copy web assets into Android project
         run: |
           mkdir -p android/app/src/main/assets/public
@@ -29,9 +36,12 @@ jobs:
 
       - name: Build release APK
         working-directory: android
-        run: ./gradlew assembleRelease --no-daemon
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+
+      - name: Verify APK exists
+        run: ls -la android/app/build/outputs/apk/release/
 
       - name: Sign APK
         run: |
