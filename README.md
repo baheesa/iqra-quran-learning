@@ -11,7 +11,7 @@ All 604 Quran pages · Word-by-word Urdu meanings · Search · Duas · Qawaid ·
 
 [![Open Web App](https://img.shields.io/badge/🌐%20Open%20Web%20App-1E4A38?style=for-the-badge)](https://iqra-quran-learning-eight.vercel.app)
 &nbsp;&nbsp;
-[![Download APK](https://img.shields.io/badge/📱%20Download%20APK-android-1E4A38?style=for-the-badge)](https://github.com/baheesa/iqra-quran-learning/releases/latest/download/iqra-latest.apk)
+[![Download APK](https://img.shields.io/badge/📱%20Download%20APK-android-1E4A38?style=for-the-badge)](https://github.com/baheesa/iqra-quran-learning/releases/latest/download/iqra.apk)
 
 <br />
 

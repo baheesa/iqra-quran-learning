@@ -68,7 +68,7 @@ jobs:
         run: |
           APK=$(find android/app/build/outputs/apk/release/ -name "*.apk" | head -1)
           echo "Built APK: $APK"
-          cp "$APK" iqra-${{ github.ref_name }}.apk
+          cp "$APK" iqra.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -79,5 +79,5 @@ jobs:
 
             **Download the APK below and install directly on your Android phone.**
             Enable *Install from unknown sources* in Android settings if prompted.
-          files: iqra-${{ github.ref_name }}.apk
+          files: iqra.apk
           make_latest: true
