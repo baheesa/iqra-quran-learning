@@ -23,8 +23,20 @@ jobs:
         run: |
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
             "platforms;android-34" \
-            "build-tools;34.0.0" \
             --sdk_root=$ANDROID_SDK_ROOT 2>&1 | tail -5 || true
+
+      - name: Generate release keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore ${{ github.workspace }}/iqra-release.jks \
+            -alias iqra \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass iqrapass \
+            -keypass iqrapass \
+            -dname "CN=Iqra, OU=App, O=Baheesa, L=Unknown, S=Unknown, C=US" \
+            -storetype JKS
 
       - name: Copy web assets into Android project
         run: |
@@ -40,48 +52,21 @@ jobs:
       - name: Create local.properties
         run: echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
 
-      - name: Build release APK
+      - name: Build and sign release APK
         working-directory: android
-        run: |
-          ./gradlew assembleRelease --no-daemon 2>&1 | tee /tmp/gradle.log
-          EXIT=${PIPESTATUS[0]}
-          if [ $EXIT -ne 0 ]; then
-            echo "::error::$(grep -iE 'error:|FAILED|Exception' /tmp/gradle.log | head -8 | tr '\n' ' | ')"
-            exit $EXIT
-          fi
+        run: ./gradlew assembleRelease --no-daemon
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+          KEYSTORE_PATH: ${{ github.workspace }}/iqra-release.jks
+          STORE_PASS: iqrapass
+          KEY_ALIAS: iqra
+          KEY_PASS: iqrapass
 
-      - name: Verify APK exists
-        run: ls -la android/app/build/outputs/apk/release/
-
-      - name: Sign APK
+      - name: Copy APK to workspace
         run: |
-          keytool -genkeypair -v \
-            -keystore iqra-release.keystore \
-            -alias iqra \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -storepass iqrapass \
-            -keypass iqrapass \
-            -dname "CN=Iqra, OU=App, O=Baheesa, L=Unknown, S=Unknown, C=US" \
-            || { echo "::error::keytool failed"; exit 1; }
-
           APK=$(find android/app/build/outputs/apk/release/ -name "*.apk" | head -1)
-          BUILD_TOOLS=$(ls $ANDROID_SDK_ROOT/build-tools | sort -V | tail -1)
-          SIGNER="$ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS/apksigner"
-
-          echo "::notice::APK=$APK BUILD_TOOLS=$BUILD_TOOLS SIGNER_EXISTS=$(test -f $SIGNER && echo yes || echo no)"
-
-          $SIGNER sign \
-            --ks iqra-release.keystore \
-            --ks-alias iqra \
-            --ks-pass pass:iqrapass \
-            --key-pass pass:iqrapass \
-            --out iqra-${{ github.ref_name }}.apk \
-            "$APK" \
-            || { echo "::error::apksigner failed: APK=$APK BUILD_TOOLS=$BUILD_TOOLS"; exit 1; }
+          echo "Built APK: $APK"
+          cp "$APK" iqra-${{ github.ref_name }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
