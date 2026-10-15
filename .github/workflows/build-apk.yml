@@ -65,21 +65,23 @@ jobs:
             -validity 10000 \
             -storepass iqrapass \
             -keypass iqrapass \
-            -dname "CN=Iqra, OU=App, O=Baheesa, L=Unknown, S=Unknown, C=US"
+            -dname "CN=Iqra, OU=App, O=Baheesa, L=Unknown, S=Unknown, C=US" \
+            || { echo "::error::keytool failed"; exit 1; }
 
           APK=$(find android/app/build/outputs/apk/release/ -name "*.apk" | head -1)
-          echo "Signing APK: $APK"
-
           BUILD_TOOLS=$(ls $ANDROID_SDK_ROOT/build-tools | sort -V | tail -1)
-          echo "Using build-tools: $BUILD_TOOLS"
+          SIGNER="$ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS/apksigner"
 
-          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS/apksigner sign \
+          echo "::notice::APK=$APK BUILD_TOOLS=$BUILD_TOOLS SIGNER_EXISTS=$(test -f $SIGNER && echo yes || echo no)"
+
+          $SIGNER sign \
             --ks iqra-release.keystore \
             --ks-alias iqra \
             --ks-pass pass:iqrapass \
             --key-pass pass:iqrapass \
             --out iqra-${{ github.ref_name }}.apk \
-            "$APK"
+            "$APK" \
+            || { echo "::error::apksigner failed: APK=$APK BUILD_TOOLS=$BUILD_TOOLS"; exit 1; }
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
