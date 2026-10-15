@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Iqra</string>
+    <string name="title_activity_main">Iqra</string>
+    <string name="package_name">com.baheesa.iqra</string>
+    <string name="custom_url_scheme">com.baheesa.iqra</string>
+</resources>
