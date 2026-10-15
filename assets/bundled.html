@@ -21717,7 +21717,7 @@ window.__IQRA_DATA["/data/surahs.json"] = [{"id":1,"nameArabic":"سُورَةُ 
 <div style="width:100%; box-sizing:border-box; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:14px 16px 10px; display:flex; flex-direction:column; gap:8px; color:{{ K.ink }}">
 <span style="display:flex; align-items:center; justify-content:space-between; gap:8px; font:500 12.5px 'Instrument Sans'"><span><span style="font-weight:600">{{ r.ref }}</span><span style="color:{{ K.muted }}"> · {{ r.page }}</span></span></span>
 <span dir="rtl" style="display:flex; flex-wrap:wrap; gap:2px 3px; font:400 23px/1.75 'Scheherazade New', serif">
-<sc-for list="{{ r.toks }}" as="t"><span style="padding:0 3px; border-radius:5px; background:{{ t.bg }}">{{ t.ar }}</span></sc-for>
+<sc-for list="{{ r.toks }}" as="t"><span style="padding:0 3px; border-radius:5px; background:{{ t.bg }}; font-weight:{{ t.fw }}">{{ t.ar }}</span></sc-for>
 </span>
 <span dir="rtl" style="font:400 14px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ r.meaning }}</span>
 <sc-if value="{{ r.showTr }}" hint-placeholder-val="{{ false }}"><div style="background:{{ K.bg }}; border-radius:14px; padding:10px 14px; display:flex; flex-direction:column; gap:2px"><span style="font:600 11px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Translation</span><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.tr }}</div></div></sc-if>
@@ -22354,7 +22354,7 @@ class Component extends DCLogic {
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
       res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
-        toks: ay.w.map((w, i) => ({ ar: w[0], bg: m.has(i) ? K.hl : 'transparent' })),
+        toks: ay.w.map((w, i) => ({ ar: w[0], bg: m.has(i) ? K.hl : 'transparent', fw: m.has(i) ? '700' : '400' })),
         meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
         tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
