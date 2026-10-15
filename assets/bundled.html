@@ -21222,7 +21222,7 @@ window.__IQRA_DATA["/data/urdu-translation.json"] = {"1:1":"شروع الله ک
 </div>
 </div>
 
-<div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px 10px; border-top:1px solid {{ K.line }}">
+<div style="display:{{ fpFootDisplay }}; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px 10px; border-top:1px solid {{ K.line }}">
 <button onClick="{{ nextPage }}" style="height:44px; padding:0 14px 0 8px; border-radius:22px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; display:flex; align-items:center; gap:2px; font:500 13px 'Instrument Sans'; cursor:pointer; opacity:{{ nextOp }}"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round"><path d="M15 6l-6 6 6 6"></path></svg>Next</button>
 <button onClick="{{ goProgress }}" aria-label="Today's progress" style="display:flex; align-items:center; gap:10px; height:44px; padding:0 14px 0 4px; border-radius:22px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; cursor:pointer">
 <svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" style="fill:none; stroke:{{ K.track }}; stroke-width:3.5"></circle><circle cx="18" cy="18" r="14" transform="rotate(-90 18 18)" style="fill:none; stroke:{{ K.brand }}; stroke-width:3.5; stroke-linecap:round; stroke-dasharray:{{ goal.dash }}; transition:stroke-dasharray .5s"></circle></svg>
@@ -21233,15 +21233,24 @@ window.__IQRA_DATA["/data/urdu-translation.json"] = {"1:1":"شروع الله ک
 </div>
 
 <sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ stop }}" style="position:absolute; left:10px; right:10px; bottom:70px; z-index:6; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:12px 14px; box-shadow:0 14px 40px rgba(0,0,0,0.18); display:flex; flex-direction:column; gap:3px">
-<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 11px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.04em">{{ tip.ref }}</span><span dir="rtl" style="font:400 22px/1.4 'Scheherazade New', serif">{{ tip.ar }}</span></div>
-<div dir="rtl" style="font:400 15px/2 'Noto Nastaliq Urdu', serif; text-align:right">{{ tip.ur }}</div>
-<button onClick="{{ tipKnow }}" style="margin-top:4px; height:38px; border-radius:19px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 13px 'Instrument Sans'; cursor:pointer">{{ tipBtn.label }}</button>
-<div style="display:flex; gap:6px; margin-top:4px">
-<button onClick="{{ tipAyah }}" style="flex:1; height:38px; border-radius:19px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 13px 'Instrument Sans'; cursor:pointer">Full ayah</button>
-<button onClick="{{ tipFav }}" aria-label="{{ tipFavAria }}" style="height:38px; padding:0 14px; border-radius:19px; border:1px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; font:600 13px 'Instrument Sans'; cursor:pointer; display:flex; align-items:center; gap:5px"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>{{ tipFavLabel }}</button>
+<div onClick="{{ closeTip }}" style="position:absolute; inset:0; z-index:19; background:rgba(0,0,0,0.2)"></div>
+<div onClick="{{ stop }}" style="position:absolute; left:0; right:0; bottom:0; z-index:20; background:{{ K.surf }}; border-top:1px solid {{ K.line }}; border-radius:24px 24px 0 0; padding:0 0 env(safe-area-inset-bottom,16px); box-shadow:0 -8px 40px rgba(0,0,0,0.14)">
+<div style="display:flex; justify-content:center; padding:10px 0 0"><div style="width:36px; height:4px; border-radius:2px; background:{{ K.line }}"></div></div>
+<div style="display:flex; align-items:flex-start; gap:12px; padding:14px 20px 10px">
+<span dir="rtl" style="font:400 36px/1.3 'Scheherazade New', serif; color:{{ K.ink }}; flex:none">{{ tip.ar }}</span>
+<div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; padding-top:4px">
+<span style="font:600 11px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.05em; text-transform:uppercase">{{ tip.ref }}</span>
+<div dir="rtl" style="font:400 16px/2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
 </div>
-<span style="margin-top:4px; font:500 11px 'Instrument Sans'; color:{{ K.muted }}; text-align:center">{{ tipNote }}</span>
+</div>
+<div style="padding:0 16px 14px; display:flex; flex-direction:column; gap:8px">
+<button onClick="{{ tipKnow }}" style="width:100%; height:42px; border-radius:21px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ tipBtn.label }}</button>
+<div style="display:flex; gap:8px">
+<button onClick="{{ tipAyah }}" style="flex:1; height:40px; border-radius:20px; border:1.5px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 13px 'Instrument Sans'; cursor:pointer">Full ayah</button>
+<button onClick="{{ tipFav }}" aria-label="{{ tipFavAria }}" style="height:40px; padding:0 16px; border-radius:20px; border:1.5px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; font:600 13px 'Instrument Sans'; cursor:pointer; display:flex; align-items:center; gap:5px; flex:none"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>{{ tipFavLabel }}</button>
+</div>
+<span style="font:500 11px 'Instrument Sans'; color:{{ K.muted }}; text-align:center">{{ tipNote }}</span>
+</div>
 </div>
 </sc-if>
 </div>
@@ -22271,7 +22280,7 @@ class Component extends DCLogic {
     const S = this.state;
     if (S.fpMode) { this.setState({ fpMode: false, fpFontPx: null }); return; }
     const appH = window.innerHeight || 812;
-    const fpFontPx = Math.max(18, Math.floor((appH - 30) / (15 * 1.95)));
+    const fpFontPx = Math.max(18, Math.floor((appH - 110) / (15 * 1.95)));
     this.setState({ fpMode: true, fpFontPx });
   }
   toggleBookmark() {
@@ -22513,7 +22522,7 @@ class Component extends DCLogic {
 
     const tokens = [];
     const tint = S.tint !== false; let pKn = 0, pTot = 0;
-    const mk = (id, ar, ur, ref, refN, ak) => { const kn = !!S.known[this.key(ar)]; pTot++; if (kn) pKn++; return { isWord: true, ar, fg: kn && tint ? K.knownInk : K.ink, bg: id === sel ? K.sel : (hl.includes(id) ? K.hl : 'transparent'), line: id === sel ? K.brand : (kn && tint ? K.knownInk : 'transparent'), onTap: e => this.tap(e, { id, ar, ur, ref, refN, page: S.page, ak }) }; };
+    const mk = (id, ar, ur, ref, refN, ak) => { const kn = !!S.known[this.key(ar)]; pTot++; if (kn) pKn++; return { isWord: true, ar, fg: kn && tint ? K.knownInk : K.ink, bg: id === sel ? K.sel : (hl.includes(id) ? K.hl : 'transparent'), line: id === sel ? K.brand : 'transparent', onTap: e => this.tap(e, { id, ar, ur, ref, refN, page: S.page, ak }) }; };
     P.ayahs.forEach((ay, ai) => {
       const sI = C.SUR[ay.s - 1] || {}, refN = `${sI.nameEnglish} ${ay.k}`, REF = refN.toUpperCase();
       if (ay.n === 1 && ai > 0) tokens.push({ isHead: true, ar: sI.nameArabic });
@@ -22564,7 +22573,7 @@ class Component extends DCLogic {
       rp: { surah: P.surah, juz: P.juz, page: S.page, header: P.header },
       tokens, fontPx: S.fpMode ? (S.fpFontPx || 24) : (sizes[S.fontStep] || 28),
       fpMode: !!S.fpMode, fpInset: S.fpMode ? '0' : '0 0 64px 0', fpZIndex: S.fpMode ? '; z-index:25' : '', fpTbDisplay: S.fpMode ? 'none' : 'flex', toggleFp: () => this.toggleFp(),
-      fpOverflow: S.fpMode ? 'hidden' : 'auto', fpPad: S.fpMode ? '6px 8px' : '12px 12px 16px',
+      fpOverflow: S.fpMode ? 'hidden' : 'auto', fpPad: S.fpMode ? '6px 8px' : '12px 12px 16px', fpFootDisplay: S.fpMode ? 'none' : 'flex',
       fpTransform: `translateX(${S.fpMode ? 0 : S.pt.x}px)`,
       fpOpacity: S.fpMode ? 1 : S.pt.o, fpTr: S.fpMode ? 'none' : S.pt.tr,
       pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, pt: S.pt,
