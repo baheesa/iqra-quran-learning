@@ -862,7 +862,7 @@ class Component extends DCLogic {
   state = this.init();
 
   norm(s) {
-    return (s || '').replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
+    return (s || '').replace(/\u0670/g, '\u0627').replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06ED\u0640]/g, '')
       .replace(/[أإآٱ]/g, 'ا').replace(/[ىی]/g, 'ي').replace(/ک/g, 'ك').replace(/[ہۃة]/g, 'ه')
       .replace(/[،؛,.]/g, '').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي').replace(/\s+/g, ' ').trim();
   }
