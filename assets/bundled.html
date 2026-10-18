@@ -19238,6 +19238,7 @@ window.__IQRA_DATA["/data/urdu-translation.json"] = {"1:1":"شروع الله ک
   var _origFetch = window.fetch;
   window.fetch = function(url) {
     var key = String(url).replace(/^https?:\/\/[^\/]+/, '');
+    if (key && key[0] !== '/') key = '/' + key;
     if (window.__IQRA_DATA && window.__IQRA_DATA[key]) {
       var val = window.__IQRA_DATA[key];
       return Promise.resolve({ ok: true, json: function() { return Promise.resolve(val); } });
@@ -22157,7 +22158,7 @@ class Component extends DCLogic {
     const f = n => fetch(`data/${n}.json`).then(r => r.json());
     Promise.all(['ayah-cards', 'wbw-urdu', 'surahs', 'juz-index', 'unit-vocabulary', 'learner-rules', 'daily-duas', 'urdu-translation'].map(f))
       .then(([ac, wbw, sur, juz, voc, rules, duas, urTr]) => { this.build(ac, wbw, sur, juz, voc, rules, duas, urTr); this.setState({ loaded: true, splashPct: 100 }, () => this.endSplash()); })
-      .catch(err => { console.error(err); this.info('Could not load the Quran data files'); });
+      .catch(err => { console.error(err); this.info('Could not load the Quran data files'); this.endSplash(true); });
   }
   build(ac, wbw, sur, juz, voc, rules, duas, urTr) {
     const C = Component, M = (wbw && wbw.meanings) || {};
