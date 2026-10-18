@@ -31,8 +31,29 @@ public class MainActivity extends Activity {
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("file:///android_asset/public/bundled.html");
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // Remove the AndroidDevice phone-frame wrapper; promote the inner app div to full-screen
+                view.evaluateJavascript(
+                    "(function() {" +
+                    "  var body = document.body;" +
+                    // Find the outer flex container (min-height:100vh wrapper)
+                    "  var outer = body.querySelector('div[style*=\"min-height:100vh\"]') || body.querySelector('div[style*=\"min-height: 100vh\"]');" +
+                    // Find the inner app div (height:100%, the real app content)
+                    "  var inner = body.querySelector('div[style*=\"height:100%\"][style*=\"position:relative\"]') || body.querySelector('div[style*=\"height: 100%\"][style*=\"position: relative\"]');" +
+                    "  if (inner) {" +
+                    "    inner.style.cssText = 'position:fixed;inset:0;overflow:hidden;background:inherit;color:inherit;font-family:inherit;';" +
+                    "    body.innerHTML = '';" +
+                    "    body.appendChild(inner);" +
+                    "  }" +
+                    "  document.body.style.cssText = 'margin:0;padding:0;overflow:hidden;width:100%;height:100%;';" +
+                    "})();",
+                    null
+                );
+            }
+        });
+        webView.loadUrl("https://iqra-quran-learning-eight.vercel.app");
     }
 
     private void hideSystemUI() {
