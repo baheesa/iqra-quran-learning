@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://iqra-quran-learning-eight.vercel.app");
+        webView.loadUrl("file:///android_asset/public/bundled.html");
     }
 
     private void hideSystemUI() {
