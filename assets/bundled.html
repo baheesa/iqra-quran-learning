@@ -2790,7 +2790,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:center; margin:6px 0 2px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ b.sAr }}</span></div></sc-if>
 <div style="display:flex; flex-direction:column; gap:6px; padding:12px 4px 14px; border-bottom:1px solid {{ b.bd }}">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:30px; padding:0 8px 0 12px; border-radius:15px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ b.short }} · p. {{ b.pg }}<svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button><button onClick="{{ b.wbw }}" style="height:30px; padding:0 8px; border:0; background:transparent; color:{{ K.muted }}; font:600 12px 'Instrument Sans'; cursor:pointer">Word by word</button></div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span style="padding:0 3px; border-radius:6px; font-weight:{{ t.fw || '400' }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span style="padding:{{ t.brd ? '0 3px' : '0 1px' }}; border-radius:6px; font-weight:{{ t.fw || '400' }}; outline:{{ t.brd ? '1.5px solid ' + t.brd : 'none' }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
 <sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
@@ -2836,7 +2836,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <div style="width:100%; box-sizing:border-box; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:14px 16px 10px; display:flex; flex-direction:column; gap:8px; color:{{ K.ink }}">
 <span style="display:flex; align-items:center; justify-content:space-between; gap:8px; font:500 12.5px 'Instrument Sans'"><span><span style="font-weight:600">{{ r.ref }}</span><span style="color:{{ K.muted }}"> · {{ r.page }}</span></span></span>
 <span dir="rtl" style="display:flex; flex-wrap:wrap; gap:2px 3px; font:400 23px/1.75 'Scheherazade New', serif">
-<sc-for list="{{ r.toks }}" as="t"><span style="padding:0 3px; border-radius:5px; background:{{ t.bg }}; font-weight:{{ t.fw }}">{{ t.ar }}</span></sc-for>
+<sc-for list="{{ r.toks }}" as="t"><span style="padding:{{ t.brd ? '0 3px' : '0 1px' }}; border-radius:5px; outline:{{ t.brd ? '1.5px solid ' + t.brd : 'none' }}; background:{{ t.bg }}; font-weight:{{ t.fw }}">{{ t.ar }}</span></sc-for>
 </span>
 <span dir="rtl" style="font:400 14px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ r.meaning }}</span>
 <sc-if value="{{ r.showTr }}" hint-placeholder-val="{{ false }}"><div style="background:{{ K.bg }}; border-radius:14px; padding:10px 14px; display:flex; flex-direction:column; gap:2px"><span style="font:600 11px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Translation</span><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.tr }}</div></div></sc-if>
@@ -3177,7 +3177,7 @@ class Component extends DCLogic {
   static JUZ_NAMES = ['الم', 'سيقول', 'تلك الرسل', 'لن تنالوا', 'والمحصنات', 'لا يحب الله', 'وإذا سمعوا', 'ولو أننا', 'قال الملأ', 'واعلموا', 'يعتذرون', 'وما من دابة', 'وما أبرئ', 'ربما', 'سبحان الذي', 'قال ألم', 'اقترب للناس', 'قد أفلح', 'وقال الذين', 'أمن خلق', 'اتل ما أوحي', 'ومن يقنت', 'وما لي', 'فمن أظلم', 'إليه يرد', 'حم', 'قال فما خطبكم', 'قد سمع الله', 'تبارك الذي', 'عم'];
   static LEVELS = ['Beginner','Reader','Seeker','Student','Reciter','Scholar'];
   static THEMES = {
-    light: { bg:'#F5F2EA', surf:'#FDFBF6', surf2:'#ECE7DA', ink:'#18201C', muted:'#59625C', line:'#E0DACB', brand:'#1E4A38', onBrand:'#F5F2EA', onBrandTrack:'rgba(245,242,234,0.25)', soft:'#DCE7DE', softInk:'#15392B', track:'#E3DED1', gold:'#A8741F', gold2:'#E3B45C', goldSoft:'#F4E7C8', goldInk:'#5E3F0C', hl:'#F1DE98', page:'#FDFBF4', frame:'#CFC6AC', scrim:'rgba(14,20,17,0.42)', tipBg:'#18201C', tipFg:'#F5F2EA', sel:'#DCE7DE', knownInk:'#2F6F52', brandMid:'#9DB8A9', ice:'#2F6690', iceSoft:'#DCE8F1', tipLine:'rgba(245,242,234,0.25)' },
+    light: { bg:'#F5F2EA', surf:'#FDFBF6', surf2:'#ECE7DA', ink:'#18201C', muted:'#59625C', line:'#E0DACB', brand:'#1E4A38', onBrand:'#F5F2EA', onBrandTrack:'rgba(245,242,234,0.25)', soft:'#DCE7DE', softInk:'#15392B', track:'#E3DED1', gold:'#A8741F', gold2:'#E3B45C', goldSoft:'#F4E7C8', goldInk:'#5E3F0C', hl:'#E8C84A', page:'#FDFBF4', frame:'#CFC6AC', scrim:'rgba(14,20,17,0.42)', tipBg:'#18201C', tipFg:'#F5F2EA', sel:'#DCE7DE', knownInk:'#2F6F52', brandMid:'#9DB8A9', ice:'#2F6690', iceSoft:'#DCE8F1', tipLine:'rgba(245,242,234,0.25)' },
     dark: { bg:'#0E1311', surf:'#161C19', surf2:'#1F2723', ink:'#E9E7DF', muted:'#9EA7A0', line:'#28312C', brand:'#86C9A7', onBrand:'#0E1311', onBrandTrack:'rgba(14,19,17,0.22)', soft:'#1D3529', softInk:'#CFEBDC', track:'#26302B', gold:'#E3B45C', gold2:'#8A5E14', goldSoft:'#382C14', goldInk:'#F2D9A4', hl:'#5A4818', page:'#121815', frame:'#34443A', scrim:'rgba(0,0,0,0.55)', tipBg:'#E9E7DF', tipFg:'#0E1311', sel:'#1D3529', knownInk:'#8FCBAE', brandMid:'#3E6A55', ice:'#8DB9DC', iceSoft:'#1C2A35', tipLine:'rgba(14,19,17,0.22)' }
   };
 
@@ -3458,7 +3458,7 @@ class Component extends DCLogic {
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
       res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
-        toks: ay.w.map((w, i) => ({ ar: w[0], bg: m.has(i) ? K.hl : 'transparent', fw: m.has(i) ? '700' : '400' })),
+        toks: ay.w.map((w, i) => ({ ar: w[0], bg: m.has(i) ? K.hl : 'transparent', fw: m.has(i) ? '700' : '400', brd: m.has(i) ? K.brand : '' })),
         meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
         tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
@@ -3472,7 +3472,7 @@ class Component extends DCLogic {
     const r = results || [], toks = []; let last = null;
     r.forEach(x => {
       if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
-      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, bg: t.bg, fw: t.fw, onTap: () => this.openAyah(x.k, 'search') }));
+      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, bg: t.bg, fw: t.fw, brd: t.brd, onTap: () => this.openAyah(x.k, 'search') }));
       toks.push({ isMarker: true, num: this.arNum(x.an), open: () => x.open() });
     });
     const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
