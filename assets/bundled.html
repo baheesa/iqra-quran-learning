@@ -2311,12 +2311,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </div>
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:240px; z-index:5; box-sizing:border-box; background:{{ K.tipBg }}; color:{{ K.tipFg }}; border-radius:16px; padding:12px 14px; box-shadow:0 14px 36px rgba(0,0,0,0.25); display:flex; flex-direction:column; gap:2px">
-<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.04em; opacity:0.8">{{ tip.ref }}</span><span dir="rtl" style="font:400 24px/1.4 'Scheherazade New', serif">{{ tip.ar }}</span></div>
-<div dir="rtl" style="font:400 18px/2.2 'Noto Nastaliq Urdu', serif; text-align:right">{{ tip.ur }}</div>
-<button onClick="{{ tipKnow }}" style="margin-top:6px; height:38px; border-radius:19px; border:0; background:{{ tipBtn.bg }}; color:{{ tipBtn.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">{{ tipBtn.label }}</button>
-<button onClick="{{ tipAyah }}" style="margin-top:6px; height:36px; border-radius:18px; border:1px solid {{ K.tipLine }}; background:transparent; color:{{ K.tipFg }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">Full ayah translation</button>
-<span style="margin-top:6px; font:500 11.5px 'Instrument Sans'; opacity:0.75; text-align:center">{{ tipNote }}</span>
+<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:232px; z-index:5; box-sizing:border-box; background:{{ K.surf }}; color:{{ K.ink }}; border:1px solid {{ K.line }}; border-radius:18px; padding:12px 12px 10px; box-shadow:0 8px 32px rgba(0,0,0,0.14); display:flex; flex-direction:column; gap:4px">
+<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px"><span style="font:600 10px 'Instrument Sans'; letter-spacing:0.07em; text-transform:uppercase; color:{{ K.muted }}; padding-top:4px">{{ tip.ref }}</span><span dir="rtl" style="font:400 28px/1.2 'Scheherazade New', serif">{{ tip.ar }}</span></div>
+<div dir="rtl" style="font:400 15px/2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
+<div style="display:flex; gap:6px; margin-top:4px">
+<button onClick="{{ tipKnow }}" title="Mark as known" style="flex:1; height:36px; border-radius:18px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; gap:5px; font:600 12px 'Instrument Sans'; cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round"><polyline points="20 6 9 17 4 12"></polyline></svg>Known</button>
+<button onClick="{{ tipAyah }}" title="Open full ayah" style="width:36px; height:36px; border-radius:18px; border:1.5px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></button>
+<button onClick="{{ tipFav }}" title="{{ tipFavAria }}" style="width:36px; height:36px; border-radius:18px; border:1.5px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></button>
+</div>
 </div>
 </sc-if>
 </div>
@@ -3147,7 +3149,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;sheet&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;bubble&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
 class Component extends DCLogic {
   static KEY = 'iqra-proto-v4';
   static D = null;
@@ -3323,14 +3325,23 @@ class Component extends DCLogic {
       const saved = has || known[k] === 'k' ? S.saved : [{ id: w.id, ar: w.ar, ur: w.ur, ref: w.refN, page: w.page }, ...S.saved];
       this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved });
     }
-    const el = this.pageRef.current; if (!el) return;
-    const c = el.getBoundingClientRect(), r = e.currentTarget.getBoundingClientRect();
-    const s = (c.width / el.offsetWidth) || 1, W = el.offsetWidth, H = el.offsetHeight;
-    const cx = (r.left + r.width / 2 - c.left) / s;
-    const x = Math.max(6, Math.min(W - 246, cx - 120));
-    const top = (r.top - c.top) / s, bot = (r.bottom - c.top) / s;
-    const above = bot > H - 250 && top > 250;
-    this.setState({ tip: { ...w, x, y: above ? top - 6 : bot + 6, tf: above ? 'translateY(-100%)' : 'none' } });
+    const el = this.pageRef.current;
+    let tx, ty, tf;
+    if (el) {
+      const c = el.getBoundingClientRect(), r = e.currentTarget.getBoundingClientRect();
+      const s = (c.width / el.offsetWidth) || 1, W = el.offsetWidth, H = el.offsetHeight;
+      const cx = (r.left + r.width / 2 - c.left) / s;
+      tx = Math.max(6, Math.min(W - 248, cx - 116));
+      const top = (r.top - c.top) / s, bot = (r.bottom - c.top) / s;
+      const above = bot > H - 240 && top > 200;
+      ty = above ? top - 6 : bot + 6; tf = above ? 'translateY(-100%)' : 'none';
+    } else {
+      const cx = e.clientX || 0, cy = e.clientY || 0;
+      tx = Math.max(6, Math.min((window.innerWidth || 400) - 248, cx - 116));
+      const above = cy > (window.innerHeight || 700) * 0.6;
+      ty = above ? cy - 10 : cy + 10; tf = above ? 'translateY(-100%)' : 'none';
+    }
+    this.setState({ tip: { ...w, x: tx, y: ty, tf } });
   }
   toggleKnown(ar) {
     const k = this.key(ar), known = { ...this.state.known };
@@ -3581,7 +3592,7 @@ class Component extends DCLogic {
   renderVals() {
     const S = this.state, C = Component, K = C.THEMES[S.dark ? 'dark' : 'light'];
     const P = C.PAGES[S.page] || C.STUB;
-    const goalN = S.goal || 5, tipStyle = this.props.tipStyle ?? 'sheet';
+    const goalN = S.goal || 5, tipStyle = this.props.tipStyle ?? 'bubble';
     const knownCount = Object.keys(S.known).length, memCount = Object.keys(S.memorised).length;
     const lvlN = Math.floor(S.xp / 200) + 1, into = S.xp % 200;
     const hl = (S.hl && S.hl.ids) || [], sel = S.tip && S.tip.id;
