@@ -1116,7 +1116,7 @@ class Component extends DCLogic {
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
       res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
-        toks: ay.w.map((w, i) => ({ ar: w[0], ur: w[1], bg: m.has(i) ? K.hl : 'transparent', fw: m.has(i) ? '700' : '400', brd: m.has(i) ? K.brand : '', tap: w[1] ? e => this.tapSheet(e, { ar: w[0], ur: w[1], ref: `${sI.nameEnglish} ${k}`, ak: k }) : null })),
+        toks: ay.w.map((w, i) => ({ ar: w[0], ur: w[1], bg: m.has(i) ? K.hl : 'transparent', fw: m.has(i) ? '700' : '400', brd: m.has(i) ? K.brand : '', tap: e => this.tap(e, { ar: w[0], ur: w[1] || '', ref: `${sI.nameEnglish} ${k}`, ak: k }) })),
         meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
         tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
@@ -1130,7 +1130,7 @@ class Component extends DCLogic {
     const r = results || [], toks = []; let last = null;
     r.forEach(x => {
       if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
-      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, ur: t.ur, bg: t.bg, fw: t.fw, brd: t.brd, onTap: e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) }));
+      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, ur: t.ur, bg: t.bg, fw: t.fw, brd: t.brd, onTap: e => this.tap(e, { ar: t.ar, ur: t.ur || '', ref: x.ref, ak: x.k }) }));
       toks.push({ isMarker: true, num: this.arNum(x.an), open: () => x.open() });
     });
     const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
