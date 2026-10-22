@@ -3145,38 +3145,6 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <span style="display:flex; align-items:center; gap:8px; font:400 12.5px/1.4 'Instrument Sans'; color:{{ K.muted }}"><span style="width:8px; height:8px; border-radius:4px; background:{{ K.brand }}"></span>Offline · all 604 pages on this device</span>
 </div>
 </div>
-
-
-<aside style="max-width:320px; display:flex; flex-direction:column; gap:18px; padding-top:12px; color:#2A302C">
-<div style="display:flex; flex-direction:column; gap:10px"><span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Logo</span>
-<div style="display:flex; align-items:center; gap:16px"><span style="position:relative; width:88px; height:88px; flex:none; border-radius:24px; background:#1E4A38; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px rgba(227,180,92,0.35)"><svg width="88" height="88" viewBox="0 0 100 100" style="position:absolute; inset:0; fill:none; stroke:#E3B45C; stroke-width:2.6"><rect x="24" y="24" width="52" height="52" rx="3"></rect><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"></rect></svg><span dir="rtl" style="position:relative; font:700 24px/1 'Scheherazade New', serif; color:#F5F2EA; margin-top:-4px">اقرأ</span></span><div style="display:flex; flex-direction:column; gap:4px"><span style="font:500 34px/1 'Newsreader', serif">Iqra</span><span dir="rtl" style="font:400 22px/1.2 'Scheherazade New', serif; color:#59625C; text-align:left">اقْرَأْ</span></div></div>
-<p style="margin:0; font:400 13px/1.55 'Instrument Sans'; color:#3C443F; text-wrap:pretty">The eight-point star is the rub el hizb, the marker that divides the mushaf into quarters. The word inside is the app’s name, اقرأ (read), the first word revealed.</p></div>
-<div style="display:flex; flex-direction:column; gap:6px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.1em; text-transform:uppercase; color:#1E4A38">Iqra · Android redesign</span><span style="font:500 30px/1.15 'Newsreader', serif">Reader-first prototype</span></div>
-<p style="margin:0; font:400 14px/1.6 'Instrument Sans'; text-wrap:pretty">The app opens straight onto the mushaf. Everything else lives in the drawer, and the page stays clean: word tips appear only on tap. Reading, words and duas earn XP toward levels, a daily page goal and a streak.</p>
-<div style="display:flex; flex-direction:column; gap:8px">
-<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Try</span>
-<ul style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font:400 13.5px/1.5 'Instrument Sans'">
-<li>Go through onboarding (4 steps)</li>
-<li>Tap a word, then “Full ayah translation”</li>
-<li>Tap an ayah number, or the gold Dua tag after ayah 7</li>
-<li>Turn to page 2: the words you didn’t tap on page 1 turn green (familiar)</li>
-<li>Search <span style="font-family:'Noto Nastaliq Urdu', serif">ہدایت</span> or <span style="font-family:'Scheherazade New', serif; font-size:17px">الرحمن</span></li>
-<li>Tap the title bar to jump by surah, juz or page</li>
-<li>In search results, use Translation or Word by word</li>
-<li>☰ → My words → Start review for flashcards</li>
-<li>Progress → Preview level-up, or Replay onboarding</li>
-</ul>
-</div>
-<div style="display:flex; flex-direction:column; gap:8px">
-<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Assumptions</span>
-<ul style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font:400 13px/1.5 'Instrument Sans'; color:#3C443F">
-<li>All 604 pages, word meanings, units, qawaid and duas load from the repo’s data/ JSON.</li>
-<li>Scheherazade New and Noto Nastaliq Urdu stand in for the Indo-Pak script and Jameel Noori Nastaleeq.</li>
-<li>XP values, levels and badges are proposals. Progress saves in this browser.</li>
-<li>Full-ayah translation uses the repo’s word-order gloss, except Al-Fatiha and Al-Baqarah 1–5, which use my ba-muhawara wording.</li>
-</ul>
-</div>
-</aside>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;bubble&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
@@ -3474,7 +3442,7 @@ class Component extends DCLogic {
     for (const k of C.ALLK) {
       const ay = C.AY[k], m = new Set();
       if (nq) { let idx = ay.joined.indexOf(nq); while (idx > -1) { const end = idx + nq.length, hit = []; ay.nw.forEach((w, i) => { if (ay.st[i] < end && ay.st[i] + w.length > idx) hit.push(i); }); const f = hit[0], l = hit[hit.length - 1]; if (S.exact === false || (C.PREF.has(ay.nw[f].slice(0, idx - ay.st[f])) && C.SUF.has(ay.nw[l].slice(end - ay.st[l])))) hit.forEach(i => m.add(i)); idx = ay.joined.indexOf(nq, idx + 1); } }
-      ay.w.forEach((w, i) => { if (w[1] && w[1].includes(q)) m.add(i); });
+      ay.w.forEach((w, i) => { if (w[1] && w[1].includes(q)) { if (S.exact === false || w[1].split(/\s+/).some(t => this.norm(t) === nq || t === q)) m.add(i); } });
       if (!m.size) continue;
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
