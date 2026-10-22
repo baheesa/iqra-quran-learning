@@ -2273,7 +2273,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <div data-screen-label="Mushaf" style="position:absolute; inset:{{ fpInset }}{{ fpZIndex }}; display:flex; flex-direction:column">
 <sc-if value="{{ fpMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleFp }}" style="position:absolute; top:12px; right:12px; z-index:100; width:36px; height:36px; border:0; border-radius:18px; background:rgba(0,0,0,0.45); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round"><path d="M5 5l14 14M5 19L19 5"></path></svg></button></sc-if>
 <div style="display:{{ fpTbDisplay }}; flex-direction:column; border-bottom:1px solid {{ K.line }}">
-<div style="display:flex; align-items:center; gap:2px; padding:4px 6px 2px; min-height:44px">
+<div style="display:flex; align-items:center; gap:2px; padding:12px 6px 2px; min-height:44px">
 <button onClick="{{ openDrawer }}" aria-label="Menu" style="width:40px; height:40px; flex:none; border:0; background:transparent; color:inherit; border-radius:20px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
 <button onClick="{{ openJump }}" style="flex:1; min-width:0; text-align:left; background:transparent; border:0; padding:4px 6px; color:inherit; cursor:pointer; display:flex; flex-direction:column; gap:1px">
 <span style="display:flex; align-items:center; gap:4px; font:600 16px/1.25 'Instrument Sans'">{{ rp.surah }}<svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M6 9l6 6 6-6"></path></svg></span>
@@ -3147,7 +3147,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;bubble&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;sheet&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
 class Component extends DCLogic {
   static KEY = 'iqra-proto-v4';
   static D = null;
@@ -3581,7 +3581,7 @@ class Component extends DCLogic {
   renderVals() {
     const S = this.state, C = Component, K = C.THEMES[S.dark ? 'dark' : 'light'];
     const P = C.PAGES[S.page] || C.STUB;
-    const goalN = S.goal || 5, tipStyle = this.props.tipStyle ?? 'bubble';
+    const goalN = S.goal || 5, tipStyle = this.props.tipStyle ?? 'sheet';
     const knownCount = Object.keys(S.known).length, memCount = Object.keys(S.memorised).length;
     const lvlN = Math.floor(S.xp / 200) + 1, into = S.xp % 200;
     const hl = (S.hl && S.hl.ids) || [], sel = S.tip && S.tip.id;
