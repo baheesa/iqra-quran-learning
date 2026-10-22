@@ -47,7 +47,7 @@
 </div>
 <div dir="rtl" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; column-gap:2px; row-gap:2px; font-family:'Amiri Quran','Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.95; color:{{ K.ink }}">
 <sc-for list="{{ tokens }}" as="t" hint-placeholder-count="24">
-<sc-if value="{{ t.isWord }}" hint-placeholder-val="{{ true }}"><span onClick="{{ t.onTap }}" style="cursor:pointer; padding:0 3px; border-radius:6px; color:{{ t.fg }}; background:{{ t.bg }}; box-shadow:inset 0 -2px 0 {{ t.line }}; transition:background .15s, color .3s">{{ t.ar }}</span></sc-if>
+<sc-if value="{{ t.isWord }}" hint-placeholder-val="{{ true }}"><span onClick="{{ t.onTap }}" style="cursor:pointer; padding:0 3px; border-radius:6px; font-weight:{{ t.fw || '400' }}; color:{{ t.fg }}; background:{{ t.bg }}; box-shadow:inset 0 -2px 0 {{ t.line }}; transition:background .15s, color .3s">{{ t.ar }}</span></sc-if>
 <sc-if value="{{ t.isMarker }}" hint-placeholder-val="{{ false }}"><span onClick="{{ t.onTap }}" aria-label="Ayah translation" style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}; cursor:pointer">{{ t.num }}</span></sc-if>
 <sc-if value="{{ t.isDua }}" hint-placeholder-val="{{ false }}"><span onClick="{{ t.onTap }}" style="display:inline-flex; align-items:center; gap:4px; height:28px; padding:0 10px 0 8px; margin:0 3px; border-radius:14px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}; font:600 12px/1 'Instrument Sans'; cursor:pointer; direction:ltr"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linejoin:round"><path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"></path></svg>Dua</span></sc-if>
 <sc-if value="{{ t.isBreak }}" hint-placeholder-val="{{ false }}"><span style="flex-basis:100%; height:0"></span></sc-if>
@@ -496,7 +496,7 @@
 <sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:center; margin:6px 0 2px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ b.sAr }}</span></div></sc-if>
 <div style="display:flex; flex-direction:column; gap:6px; padding:12px 4px 14px; border-bottom:1px solid {{ b.bd }}">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:30px; padding:0 8px 0 12px; border-radius:15px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ b.short }} · p. {{ b.pg }}<svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button><button onClick="{{ b.wbw }}" style="height:30px; padding:0 8px; border:0; background:transparent; color:{{ K.muted }}; font:600 12px 'Instrument Sans'; cursor:pointer">Word by word</button></div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:6px; background:{{ tip.ar && t.ar === tip.ar ? K.sel : t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:6px; font-weight:{{ t.fw || '400' }}; background:{{ tip.ar && t.ar === tip.ar ? K.sel : t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
 <sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
@@ -542,7 +542,7 @@
 <div style="width:100%; box-sizing:border-box; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:18px; padding:14px 16px 10px; display:flex; flex-direction:column; gap:8px; color:{{ K.ink }}">
 <span style="display:flex; align-items:center; justify-content:space-between; gap:8px; font:500 12.5px 'Instrument Sans'"><span><span style="font-weight:600">{{ r.ref }}</span><span style="color:{{ K.muted }}"> · {{ r.page }}</span></span></span>
 <span dir="rtl" style="display:flex; flex-wrap:wrap; gap:2px 3px; font:400 23px/1.75 'Scheherazade New', serif">
-<sc-for list="{{ r.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; background:{{ tip.ar && t.ar === tip.ar ? K.sel : t.bg }}">{{ t.ar }}</span></sc-for>
+<sc-for list="{{ r.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; font-weight:{{ t.fw || '400' }}; background:{{ tip.ar && t.ar === tip.ar ? K.sel : t.bg }}">{{ t.ar }}</span></sc-for>
 </span>
 <span dir="rtl" style="font:400 14px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ r.meaning }}</span>
 <sc-if value="{{ r.showTr }}" hint-placeholder-val="{{ false }}"><div style="background:{{ K.bg }}; border-radius:14px; padding:10px 14px; display:flex; flex-direction:column; gap:2px"><span style="font:600 11px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Translation</span><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.tr }}</div></div></sc-if>
@@ -1114,7 +1114,7 @@ class Component extends DCLogic {
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
       res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
-        toks: ay.w.map((w, i) => ({ ar: w[0], ur: w[1], bg: m.has(i) ? K.hl : 'transparent', tap: w[1] ? e => this.tapSheet(e, { ar: w[0], ur: w[1], ref: `${sI.nameEnglish} ${k}`, ak: k }) : null })),
+        toks: ay.w.map((w, i) => ({ ar: w[0], ur: w[1], bg: m.has(i) ? K.hl : 'transparent', fw: m.has(i) ? '700' : '400', tap: w[1] ? e => this.tapSheet(e, { ar: w[0], ur: w[1], ref: `${sI.nameEnglish} ${k}`, ak: k }) : null })),
         meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
         tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
@@ -1128,7 +1128,7 @@ class Component extends DCLogic {
     const r = results || [], toks = []; let last = null;
     r.forEach(x => {
       if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
-      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, ur: t.ur, bg: t.bg, onTap: e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) }));
+      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, ur: t.ur, bg: t.bg, fw: t.fw, onTap: e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) }));
       toks.push({ isMarker: true, num: this.arNum(x.an), open: () => x.open() });
     });
     const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
