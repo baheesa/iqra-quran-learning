@@ -1120,12 +1120,12 @@ class Component extends DCLogic {
     const r = results || [], toks = []; let last = null;
     r.forEach(x => {
       if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
-      x.toks.forEach(t => { const sel = !!(tip && !tip.src && tip.ar === t.ar && t.ur); toks.push({ isWord: true, ar: t.ar, ur: t.ur, bg: sel ? K.sel : t.bg, fw: t.fw, brd: sel ? K.brand : t.brd, onTap: e => this.tapSheet(e, { ar: t.ar, ur: t.ur || '', ref: x.ref, ak: x.k }) }); });
+      x.toks.forEach(t => { const stip = S.tip; const sel = !!(stip && !stip.src && stip.ar === t.ar && t.ur); toks.push({ isWord: true, ar: t.ar, ur: t.ur, bg: sel ? K.sel : t.bg, fw: t.fw, brd: sel ? K.brand : t.brd, onTap: e => this.tapSheet(e, { ar: t.ar, ur: t.ur || '', ref: x.ref, ak: x.k }) }); });
       toks.push({ isMarker: true, num: this.arNum(x.an), open: () => x.open() });
     });
     const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
     return {
-      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks.map(t => { const tap = t.ur ? e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) : null; const sel = !!(tip && !tip.src && tip.ar === t.ar && tap); return { ...t, tap, cur: tap ? 'pointer' : 'default', bg: sel ? K.sel : t.bg, brd: sel ? K.brand : t.brd }; }), tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
+      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks.map(t => { const tap = t.ur ? e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) : null; const stip = S.tip; const sel = !!(stip && !stip.src && stip.ar === t.ar && tap); return { ...t, tap, cur: tap ? 'pointer' : 'default', bg: sel ? K.sel : t.bg, brd: sel ? K.brand : t.brd }; }), tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
       isViewAll: S.screen === 'viewall', vaFlow: !S.vaTr, vaTrOn: !!S.vaTr,
       vaTitle: `“${S.q.trim()}”`, vaSub: `${tot} ayah${tot === 1 ? '' : 's'}${tot > r.length ? ` · first ${r.length} shown` : ''}`,
       vaTrLabel: S.vaTr ? 'Hide translation' : 'Translation',
@@ -1174,7 +1174,7 @@ class Component extends DCLogic {
     const qs = [...qd].sort((a, b) => a.juz - b.juz), dj = S.duaJuz || null;
     const src = S.duaTab === 'quranic' ? qs.filter(d => !dj || d.juz === dj) : C.DUAS.masnoon; let lastH = null;
     const duaList = src.map(d => { const m = !!S.memorised[d.id], isQ = S.duaTab === 'quranic', hk = isQ ? d.juz : d.cat, head = hk !== lastH, cat = C.DCAT[d.cat] || {}; lastH = hk;
-      const toks = (d.ar || '').split(/\s+/).filter(Boolean).map(w => { const ur = (C.FM && C.FM[this.key(w)]) || ''; const sel = !!(tip && !tip.src && tip.ar === w && ur); return { ar: w, ur, tap: ur ? e => this.tapSheet(e, { ar: w, ur, ref: d.meta || d.title }) : null, selBg: sel ? K.sel : 'transparent', selBd: sel ? K.brand : '' }; });
+      const toks = (d.ar || '').split(/\s+/).filter(Boolean).map(w => { const ur = (C.FM && C.FM[this.key(w)]) || ''; const stip = S.tip; const sel = !!(stip && !stip.src && stip.ar === w && ur); return { ar: w, ur, tap: ur ? e => this.tapSheet(e, { ar: w, ur, ref: d.meta || d.title }) : null, selBg: sel ? K.sel : 'transparent', selBd: sel ? K.brand : '' }; });
       return { ...d, head, headLabel: isQ ? `Juz ${d.juz}` : (cat.label || ''), headAr: isQ ? C.JUZ_NAMES[d.juz - 1] : (cat.labelUrdu || ''), btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id), toks }; });
     const duaChips = [{ label: 'All juz', n: qs.length, j: null }, ...[...new Set(qs.map(d => d.juz))].map(j => ({ label: `Juz ${j}`, n: qs.filter(d => d.juz === j).length, j }))]
       .map(c => ({ ...c, bg: dj === c.j ? K.brand : K.surf, fg: dj === c.j ? K.onBrand : K.ink, bd: dj === c.j ? K.brand : K.line, pick: () => this.setState({ duaJuz: c.j }) }));
