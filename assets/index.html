@@ -941,7 +941,7 @@ class Component extends DCLogic {
   componentDidUpdate(pp, ps) {
     const S = this.state;
     try { this.pk = this.pk || Object.keys(this.seed()); const o = {}; this.pk.forEach(k => o[k] = S[k]); localStorage.setItem(Component.KEY, JSON.stringify(o)); } catch (e) {}
-    if (S.screen === 'search' && ps.screen !== 'search') setTimeout(() => this.searchRef.current && this.searchRef.current.focus(), 60);
+    if (S.screen === 'search' && ps?.screen !== 'search') setTimeout(() => this.searchRef.current && this.searchRef.current.focus(), 60);
   }
   componentWillUnmount() { clearTimeout(this.tt); }
 
