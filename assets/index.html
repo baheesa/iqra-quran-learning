@@ -469,12 +469,12 @@
 <div style="background:{{ K.page }}; border:1px solid {{ K.frame }}; border-radius:12px; padding:4px">
 <div style="border:1px solid {{ K.frame }}; border-radius:8px; padding:8px 10px 16px">
 <sc-for list="{{ vaBlocks }}" as="b" hint-placeholder-count="3">
-<div style="display:flex; flex-direction:column; gap:3px; padding:7px 4px 9px; border-bottom:1px solid {{ b.bd }}">
+<div style="display:flex; flex-direction:column; gap:5px; padding:10px 6px 12px; border-bottom:1px solid {{ b.bd }}">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:6px">
 <span style="font:600 11px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.04em; text-transform:uppercase">{{ b.short }}</span>
-<button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:24px; padding:0 8px; border-radius:12px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 10.5px 'Instrument Sans'; cursor:pointer; flex:none"><svg width="11" height="11" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:0.85"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Open</button>
+<button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:26px; padding:0 10px; border-radius:13px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 11px 'Instrument Sans'; cursor:pointer; flex:none"><svg width="11" height="11" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:0.85"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Open</button>
 </div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:19px; line-height:1.75; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.cur }}; padding:{{ t.pd }}; border-radius:6px; font-weight:{{ t.fw }}; outline:{{ t.ol }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:22px; line-height:1.85; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.cur }}; padding:{{ t.pd || '0 3px' }}; border-radius:6px; font-weight:{{ t.fw }}; background:{{ t.bg }}; box-shadow:{{ t.brd ? 'inset 0 0 0 1.5px ' + t.brd : 'none' }}; transition:background .15s">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
 <sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 13px/1.8 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
@@ -762,8 +762,10 @@
 
 <sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:49"></div>
-<div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; bottom:{{ tipCardBot }}; max-width:220px; z-index:50; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:10px; padding:8px 12px; box-shadow:0 3px 16px rgba(0,0,0,0.18)">
-<div dir="rtl" style="font:400 15px/1.6 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
+<div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; bottom:{{ tipCardBot }}; width:220px; z-index:50; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 4px 20px rgba(0,0,0,0.16); display:flex; flex-direction:column; gap:4px">
+<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px"><span style="font:600 9px 'Instrument Sans'; letter-spacing:0.06em; text-transform:uppercase; color:{{ K.muted }}; padding-top:3px">{{ tip.ref }}</span><span dir="rtl" style="font:400 22px/1.2 'Scheherazade New', serif">{{ tip.ar }}</span></div>
+<div dir="rtl" style="font:400 13px/1.6 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
+<button onClick="{{ tipKnow }}" style="margin-top:2px; height:30px; border-radius:15px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; gap:4px; font:600 11px 'Instrument Sans'; cursor:pointer; width:100%"><svg width="11" height="11" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round"><polyline points="20 6 9 17 4 12"></polyline></svg>{{ tipBtn.label }}</button>
 </div>
 </sc-if>
 
@@ -1116,7 +1118,7 @@ class Component extends DCLogic {
     res.total = total;
     return res;
   }
-  viewAll(results, S) {
+  viewAll(results, S, K) {
     const r = results || [], toks = []; let last = null;
     r.forEach(x => {
       if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
@@ -1364,7 +1366,7 @@ class Component extends DCLogic {
       toast: S.toast ? { ...S.toast, bg: S.toast.xp ? K.goldSoft : K.tipBg, fg: S.toast.xp ? K.goldInk : K.tipFg } : {},
       toggleBookmark: () => this.toggleBookmark(),
       resetDemo: () => { const s = this.seed(); this.setState({ ...s, onboarded: true, page: s.lastPage, hl: null, tip: null, rv: null }); this.info('Demo data reset'); },
-      pageRec, ...this.homeVals(S, K, P, goalN), ...this.viewAll(results, S), ...this.extra(S, K, P, goalN, knownCount, memCount, curKnown, lvlN)
+      pageRec, ...this.homeVals(S, K, P, goalN), ...this.viewAll(results, S, K), ...this.extra(S, K, P, goalN, knownCount, memCount, curKnown, lvlN)
     };
   }
 }
