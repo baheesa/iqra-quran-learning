@@ -2274,7 +2274,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <sc-if value="{{ fpMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleFp }}" style="position:absolute; top:12px; right:12px; z-index:100; width:36px; height:36px; border:0; border-radius:18px; background:rgba(0,0,0,0.45); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round"><path d="M5 5l14 14M5 19L19 5"></path></svg></button></sc-if>
 <div style="display:{{ fpTbDisplay }}; flex-direction:column; border-bottom:1px solid {{ K.line }}">
 <div style="display:flex; align-items:center; gap:2px; padding:12px 6px 2px; min-height:44px">
-<button onClick="{{ openDrawer }}" aria-label="Menu" style="width:40px; height:40px; flex:none; border:0; background:transparent; color:inherit; border-radius:20px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button>
+<sc-if value="{{ hasPrevScreen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goBack }}" aria-label="Back" style="width:40px; height:40px; flex:none; border:0; background:transparent; color:{{ K.brand }}; border-radius:20px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button></sc-if>
+<sc-if value="{{ noPrevScreen }}" hint-placeholder-val="{{ true }}"><button onClick="{{ openDrawer }}" aria-label="Menu" style="width:40px; height:40px; flex:none; border:0; background:transparent; color:inherit; border-radius:20px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><path d="M4 7h16M4 12h16M4 17h11"></path></svg></button></sc-if>
 <button onClick="{{ openJump }}" style="flex:1; min-width:0; text-align:left; background:transparent; border:0; padding:4px 6px; color:inherit; cursor:pointer; display:flex; flex-direction:column; gap:1px">
 <span style="display:flex; align-items:center; gap:4px; font:600 16px/1.25 'Instrument Sans'">{{ rp.surah }}<svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M6 9l6 6 6-6"></path></svg></span>
 <span style="font:400 12.5px/1.3 'Instrument Sans'; color:{{ K.muted }}">Juz {{ rp.juz }} · Page {{ rp.page }} · <span style="color:{{ K.knownInk }}; font-weight:600">{{ pageRec }} words known</span></span>
@@ -2306,13 +2307,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </div>
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:232px; z-index:5; box-sizing:border-box; background:{{ K.surf }}; color:{{ K.ink }}; border:1px solid {{ K.line }}; border-radius:18px; padding:12px 12px 10px; box-shadow:0 8px 32px rgba(0,0,0,0.14); display:flex; flex-direction:column; gap:4px">
-<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px"><span style="font:600 10px 'Instrument Sans'; letter-spacing:0.07em; text-transform:uppercase; color:{{ K.muted }}; padding-top:4px">{{ tip.ref }}</span><span dir="rtl" style="font:400 28px/1.2 'Scheherazade New', serif">{{ tip.ar }}</span></div>
-<div dir="rtl" style="font:400 15px/2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
-<div style="display:flex; gap:6px; margin-top:4px">
-<button onClick="{{ tipKnow }}" title="Mark as known" style="flex:1; height:36px; border-radius:18px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; gap:5px; font:600 12px 'Instrument Sans'; cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round"><polyline points="20 6 9 17 4 12"></polyline></svg>Known</button>
-<button onClick="{{ tipAyah }}" title="Open full ayah" style="width:36px; height:36px; border-radius:18px; border:1.5px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></button>
-<button onClick="{{ tipFav }}" title="{{ tipFavAria }}" style="width:36px; height:36px; border-radius:18px; border:1.5px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></button>
+<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:216px; z-index:5; box-sizing:border-box; background:{{ K.surf }}; color:{{ K.ink }}; border:1px solid {{ K.line }}; border-radius:14px; padding:9px 10px 8px; box-shadow:0 4px 18px rgba(0,0,0,0.14); display:flex; flex-direction:column; gap:3px">
+<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px"><span style="font:600 9px 'Instrument Sans'; letter-spacing:0.06em; text-transform:uppercase; color:{{ K.muted }}; padding-top:3px">{{ tip.ref }}</span><span dir="rtl" style="font:400 24px/1.2 'Scheherazade New', serif">{{ tip.ar }}</span></div>
+<div dir="rtl" style="font:400 13px/1.6 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
+<div style="display:flex; gap:5px; margin-top:3px">
+<button onClick="{{ tipKnow }}" title="{{ tipBtn.label }}" style="flex:1; height:32px; border-radius:16px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; gap:4px; font:600 11px 'Instrument Sans'; cursor:pointer"><svg width="12" height="12" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round"><polyline points="20 6 9 17 4 12"></polyline></svg>{{ tipBtn.label }}</button>
+<button onClick="{{ tipAyah }}" title="Full ayah" style="width:32px; height:32px; border-radius:16px; border:1.5px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></button>
+<button onClick="{{ tipFav }}" title="{{ tipFavAria }}" style="width:32px; height:32px; border-radius:16px; border:1.5px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></button>
 </div>
 </div>
 </sc-if>
@@ -2329,27 +2330,6 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <button onClick="{{ prevPage }}" style="height:44px; padding:0 8px 0 14px; border-radius:22px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; display:flex; align-items:center; gap:2px; font:500 13px 'Instrument Sans'; cursor:pointer; opacity:{{ prevOp }}">Prev<svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button>
 </div>
 
-<sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ closeTip }}" style="position:absolute; inset:0; z-index:39; background:rgba(0,0,0,0.2)"></div>
-<div onClick="{{ stop }}" style="position:absolute; left:0; right:0; bottom:0; z-index:40; background:{{ K.surf }}; border-top:1px solid {{ K.line }}; border-radius:24px 24px 0 0; padding:0 0 env(safe-area-inset-bottom,16px); box-shadow:0 -8px 40px rgba(0,0,0,0.14)">
-<div style="display:flex; justify-content:center; padding:10px 0 0"><div style="width:36px; height:4px; border-radius:2px; background:{{ K.line }}"></div></div>
-<div style="display:flex; align-items:flex-start; gap:12px; padding:14px 20px 10px">
-<span dir="rtl" style="font:400 36px/1.3 'Scheherazade New', serif; color:{{ K.ink }}; flex:none">{{ tip.ar }}</span>
-<div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; padding-top:4px">
-<span style="font:600 11px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.05em; text-transform:uppercase">{{ tip.ref }}</span>
-<div dir="rtl" style="font:400 16px/2 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
-</div>
-</div>
-<div style="padding:0 16px 14px; display:flex; flex-direction:column; gap:8px">
-<button onClick="{{ tipKnow }}" style="width:100%; height:42px; border-radius:21px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ tipBtn.label }}</button>
-<div style="display:flex; gap:8px">
-<button onClick="{{ tipAyah }}" style="flex:1; height:40px; border-radius:20px; border:1.5px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 13px 'Instrument Sans'; cursor:pointer">Full ayah</button>
-<button onClick="{{ tipFav }}" aria-label="{{ tipFavAria }}" style="height:40px; padding:0 16px; border-radius:20px; border:1.5px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; font:600 13px 'Instrument Sans'; cursor:pointer; display:flex; align-items:center; gap:5px; flex:none"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>{{ tipFavLabel }}</button>
-</div>
-<span style="font:500 11px 'Instrument Sans'; color:{{ K.muted }}; text-align:center">{{ tipNote }}</span>
-</div>
-</div>
-</sc-if>
 </div>
 
 <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
@@ -2588,7 +2568,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <div dir="rtl" style="font:400 15px/2.3 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ r.definition }}</div>
 <sc-if value="{{ r.hasEx }}" hint-placeholder-val="{{ false }}"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Examples</span></sc-if>
 <sc-for list="{{ r.examples }}" as="e"><button onClick="{{ e.find }}" style="display:flex; flex-direction:column; align-items:flex-end; padding:8px 12px; border-radius:14px; border:0; background:{{ K.bg }}; color:{{ K.ink }}; cursor:pointer; text-align:right">
-<span dir="rtl" style="font:400 22px/1.7 'Scheherazade New', serif">{{ e.ar }}</span>
+<span dir="rtl" style="font:400 22px/1.7 'Scheherazade New', serif; display:flex; flex-wrap:wrap; justify-content:flex-start; gap:0 2px"><sc-for list="{{ e.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 3px; border-radius:5px; background:transparent">{{ w.ar }}</span></sc-for></span>
 <sc-if value="{{ e.hasUr }}" hint-placeholder-val="{{ false }}"><span dir="rtl" style="font:400 13.5px/2.1 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}">{{ e.ur }}</span></sc-if>
 <span style="align-self:flex-start; font:600 11.5px 'Instrument Sans'; color:{{ K.brand }}">Find in the Quran ›</span>
 </button></sc-for>
@@ -2625,7 +2605,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <sc-if value="{{ d.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; padding:8px 4px 0"><span style="font:500 18px 'Newsreader', serif">{{ d.headLabel }}</span><span dir="rtl" style="font:400 19px 'Scheherazade New', serif; color:{{ K.muted }}">{{ d.headAr }}</span></div></sc-if>
 <div style="background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:20px; padding:16px 18px; display:flex; flex-direction:column; gap:10px">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font:600 14.5px 'Instrument Sans'">{{ d.title }}</span><span style="font:600 11.5px 'Instrument Sans'; padding:4px 8px; border-radius:10px; background:{{ K.surf2 }}; color:{{ K.muted }}; white-space:nowrap">{{ d.meta }}</span></div>
-<div dir="rtl" style="font:400 25px/1.85 'Scheherazade New', serif; text-align:right">{{ d.ar }}</div>
+<div dir="rtl" style="font:400 25px/1.85 'Scheherazade New', serif; display:flex; flex-wrap:wrap; justify-content:flex-start; gap:0 2px"><sc-for list="{{ d.toks }}" as="w"><span onClick="{{ w.tap }}" style="cursor:{{ w.tap ? 'pointer' : 'default' }}; padding:0 4px; border-radius:6px; background:transparent">{{ w.ar }}</span></sc-for></div>
 <div dir="rtl" style="font:400 15px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ d.ur }}</div>
 <button onClick="{{ d.toggle }}" style="height:42px; border-radius:21px; border:0; background:{{ d.btnBg }}; color:{{ d.btnFg }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">{{ d.btnLabel }}</button>
 </div>
@@ -2782,13 +2762,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <div style="background:{{ K.page }}; border:1px solid {{ K.frame }}; border-radius:12px; padding:4px">
 <div style="border:1px solid {{ K.frame }}; border-radius:8px; padding:8px 10px 16px">
 <sc-for list="{{ vaBlocks }}" as="b" hint-placeholder-count="3">
-<div style="display:flex; flex-direction:column; gap:5px; padding:10px 4px 12px; border-bottom:1px solid {{ b.bd }}">
-<div style="display:flex; align-items:center; justify-content:space-between; gap:8px">
-  <button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:5px; height:32px; padding:0 12px 0 10px; border-radius:16px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 12px 'Instrument Sans'; cursor:pointer"><svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:0.85"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>{{ b.short }}</button>
-  <button onClick="{{ b.wbw }}" style="height:28px; padding:0 10px; border-radius:14px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.muted }}; font:500 11.5px 'Instrument Sans'; cursor:pointer">Word by word</button>
+<div style="display:flex; flex-direction:column; gap:3px; padding:7px 4px 9px; border-bottom:1px solid {{ b.bd }}">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:6px">
+<span style="font:600 11px 'Instrument Sans'; color:{{ K.muted }}; letter-spacing:0.04em; text-transform:uppercase">{{ b.short }}</span>
+<button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:24px; padding:0 8px; border-radius:12px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 10.5px 'Instrument Sans'; cursor:pointer; flex:none"><svg width="11" height="11" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:0.85"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Open</button>
 </div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:22px; line-height:1.85; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span style="padding:{{ t.pd }}; border-radius:6px; font-weight:{{ t.fw }}; outline:{{ t.ol }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
-<sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 14px/2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:19px; line-height:1.75; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:pointer; padding:{{ t.pd }}; border-radius:6px; font-weight:{{ t.fw }}; outline:{{ t.ol }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 13px/1.8 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
 </div>
@@ -2820,7 +2800,6 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </div>
 </sc-if>
-<sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><div style="display:grid; grid-template-columns:1fr 1fr; padding:4px; border-radius:20px; background:{{ K.surf2 }}"><button onClick="{{ setWhole }}" style="height:32px; border:0; border-radius:16px; background:{{ segW.bg }}; color:{{ segW.fg }}; box-shadow:{{ segW.sh }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">Whole words</button><button onClick="{{ setAny }}" style="height:32px; border:0; border-radius:16px; background:{{ segA.bg }}; color:{{ segA.fg }}; box-shadow:{{ segA.sh }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">Any part of a word</button></div></sc-if>
 <sc-if value="{{ hasRes }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px"><span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">{{ resCount }}</span><button onClick="{{ toggleTrAll }}" style="height:32px; padding:0 12px; border-radius:16px; border:0; background:{{ K.surf2 }}; color:{{ K.ink }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ trAllLabel }}</button></div>
 <button onClick="{{ openViewAll }}" style="display:flex; align-items:center; gap:12px; min-height:56px; padding:8px 12px 8px 14px; border-radius:18px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; cursor:pointer; text-align:left">
@@ -3140,8 +3119,16 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </div>
 </div>
+
+<sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:49"></div>
+<div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; bottom:{{ tipCardBot }}; max-width:220px; z-index:50; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:10px; padding:8px 12px; box-shadow:0 3px 16px rgba(0,0,0,0.18)">
+<div dir="rtl" style="font:400 15px/1.6 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}">{{ tip.ur }}</div>
+</div>
+</sc-if>
+
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;bubble&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;sheet&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
 class Component extends DCLogic {
   static KEY = 'iqra-proto-v4';
   static D = null;
@@ -3294,7 +3281,8 @@ class Component extends DCLogic {
       this.pageWords(S.page).forEach(ar => { const k = this.key(ar); if (S.visit[k]) return; seen[k] = (seen[k] || 0) + 1; if (!known[k] && seen[k] >= 3) { known[k] = 'f'; promoted++; } });
     }
     const today = S.todayPages + (turned ? 1 : 0);
-    this.setState({ page: p, lastPage: p, read, seen, known, weekWords: S.weekWords + promoted, visit: turned ? {} : S.visit, tip: null, sheetOpen: false, drawer: false, screen: 'mushaf', hl: o.hl !== undefined ? o.hl : S.hl, todayPages: today, pt: { x: (o.dir || 0) * 56, o: o.dir ? 0 : 1, tr: 'none' } }, () => {
+    const prevScreen = S.screen !== 'mushaf' ? S.screen : S.prevScreen;
+    this.setState({ page: p, lastPage: p, read, seen, known, weekWords: S.weekWords + promoted, visit: turned ? {} : S.visit, tip: null, sheetOpen: false, drawer: false, screen: 'mushaf', prevScreen, hl: o.hl !== undefined ? o.hl : S.hl, todayPages: today, pt: { x: (o.dir || 0) * 56, o: o.dir ? 0 : 1, tr: 'none' } }, () => {
       if (this.scrollRef.current) this.scrollRef.current.scrollTop = 0;
       if (o.dir) requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ pt: { x: 0, o: 1, tr: 'transform .32s cubic-bezier(.2,.7,.2,1), opacity .32s' } })));
     });
@@ -3326,17 +3314,40 @@ class Component extends DCLogic {
       tx = Math.max(6, Math.min(W - 248, cx - 116));
       const top = (r.top - c.top) / s, bot = (r.bottom - c.top) / s;
       const above = bot > H * 0.55;
-      ty = above ? Math.max(6, top - 6) : Math.min(H - 260, bot + 6);
+      ty = above ? Math.max(6, top - 6) : Math.min(H - 185, bot + 6);
       tf = above ? 'translateY(-100%)' : 'none';
     } else {
       const r = e.currentTarget.getBoundingClientRect();
       const W = window.innerWidth || 400, H = window.innerHeight || 700;
       tx = Math.max(6, Math.min(W - 248, r.left + r.width / 2 - 116));
       const above = r.bottom > H * 0.55;
-      ty = above ? Math.max(6, r.top - 6) : Math.min(H - 260, r.bottom + 6);
+      ty = above ? Math.max(6, r.top - 6) : Math.min(H - 185, r.bottom + 6);
       tf = above ? 'translateY(-100%)' : 'none';
     }
-    this.setState({ tip: { ...w, x: tx, y: ty, tf } });
+    this.setState({ tip: { ...w, x: tx, y: ty, tf, src: 'm' } });
+  }
+  tapSheet(e, w) {
+    e.stopPropagation();
+    if (this.state.tip && this.state.tip.ar === w.ar) { this.setState({ tip: null }); return; }
+    const S = this.state, k = this.key(w.ar);
+    let known = S.known; if (known[k] === 'f') { known = { ...known }; delete known[k]; }
+    const has = S.saved.some(x => this.key(x.ar) === k);
+    const saved = has || known[k] === 'k' ? S.saved : [{ ar: w.ar, ur: w.ur, ref: w.ref }, ...S.saved];
+    let tsy = null, tsyTop = null, tsyBot = null, tsyLeft = 16;
+    try {
+      const app = this.appRef && this.appRef.current;
+      if (app) {
+        const aR = app.getBoundingClientRect(), wR = e.currentTarget.getBoundingClientRect();
+        const relTop = wR.top - aR.top, relBot = wR.bottom - aR.top;
+        const pH = 240;
+        tsy = relBot > aR.height * 0.55 ? Math.max(8, relTop - pH - 8) : Math.min(aR.height - pH - 8, relBot + 8);
+        const vh = window.innerHeight || aR.height, cardH = 56;
+        if (wR.bottom > vh * 0.55) { tsyBot = Math.max(8, vh - wR.top + 8); }
+        else { tsyTop = Math.min(vh - cardH - 8, wR.bottom + 8); }
+        tsyLeft = Math.max(16, Math.min(window.innerWidth - 236, wR.left));
+      }
+    } catch(x) {}
+    this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none', tsy, tsyTop, tsyBot, tsyLeft } });
   }
   toggleKnown(ar) {
     const k = this.key(ar), known = { ...this.state.known };
@@ -3409,10 +3420,6 @@ class Component extends DCLogic {
         readPct: Math.max(1, S.read.length / 604 * 100) + '%', readLabel: `${S.read.length} of 604 pages read`, dash: `${gp * R} ${R}`, goalLabel: `${Math.min(S.todayPages, goalN)}/${goalN}`,
         review: S.reviewedToday ? 'Done for today ✓' : `${Math.min(S.saved.length, 10)} words ready`, saved: `${S.saved.length} saved words` },
       showSplash: !!S.splash, splash: { o: S.splashOut ? 0 : 1, pct: (S.splashPct || 8) + '%', label: Component.D ? 'Ready' : 'Preparing 604 pages…' }, skipSplash: () => this.endSplash(true),
-      exactLabel: S.exact === false ? 'Any part of a word' : 'Whole words', matchSeg: { w: S.exact !== false, a: S.exact === false },
-      segW: S.exact !== false ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' },
-      segA: S.exact === false ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' },
-      setWhole: () => this.setState({ exact: true }), setAny: () => this.setState({ exact: false })
     };
   }
   pageWords(p) { const P = Component.PAGES[p]; return P ? P.ayahs.flatMap(a => a.w.map(w => w[0])) : []; }
@@ -3447,13 +3454,13 @@ class Component extends DCLogic {
     const C = Component, S = this.state, nq = this.norm(q), res = []; let total = 0;
     for (const k of C.ALLK) {
       const ay = C.AY[k], m = new Set();
-      if (nq) { let idx = ay.joined.indexOf(nq); while (idx > -1) { const end = idx + nq.length, hit = []; ay.nw.forEach((w, i) => { if (ay.st[i] < end && ay.st[i] + w.length > idx) hit.push(i); }); const f = hit[0], l = hit[hit.length - 1]; if (S.exact === false || (C.PREF.has(ay.nw[f].slice(0, idx - ay.st[f])) && C.SUF.has(ay.nw[l].slice(end - ay.st[l])))) hit.forEach(i => m.add(i)); idx = ay.joined.indexOf(nq, idx + 1); } }
-      ay.w.forEach((w, i) => { if (w[1] && w[1].includes(q)) { if (S.exact === false || w[1].split(/\s+/).some(t => this.norm(t) === nq || t === q)) m.add(i); } });
+      if (nq) { let idx = ay.joined.indexOf(nq); while (idx > -1) { const end = idx + nq.length, hit = []; ay.nw.forEach((w, i) => { if (ay.st[i] < end && ay.st[i] + w.length > idx) hit.push(i); }); const f = hit[0], l = hit[hit.length - 1]; if (C.PREF.has(ay.nw[f].slice(0, idx - ay.st[f])) && C.SUF.has(ay.nw[l].slice(end - ay.st[l]))) hit.forEach(i => m.add(i)); idx = ay.joined.indexOf(nq, idx + 1); } }
+      ay.w.forEach((w, i) => { if (w[1] && w[1].includes(q)) { if (w[1].split(/\s+/).some(t => this.norm(t) === nq || t === q)) m.add(i); } });
       if (!m.size) continue;
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
       res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
-        toks: ay.w.map((w, i) => { const hl = m.has(i); return { ar: w[0], ur: w[1] || '', bg: hl ? K.hl : 'transparent', fw: hl ? '700' : '400', brd: hl ? K.brand : '', pd: hl ? '0 4px' : '0 1px', ol: 'none', tap: e => this.tap(e, { ar: w[0], ur: w[1] || '', ref: `${sI.nameEnglish} ${k}`, ak: k }) }; }),
+        toks: ay.w.map((w, i) => { const hl = m.has(i); return { ar: w[0], ur: w[1] || '', bg: hl ? K.hl : 'transparent', fw: hl ? '700' : '400', brd: hl ? K.brand : '', pd: hl ? '0 4px' : '0 1px', ol: 'none', tap: e => this.tapSheet(e, { ar: w[0], ur: w[1] || '', ref: `${sI.nameEnglish} ${k}`, ak: k }) }; }),
         meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
         tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
@@ -3467,12 +3474,12 @@ class Component extends DCLogic {
     const r = results || [], toks = []; let last = null;
     r.forEach(x => {
       if (x.surah !== last) { toks.push({ isHead: true, ar: x.sAr }); last = x.surah; }
-      x.toks.forEach(t => toks.push({ isWord: true, ar: t.ar, ur: t.ur || '', bg: t.bg, fw: t.fw, brd: t.brd, onTap: e => this.tap(e, { ar: t.ar, ur: t.ur || '', ref: x.ref, ak: x.k }) }));
+      x.toks.forEach(t => { const sel = !!(tip && !tip.src && tip.ar === t.ar && t.ur); toks.push({ isWord: true, ar: t.ar, ur: t.ur || '', bg: sel ? K.sel : t.bg, fw: t.fw, brd: sel ? K.brand : t.brd, onTap: e => this.tapSheet(e, { ar: t.ar, ur: t.ur || '', ref: x.ref, ak: x.k }) }); });
       toks.push({ isMarker: true, num: this.arNum(x.an), open: () => x.open() });
     });
     const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
     return {
-      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks.map(t => ({ ...t })), tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
+      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks.map(t => { const tap = t.ur ? e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) : null; const sel = !!(tip && !tip.src && tip.ar === t.ar && tap); return { ...t, tap, cur: tap ? 'pointer' : 'default', bg: sel ? K.sel : t.bg, brd: sel ? K.brand : t.brd }; }), tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
       isViewAll: S.screen === 'viewall', vaFlow: !S.vaTr, vaTrOn: !!S.vaTr,
       vaTitle: `“${S.q.trim()}”`, vaSub: `${tot} ayah${tot === 1 ? '' : 's'}${tot > r.length ? ` · first ${r.length} shown` : ''}`,
       vaTrLabel: S.vaTr ? 'Hide translation' : 'Translation',
@@ -3527,7 +3534,8 @@ class Component extends DCLogic {
     const qs = [...qd].sort((a, b) => a.juz - b.juz), dj = S.duaJuz || null;
     const src = S.duaTab === 'quranic' ? qs.filter(d => !dj || d.juz === dj) : C.DUAS.masnoon; let lastH = null;
     const duaList = src.map(d => { const m = !!S.memorised[d.id], isQ = S.duaTab === 'quranic', hk = isQ ? d.juz : d.cat, head = hk !== lastH, cat = C.DCAT[d.cat] || {}; lastH = hk;
-      return { ...d, head, headLabel: isQ ? `Juz ${d.juz}` : (cat.label || ''), headAr: isQ ? C.JUZ_NAMES[d.juz - 1] : (cat.labelUrdu || ''), btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id) }; });
+      const toks = (d.ar || '').split(/\s+/).filter(Boolean).map(w => { const ur = (C.FM && C.FM[this.key(w)]) || ''; const sel = !!(tip && !tip.src && tip.ar === w && ur); return { ar: w, ur, tap: ur ? e => this.tapSheet(e, { ar: w, ur, ref: d.meta || d.title }) : null, selBg: sel ? K.sel : 'transparent', selBd: sel ? K.brand : '' }; });
+      return { ...d, head, headLabel: isQ ? `Juz ${d.juz}` : (cat.label || ''), headAr: isQ ? C.JUZ_NAMES[d.juz - 1] : (cat.labelUrdu || ''), toks, btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id) }; });
     const duaChips = [{ label: 'All juz', n: qs.length, j: null }, ...[...new Set(qs.map(d => d.juz))].map(j => ({ label: `Juz ${j}`, n: qs.filter(d => d.juz === j).length, j }))]
       .map(c => ({ ...c, bg: dj === c.j ? K.brand : K.surf, fg: dj === c.j ? K.onBrand : K.ink, bd: dj === c.j ? K.brand : K.line, pick: () => this.setState({ duaJuz: c.j }) }));
     const ob = S.ob, step = ob.step, opt = on => ({ bd: on ? K.brand : K.line, dot: on ? K.brand : 'transparent' });
@@ -3620,7 +3628,7 @@ class Component extends DCLogic {
     const U = Uu ? { n: Uu.n, title: `Muallim-ul-Quran · Unit ${Uu.n}`, k: Uu.k, total: Uu.total, pct: Uu.pct,
       words: Uu.words.map(([ar, ur]) => { const kn = !!S.known[this.key(ar)]; return { ar, ur, toggle: () => this.toggleKnown(ar), ckBg: kn ? K.brand : 'transparent', ckBd: kn ? K.brand : K.frame, ckOp: kn ? 1 : 0 }; }),
       rules: Uu.rules.map(r => { const ex = (r.examples || []).slice(0, 4); return { order: r.order, title: r.title, definition: r.definition, hasEx: ex.length > 0,
-        examples: ex.map(e => ({ ar: e.arabic, ur: e.meaning || '', hasUr: !!e.meaning, find: () => this.setState({ screen: 'search', q: e.arabic }) })) }; }) } : { words: [], rules: [] };
+        examples: ex.map(e => { const toks = (e.arabic || '').split(/\s+/).filter(Boolean).map(w => { const ur = (C.FM && C.FM[this.key(w)]) || ''; return { ar: w, ur, tap: ur ? ev => this.tapSheet(ev, { ar: w, ur, ref: 'Qawaid' }) : null }; }); return { ar: e.arabic, ur: e.meaning || '', hasUr: !!e.meaning, find: () => this.setState({ screen: 'search', q: e.arabic }), toks }; }) }; }) } : { words: [], rules: [] };
     const curKnown = units.reduce((a, u) => a + u.k, 0);
 
     const seg = on => on ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' };
@@ -3651,8 +3659,11 @@ class Component extends DCLogic {
       pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, pt: S.pt,
       bmFill: bm ? 'currentColor' : 'none', bmColor: bm ? K.brand : K.ink,
       hasHl: hl.length > 0, hlLabel: S.hl ? `Highlighting “${S.hl.label}”` : '', clearHl: () => this.setState({ hl: null }),
-      tip: tip || {}, tipBubble: !!tip && tipStyle === 'bubble', tipSheet: !!tip && tipStyle === 'sheet',
-      tipBtn: tipKnown ? { bg: S.dark ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)', fg: K.tipFg, sbg: K.soft, sfg: K.softInk, label: 'Known word ✓' } : { bg: '#E3B45C', fg: '#1B1405', sbg: K.brand, sfg: K.onBrand, label: 'I know this · +5 XP' },
+      tip: tip || {}, tipBubble: !!tip && tip.src === 'm', tipSheet: !!tip && tip.src !== 'm',
+      tipCardTop: (tip && tip.tsyTop != null) ? tip.tsyTop + 'px' : 'auto',
+      tipCardBot: (tip && tip.tsyBot != null) ? tip.tsyBot + 'px' : 'auto',
+      tipBubLeft: (tip && tip.tsyLeft != null) ? tip.tsyLeft + 'px' : '16px',
+      tipBtn: tipKnown ? { bg: S.dark ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)', fg: K.tipFg, sbg: K.soft, sfg: K.softInk, label: 'Known ✓' } : { bg: '#E3B45C', fg: '#1B1405', sbg: K.brand, sfg: K.onBrand, label: 'Know it' },
       tipKnow: e => { e.stopPropagation(); if (tip) this.toggleKnown(tip.ar); },
       stop: e => e.stopPropagation(),
       closeTip: () => { if (this.swiped) { this.swiped = false; return; } if (S.tip) this.setState({ tip: null }); },
@@ -3687,6 +3698,7 @@ class Component extends DCLogic {
       isProgress: S.screen === 'progress', isLearn: S.screen === 'learn', isUnit: S.screen === 'unit', isDuas: S.screen === 'duas', isBookmarks: S.screen === 'bookmarks', isSearch: S.screen === 'search', isFavourites: S.screen === 'favourites',
       openDrawer: () => this.setState({ drawer: true, tip: null }), closeDrawer: () => this.setState({ drawer: false }),
       goMushaf: () => this.go('mushaf'), goProgress: () => this.go('progress'), goLearn: () => this.go('learn'), goDuas: () => this.go('duas'), goBookmarks: () => this.go('bookmarks'), openSearch: () => this.go('search'), goFavourites: () => this.go('favourites'),
+      hasPrevScreen: !!S.prevScreen, noPrevScreen: !S.prevScreen, goBack: () => { const ps = S.prevScreen; this.setState({ screen: ps, prevScreen: null, tip: null }); },
       isFavSheet: S.sheet === 'addFav',
       favCount: S.favAyahs.length,
       noFavourites: S.favAyahs.length === 0,
