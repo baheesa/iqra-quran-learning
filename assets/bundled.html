@@ -2778,20 +2778,21 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; padding:0 4px"><span style="font:600 16px/1.3 'Instrument Sans', 'Scheherazade New', 'Noto Nastaliq Urdu'">{{ vaTitle }}</span><span style="font:400 12.5px/1.3 'Instrument Sans'; color:{{ K.muted }}">{{ vaSub }}</span></div>
 <button onClick="{{ toggleVaTr }}" style="height:36px; flex:none; padding:0 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">{{ vaTrLabel }}</button>
 </div>
-<div style="flex:1; min-height:0; overflow-y:auto; padding:12px 12px 20px">
-<div style="background:{{ K.page }}; border:1px solid {{ K.frame }}; border-radius:12px; padding:5px">
-<div style="border:1px solid {{ K.frame }}; border-radius:8px; padding:14px 10px 22px">
+<div style="flex:1; min-height:0; overflow-y:auto; padding:8px 10px 20px">
+<div style="background:{{ K.page }}; border:1px solid {{ K.frame }}; border-radius:12px; padding:4px">
+<div style="border:1px solid {{ K.frame }}; border-radius:8px; padding:8px 10px 16px">
 <sc-for list="{{ vaBlocks }}" as="b" hint-placeholder-count="3">
-<sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:center; margin:6px 0 2px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ b.sAr }}</span></div></sc-if>
-<div style="display:flex; flex-direction:column; gap:6px; padding:12px 4px 14px; border-bottom:1px solid {{ b.bd }}">
-<div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:30px; padding:0 8px 0 12px; border-radius:15px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ b.short }} · p. {{ b.pg }}<svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button><button onClick="{{ b.wbw }}" style="height:30px; padding:0 8px; border:0; background:transparent; color:{{ K.muted }}; font:600 12px 'Instrument Sans'; cursor:pointer">Word by word</button></div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span style="padding:{{ t.pd }}; border-radius:6px; font-weight:{{ t.fw }}; outline:{{ t.ol }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
-<sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
+<div style="display:flex; flex-direction:column; gap:5px; padding:10px 4px 12px; border-bottom:1px solid {{ b.bd }}">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:8px">
+  <button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:5px; height:32px; padding:0 12px 0 10px; border-radius:16px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 12px 'Instrument Sans'; cursor:pointer"><svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:0.85"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>{{ b.short }}</button>
+  <button onClick="{{ b.wbw }}" style="height:28px; padding:0 10px; border-radius:14px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.muted }}; font:500 11.5px 'Instrument Sans'; cursor:pointer">Word by word</button>
+</div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:22px; line-height:1.85; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span style="padding:{{ t.pd }}; border-radius:6px; font-weight:{{ t.fw }}; outline:{{ t.ol }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 14px/2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
 </div>
 </div>
-<div style="padding:12px 8px 0; font:400 12.5px/1.5 'Instrument Sans'; color:{{ K.muted }}; text-align:center; text-wrap:pretty">Each ayah is shown on its own. Tap its reference to open it on its mushaf page.</div>
 </div>
 </div>
 </sc-if>
