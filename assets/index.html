@@ -493,7 +493,7 @@
 <sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:center; margin:6px 0 2px; padding:6px 0; border-top:1px solid {{ K.frame }}; border-bottom:1px solid {{ K.frame }}"><span style="font:700 20px/1.5 'Scheherazade New', serif; color:{{ K.brand }}">{{ b.sAr }}</span></div></sc-if>
 <div style="display:flex; flex-direction:column; gap:6px; padding:12px 4px 14px; border-bottom:1px solid {{ b.bd }}">
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><button onClick="{{ b.open }}" style="display:flex; align-items:center; gap:4px; height:30px; padding:0 8px 0 12px; border-radius:15px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; font:600 12px 'Instrument Sans'; cursor:pointer">{{ b.short }} · p. {{ b.pg }}<svg width="13" height="13" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button><button onClick="{{ b.wbw }}" style="height:30px; padding:0 8px; border:0; background:transparent; color:{{ K.muted }}; font:600 12px 'Instrument Sans'; cursor:pointer">Word by word</button></div>
-<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.tap ? 'pointer' : 'default' }}; padding:{{ t.brd ? '0 3px' : '0 1px' }}; border-radius:6px; font-weight:{{ t.fw || '400' }}; outline:{{ t.brd ? '1.5px solid ' + t.brd : 'none' }}; background:{{ tip?.ar === t.ar ? K.sel : t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
+<div dir="rtl" style="display:flex; flex-wrap:wrap; align-items:center; gap:2px; font-family:'Scheherazade New', serif; font-size:{{ fontPx }}px; line-height:1.9; color:{{ K.ink }}"><sc-for list="{{ b.toks }}" as="t"><span onClick="{{ t.tap }}" style="cursor:{{ t.cur }}; padding:{{ t.pd }}; border-radius:6px; font-weight:{{ t.fw }}; outline:{{ t.ol }}; background:{{ t.bg }}">{{ t.ar }}</span></sc-for><span style="display:inline-flex; align-items:center; justify-content:center; width:1.25em; height:1.25em; margin:0 3px; border:1.5px solid {{ K.brand }}; border-radius:50%; font-size:0.62em; line-height:1; color:{{ K.brand }}">{{ b.num }}</span></div>
 <sc-if value="{{ vaTrOn }}" hint-placeholder-val="{{ false }}"><div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ b.tr }}</div></sc-if>
 </div>
 </sc-for>
@@ -855,7 +855,7 @@ class Component extends DCLogic {
   state = this.init();
 
   norm(s) {
-    return (s || '').replace(/\u0670/g, '\u0627').replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06ED\u0640]/g, '')
+    return (s || '').replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
       .replace(/[أإآٱ]/g, 'ا').replace(/[ىی]/g, 'ي').replace(/ک/g, 'ك').replace(/[ہۃة]/g, 'ه')
       .replace(/[،؛,.]/g, '').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي').replace(/\s+/g, ' ').trim();
   }
@@ -1138,7 +1138,7 @@ class Component extends DCLogic {
     });
     const hits = r.reduce((a, x) => a + x.n, 0), tot = r.total || r.length;
     return {
-      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks.map(t => ({ ...t, tap: t.ur ? e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) : null })), tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
+      vaTokens: toks, vaBlocks: r.map((x, i) => ({ ref: x.ref, short: `${x.surah} ${x.k}`, pg: x.pg, head: i === 0 || r[i - 1].surah !== x.surah, sAr: x.sAr, toks: x.toks.map(t => { const tap = t.ur ? e => this.tapSheet(e, { ar: t.ar, ur: t.ur, ref: x.ref, ak: x.k }) : null; return { ...t, tap, cur: tap ? 'pointer' : 'default' }; }), tr: x.tr, num: this.arNum(x.an), open: x.open, wbw: () => this.openAyah(x.k, 'search'), bd: i === r.length - 1 ? 'transparent' : 'rgba(128,128,128,0.18)' })),
       isViewAll: S.screen === 'viewall', vaFlow: !S.vaTr, vaTrOn: !!S.vaTr,
       vaTitle: `“${S.q.trim()}”`, vaSub: `${tot} ayah${tot === 1 ? '' : 's'}${tot > r.length ? ` · first ${r.length} shown` : ''}`,
       vaTrLabel: S.vaTr ? 'Hide translation' : 'Translation',
