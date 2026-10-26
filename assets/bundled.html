@@ -3345,8 +3345,8 @@ class Component extends DCLogic {
         const relTop = wR.top - aR.top, relBot = wR.bottom - aR.top;
         const pH = 240;
         tsy = relBot > aR.height * 0.55 ? Math.max(8, relTop - pH - 8) : Math.min(aR.height - pH - 8, relBot + 8);
-        const vh = window.innerHeight || aR.height, cardH = 56;
-        if (wR.bottom > vh * 0.55) { tsyBot = Math.max(8, vh - wR.top + 8); }
+        const vh = window.innerHeight || aR.height, cardH = 80;
+        if (wR.bottom > vh * 0.75) { tsyBot = Math.max(8, vh - wR.top + 8); }
         else { tsyTop = Math.min(vh - cardH - 8, wR.bottom + 8); }
         tsyLeft = Math.max(16, Math.min(window.innerWidth - 236, wR.left));
       }
