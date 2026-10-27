@@ -3338,21 +3338,18 @@ class Component extends DCLogic {
     let known = S.known; if (known[k] === 'f') { known = { ...known }; delete known[k]; }
     const has = S.saved.some(x => this.key(x.ar) === k);
     const saved = has || known[k] === 'k' ? S.saved : [{ ar: w.ar, ur: w.ur, ref: w.ref }, ...S.saved];
-    let tsy = null, tsyTop = null, tsyBot = null, tsyLeft = 16;
+    let tsyTop = null, tsyBot = null, tsyLeft = 16;
     try {
       const app = this.appRef && this.appRef.current;
       if (app) {
         const aR = app.getBoundingClientRect(), wR = e.currentTarget.getBoundingClientRect();
-        const relTop = wR.top - aR.top, relBot = wR.bottom - aR.top;
-        const pH = 240;
-        tsy = relBot > aR.height * 0.55 ? Math.max(8, relTop - pH - 8) : Math.min(aR.height - pH - 8, relBot + 8);
-        const vh = window.innerHeight || aR.height, cardH = 80;
-        if (wR.bottom > vh * 0.75) { tsyBot = Math.max(8, vh - wR.top + 8); }
-        else { tsyTop = Math.min(vh - cardH - 8, wR.bottom + 8); }
-        tsyLeft = Math.max(16, Math.min(window.innerWidth - 236, wR.left));
+        const cardW = 212, cardH = 110;
+        tsyLeft = Math.max(aR.left + 8, Math.min(aR.right - cardW - 8, wR.left));
+        if (aR.bottom - wR.bottom >= cardH + 12) { tsyTop = wR.bottom + 8; }
+        else { tsyTop = Math.max(aR.top + 8, wR.top - cardH - 8); }
       }
     } catch(x) {}
-    this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none', tsy, tsyTop, tsyBot, tsyLeft } });
+    this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none', tsyTop, tsyBot, tsyLeft } });
   }
   toggleKnown(ar) {
     const k = this.key(ar), known = { ...this.state.known };
@@ -3678,9 +3675,9 @@ class Component extends DCLogic {
       bmFill: bm ? 'currentColor' : 'none', bmColor: bm ? K.brand : K.ink,
       hasHl: hl.length > 0, hlLabel: S.hl ? `Highlighting “${S.hl.label}”` : '', clearHl: () => this.setState({ hl: null }),
       tip: tip || {}, tipBubble: !!tip && tip.src === 'm', tipSheet: !!tip && tip.src !== 'm',
-      tipCardTop: (tip && tip.tsyTop != null) ? tip.tsyTop + 'px' : 'auto',
-      tipCardBot: (tip && tip.tsyBot != null) ? tip.tsyBot + 'px' : 'auto',
-      tipBubLeft: (tip && tip.tsyLeft != null) ? tip.tsyLeft + 'px' : '16px',
+      tipCardTop: tip && tip.tsyTop != null ? tip.tsyTop + 'px' : 'auto',
+      tipCardBot: 'auto',
+      tipBubLeft: tip && tip.tsyLeft != null ? tip.tsyLeft + 'px' : '16px',
       tipBtn: tipKnown ? { bg: S.dark ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)', fg: K.tipFg, sbg: K.soft, sfg: K.softInk, label: 'Known ✓', xpLabel: 'Known ✓' } : { bg: '#E3B45C', fg: '#1B1405', sbg: K.brand, sfg: K.onBrand, label: 'Know it', xpLabel: 'I know this · +5 XP' },
       tipFreq: !!(tip && Component.FREQ && Component.FREQ[tip && this.key(tip.ar)]),
       tipFreqLabel: tip ? `Saved to My words · appears ${Component.FREQ && Component.FREQ[this.key(tip.ar)] ? Component.FREQ[this.key(tip.ar)] + '×' : ''}` : '',
