@@ -2307,17 +2307,17 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </div>
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:29"></div>
-<div onClick="{{ stop }}" style="position:fixed; left:0; right:0; bottom:0; z-index:30; background:{{ K.surf }}; border-radius:20px 20px 0 0; padding:20px 20px 32px; box-shadow:0 -4px 24px rgba(0,0,0,0.13)">
-<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:4px">
-<div style="display:flex; flex-direction:column; gap:2px"><span dir="rtl" style="font:400 36px/1.2 'Scheherazade New', serif; color:{{ K.ink }}">{{ tip.ar }}</span><span style="font:600 10px 'Instrument Sans'; letter-spacing:0.07em; text-transform:uppercase; color:{{ K.muted }}">{{ tip.ref }}</span></div>
-<span dir="rtl" style="font:400 18px/1.7 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}; max-width:55%">{{ tip.ur }}</span>
+<div onClick="{{ closeTip }}" style="position:absolute; inset:0; z-index:4"></div>
+<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:280px; z-index:5; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:16px; padding:14px 14px 12px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
+<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:6px">
+<div style="display:flex; flex-direction:column; gap:1px"><span dir="rtl" style="font:400 30px/1.2 'Scheherazade New', serif; color:{{ K.ink }}">{{ tip.ar }}</span><span style="font:600 9px 'Instrument Sans'; letter-spacing:0.07em; text-transform:uppercase; color:{{ K.muted }}">{{ tip.ref }}</span></div>
+<span dir="rtl" style="font:400 14px/1.6 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}; max-width:52%">{{ tip.ur }}</span>
 </div>
-<sc-if value="{{ tipFreq }}" hint-placeholder-val="{{ false }}"><div style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:12px">{{ tipFreqLabel }}</div></sc-if>
-<button onClick="{{ tipKnow }}" style="width:100%; height:48px; border-radius:24px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 15px 'Instrument Sans'; cursor:pointer; margin-bottom:10px">{{ tipBtn.xpLabel }}</button>
-<div style="display:flex; gap:10px">
-<button onClick="{{ tipAyah }}" style="flex:1; height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer">Full ayah</button>
-<button onClick="{{ tipFav }}" style="height:44px; padding:0 18px; border-radius:22px; border:1px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; display:flex; align-items:center; gap:6px; font:600 14px 'Instrument Sans'; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Save</button>
+<sc-if value="{{ tipFreq }}" hint-placeholder-val="{{ false }}"><div style="font:400 11px 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">{{ tipFreqLabel }}</div></sc-if>
+<button onClick="{{ tipKnow }}" style="width:100%; height:40px; border-radius:20px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 13px 'Instrument Sans'; cursor:pointer; margin-bottom:8px">{{ tipBtn.xpLabel }}</button>
+<div style="display:flex; gap:8px">
+<button onClick="{{ tipAyah }}" style="flex:1; height:36px; border-radius:18px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 12px 'Instrument Sans'; cursor:pointer">Full ayah</button>
+<button onClick="{{ tipFav }}" style="height:36px; padding:0 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; display:flex; align-items:center; gap:5px; font:600 12px 'Instrument Sans'; cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Save</button>
 </div>
 </div>
 </sc-if>
@@ -2762,7 +2762,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; padding:0 4px"><span style="font:600 16px/1.3 'Instrument Sans', 'Scheherazade New', 'Noto Nastaliq Urdu'">{{ vaTitle }}</span><span style="font:400 12.5px/1.3 'Instrument Sans'; color:{{ K.muted }}">{{ vaSub }}</span></div>
 <button onClick="{{ toggleVaTr }}" style="height:36px; flex:none; padding:0 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; font:600 12.5px 'Instrument Sans'; cursor:pointer">{{ vaTrLabel }}</button>
 </div>
-<div style="flex:1; min-height:0; overflow-y:auto; padding:8px 10px 20px">
+<div ref="{{ vaScrollRef }}" style="flex:1; min-height:0; overflow-y:auto; padding:8px 10px 20px">
 <div style="background:{{ K.page }}; border:1px solid {{ K.frame }}; border-radius:12px; padding:4px">
 <div style="border:1px solid {{ K.frame }}; border-radius:8px; padding:8px 10px 16px">
 <sc-for list="{{ vaBlocks }}" as="b" hint-placeholder-count="3">
@@ -2791,7 +2791,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><button onClick="{{ clearQ }}" aria-label="Clear" style="width:36px; height:36px; flex:none; border:0; background:transparent; color:inherit; border-radius:18px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
 </div>
-<div style="flex:1; min-height:0; overflow-y:auto">
+<div ref="{{ searchScrollRef }}" style="flex:1; min-height:0; overflow-y:auto">
 <div style="padding:8px 16px 32px; display:flex; flex-direction:column; gap:12px">
 <sc-if value="{{ noQuery }}" hint-placeholder-val="{{ true }}">
 <div style="display:flex; flex-direction:column; gap:14px; padding:4px 4px 0">
@@ -3167,6 +3167,8 @@ class Component extends DCLogic {
   pageRef = React.createRef();
   scrollRef = React.createRef();
   searchRef = React.createRef();
+  vaScrollRef = React.createRef();
+  searchScrollRef = React.createRef();
   state = this.init();
 
   norm(s) {
@@ -3286,7 +3288,9 @@ class Component extends DCLogic {
     }
     const today = S.todayPages + (turned ? 1 : 0);
     const prevScreen = S.screen !== 'mushaf' ? S.screen : S.prevScreen;
-    this.setState({ page: p, lastPage: p, read, seen, known, weekWords: S.weekWords + promoted, visit: turned ? {} : S.visit, tip: null, sheetOpen: false, drawer: false, screen: 'mushaf', prevScreen, hl: o.hl !== undefined ? o.hl : S.hl, todayPages: today, pt: { x: (o.dir || 0) * 56, o: o.dir ? 0 : 1, tr: 'none' } }, () => {
+    const _sRef = S.screen === 'search' ? this.searchScrollRef : this.vaScrollRef;
+    const prevScrollTop = S.screen !== 'mushaf' ? (_sRef.current ? _sRef.current.scrollTop : 0) : S.prevScrollTop;
+    this.setState({ page: p, lastPage: p, read, seen, known, weekWords: S.weekWords + promoted, visit: turned ? {} : S.visit, tip: null, sheetOpen: false, drawer: false, screen: 'mushaf', prevScreen, prevScrollTop, hl: o.hl !== undefined ? o.hl : S.hl, todayPages: today, pt: { x: (o.dir || 0) * 56, o: o.dir ? 0 : 1, tr: 'none' } }, () => {
       if (this.scrollRef.current) this.scrollRef.current.scrollTop = 0;
       if (o.dir) requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ pt: { x: 0, o: 1, tr: 'transform .32s cubic-bezier(.2,.7,.2,1), opacity .32s' } })));
     });
@@ -3315,17 +3319,17 @@ class Component extends DCLogic {
       const c = el.getBoundingClientRect(), r = e.currentTarget.getBoundingClientRect();
       const s = (c.width / el.offsetWidth) || 1, W = el.offsetWidth, H = el.offsetHeight;
       const cx = (r.left + r.width / 2 - c.left) / s;
-      tx = Math.max(6, Math.min(W - 248, cx - 116));
+      tx = Math.max(6, Math.min(W - 292, cx - 140));
       const top = (r.top - c.top) / s, bot = (r.bottom - c.top) / s;
-      const above = bot > H * 0.55;
-      ty = above ? Math.max(6, top - 6) : Math.min(H - 185, bot + 6);
+      const above = bot > H * 0.72;
+      ty = above ? Math.max(6, top - 6) : Math.min(H - 210, bot + 6);
       tf = above ? 'translateY(-100%)' : 'none';
     } else {
       const r = e.currentTarget.getBoundingClientRect();
       const W = window.innerWidth || 400, H = window.innerHeight || 700;
-      tx = Math.max(6, Math.min(W - 248, r.left + r.width / 2 - 116));
-      const above = r.bottom > H * 0.55;
-      ty = above ? Math.max(6, r.top - 6) : Math.min(H - 185, r.bottom + 6);
+      tx = Math.max(6, Math.min(W - 292, r.left + r.width / 2 - 140));
+      const above = r.bottom > H * 0.72;
+      ty = above ? Math.max(6, r.top - 6) : Math.min(H - 210, r.bottom + 6);
       tf = above ? 'translateY(-100%)' : 'none';
     }
     this.setState({ tip: { ...w, x: tx, y: ty, tf, src: 'm' } });
@@ -3660,7 +3664,7 @@ class Component extends DCLogic {
       fpOverflow: S.fpMode ? 'hidden' : 'auto', fpPad: S.fpMode ? '6px 8px' : '12px 12px 16px', fpFootDisplay: S.fpMode ? 'none' : 'flex',
       fpTransform: `translateX(${S.fpMode ? 0 : S.pt.x}px)`,
       fpOpacity: S.fpMode ? 1 : S.pt.o, fpTr: S.fpMode ? 'none' : S.pt.tr,
-      pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, pt: S.pt,
+      pageRef: this.pageRef, scrollRef: this.scrollRef, searchRef: this.searchRef, vaScrollRef: this.vaScrollRef, searchScrollRef: this.searchScrollRef, pt: S.pt,
       bmFill: bm ? 'currentColor' : 'none', bmColor: bm ? K.brand : K.ink,
       hasHl: hl.length > 0, hlLabel: S.hl ? `Highlighting “${S.hl.label}”` : '', clearHl: () => this.setState({ hl: null }),
       tip: tip || {}, tipBubble: !!tip && tip.src === 'm', tipSheet: !!tip && tip.src !== 'm',
@@ -3704,7 +3708,7 @@ class Component extends DCLogic {
       isProgress: S.screen === 'progress', isLearn: S.screen === 'learn', isUnit: S.screen === 'unit', isDuas: S.screen === 'duas', isBookmarks: S.screen === 'bookmarks', isSearch: S.screen === 'search', isFavourites: S.screen === 'favourites',
       openDrawer: () => this.setState({ drawer: true, tip: null }), closeDrawer: () => this.setState({ drawer: false }),
       goMushaf: () => this.go('mushaf'), goProgress: () => this.go('progress'), goLearn: () => this.go('learn'), goDuas: () => this.go('duas'), goBookmarks: () => this.go('bookmarks'), openSearch: () => this.go('search'), goFavourites: () => this.go('favourites'),
-      hasPrevScreen: !!S.prevScreen, noPrevScreen: !S.prevScreen, goBack: () => { const ps = S.prevScreen; this.setState({ screen: ps, prevScreen: null, tip: null }); },
+      hasPrevScreen: !!S.prevScreen, noPrevScreen: !S.prevScreen, goBack: () => { const ps = S.prevScreen, sc = S.prevScrollTop || 0; this.setState({ screen: ps, prevScreen: null, prevScrollTop: 0, tip: null }, () => { const _r = ps === 'search' ? this.searchScrollRef : this.vaScrollRef; if (_r.current) _r.current.scrollTop = sc; }); },
       isFavSheet: S.sheet === 'addFav',
       favCount: S.favAyahs.length,
       noFavourites: S.favAyahs.length === 0,
