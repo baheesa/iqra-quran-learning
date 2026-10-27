@@ -53,16 +53,12 @@
 </div>
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:absolute; inset:0; z-index:4"></div>
-<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:280px; z-index:5; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:16px; padding:14px 14px 12px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
-<div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:6px">
-<div style="display:flex; flex-direction:column; gap:1px"><span dir="rtl" style="font:400 30px/1.2 'Scheherazade New', serif; color:{{ K.ink }}">{{ tip.ar }}</span><span style="font:600 9px 'Instrument Sans'; letter-spacing:0.07em; text-transform:uppercase; color:{{ K.muted }}">{{ tip.ref }}</span></div>
-<span dir="rtl" style="font:400 14px/1.6 'Noto Nastaliq Urdu', serif; text-align:right; color:{{ K.ink }}; max-width:52%">{{ tip.ur }}</span>
-</div>
-<sc-if value="{{ tipFreq }}" hint-placeholder-val="{{ false }}"><div style="font:400 11px 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">{{ tipFreqLabel }}</div></sc-if>
-<button onClick="{{ tipKnow }}" style="width:100%; height:40px; border-radius:20px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; font:600 13px 'Instrument Sans'; cursor:pointer; margin-bottom:8px">{{ tipBtn.xpLabel }}</button>
-<div style="display:flex; gap:8px">
-<button onClick="{{ tipAyah }}" style="flex:1; height:36px; border-radius:18px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 12px 'Instrument Sans'; cursor:pointer">Full ayah</button>
-<button onClick="{{ tipFav }}" style="height:36px; padding:0 14px; border-radius:18px; border:1px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; display:flex; align-items:center; gap:5px; font:600 12px 'Instrument Sans'; cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Save</button>
+<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:190px; z-index:5; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
+<div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:right; margin-bottom:10px">{{ tip.ur }}</div>
+<div style="display:flex; gap:6px">
+<button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+<button onClick="{{ tipAyah }}" title="Word by word" style="flex:1; height:36px; border-radius:9px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="12.5" y1="4" x2="15.5" y2="4" stroke-width="2"/><line x1="7" y1="4" x2="10.5" y2="4" stroke-width="2"/><line x1="2.5" y1="4" x2="5.5" y2="4" stroke-width="2"/><line x1="13" y1="13" x2="15.5" y2="13" stroke-width="2"/><line x1="7.5" y1="13" x2="11.5" y2="13" stroke-width="2"/><line x1="2.5" y1="13" x2="6" y2="13" stroke-width="2"/><line x1="14" y1="5.5" x2="14" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="8.75" y1="5.5" x2="8.75" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="4" y1="5.5" x2="4" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/></svg></button>
+<button onClick="{{ tipFav }}" title="Save" style="flex:1; height:36px; border-radius:9px; border:1px solid {{ K.line }}; background:{{ tipFavBg }}; color:{{ tipFavFg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:{{ tipFavFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></button>
 </div>
 </div>
 </sc-if>
@@ -592,6 +588,7 @@
 <sc-if value="{{ isAyah }}" hint-placeholder-val="{{ false }}">
 <div style="padding:4px 16px 10px 20px; display:flex; align-items:center; gap:8px">
 <div style="flex:1; display:flex; flex-direction:column; gap:2px"><span style="font:500 22px/1.2 'Newsreader', serif">{{ A.ref }}</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ A.sub }}</span></div>
+<button onClick="{{ A.toggleBm }}" aria-label="Bookmark ayah" style="width:40px; height:40px; flex:none; border:0; background:transparent; color:{{ A.bmColor }}; border-radius:20px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="19" height="19" viewBox="0 0 24 24" style="fill:{{ A.bmFill }}; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M7 3.5h10a1 1 0 0 1 1 1V20.5l-6-4-6 4V4.5a1 1 0 0 1 1-1z"></path></svg></button>
 <button onClick="{{ A.prev }}" aria-label="Previous ayah" style="width:44px; height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; opacity:{{ A.prevOp }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M15 6l-6 6 6 6"></path></svg></button>
 <button onClick="{{ A.next }}" aria-label="Next ayah" style="width:44px; height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; opacity:{{ A.nextOp }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg></button>
 </div>
@@ -872,7 +869,7 @@ class Component extends DCLogic {
   }
   seed() {
     const seen = {}; ['الْحَمْدُ', 'الْعَالَمِينَ', 'الرَّحْمَٰنِ', 'الرَّحِيمِ', 'مَالِكِ'].forEach(a => seen[this.key(a)] = 2);
-    return { known: this.seedKnown(1), seen, memorised: { 'quran-1:5-7': 1, wake: 1 }, bookmarks: [{ page: 2, at: 'Sep 24' }], read: [1, 2], lastPage: 1, dark: false, fontStep: 1, xp: 340, todayPages: 2, streak: 6, goal: 5, tint: true,
+    return { known: this.seedKnown(1), seen, memorised: { 'quran-1:5-7': 1, wake: 1 }, bookmarks: [{ page: 2, at: 'Sep 24' }], ayahBms: [], read: [1, 2], lastPage: 1, dark: false, fontStep: 1, xp: 340, todayPages: 2, streak: 6, goal: 5, tint: true,
       saved: [{ id: 'w1-2-2', ar: 'رَبِّ', ur: 'رب، پالنے والا', ref: 'Al-Fatiha 1:2', page: 1 }, { id: 'w1-4-2', ar: 'الدِّينِ', ur: 'جزا، بدلہ', ref: 'Al-Fatiha 1:4', page: 1 }, { id: 'w1-5-3', ar: 'نَسْتَعِينُ', ur: 'ہم مدد مانگتے ہیں', ref: 'Al-Fatiha 1:5', page: 1 }, { id: 'w2-2-5', ar: 'هُدًى', ur: 'ہدایت', ref: 'Al-Baqarah 2:2', page: 2 }, { id: 'w2-5-7', ar: 'الْمُفْلِحُونَ', ur: 'کامیاب ہونے والے', ref: 'Al-Baqarah 2:5', page: 2 }],
       freezes: 2, weekPages: [0, 2, 0, 5, 4, 3], weekFrozen: 2, weekXp: 185, weekWords: 9, lastWeek: { pages: 14, words: 6, xp: 150 }, reviewedToday: false, onboarded: false, favAyahs: [] };
   }
@@ -994,17 +991,17 @@ class Component extends DCLogic {
       const c = el.getBoundingClientRect(), r = e.currentTarget.getBoundingClientRect();
       const s = (c.width / el.offsetWidth) || 1, W = el.offsetWidth, H = el.offsetHeight;
       const cx = (r.left + r.width / 2 - c.left) / s;
-      x = Math.max(6, Math.min(W - 292, cx - 140));
+      x = Math.max(6, Math.min(W - 202, cx - 95));
       const top = (r.top - c.top) / s, bot = (r.bottom - c.top) / s;
       const above = bot > H * 0.72;
-      y = above ? Math.max(6, top - 6) : Math.min(H - 210, bot + 6);
+      y = above ? Math.max(6, top - 6) : Math.min(H - 160, bot + 6);
       tf = above ? 'translateY(-100%)' : 'none';
     } else {
       const r = e.currentTarget.getBoundingClientRect();
       const W = window.innerWidth || 400, H = window.innerHeight || 700;
-      x = Math.max(6, Math.min(W - 292, r.left + r.width / 2 - 140));
+      x = Math.max(6, Math.min(W - 202, r.left + r.width / 2 - 95));
       const above = r.bottom > H * 0.72;
-      y = above ? Math.max(6, r.top - 6) : Math.min(H - 210, r.bottom + 6);
+      y = above ? Math.max(6, r.top - 6) : Math.min(H - 160, r.bottom + 6);
       tf = above ? 'translateY(-100%)' : 'none';
     }
     this.setState({ tip: { ...w, x, y, tf, src: 'm' } });
@@ -1055,6 +1052,15 @@ class Component extends DCLogic {
     const S = this.state, has = S.bookmarks.some(b => b.page === S.page);
     if (has) { this.setState({ bookmarks: S.bookmarks.filter(b => b.page !== S.page) }); this.info('Bookmark removed'); }
     else { this.setState({ bookmarks: [{ page: S.page, at: new Date().toLocaleDateString('en', { month: 'short', day: 'numeric' }) }, ...S.bookmarks] }); this.info(`Page ${S.page} bookmarked`); }
+  }
+  toggleAyahBm() {
+    const S = this.state, ay = Component.AY[S.ayah && S.ayah.k];
+    if (!ay) return;
+    const sI = Component.SUR[ay.s - 1], ref = `${sI.nameEnglish} ${ay.k}`;
+    const ayahBms = S.ayahBms || [];
+    const has = ayahBms.some(b => b.k === S.ayah.k);
+    if (has) { this.setState({ ayahBms: ayahBms.filter(b => b.k !== S.ayah.k) }); this.info('Ayah bookmark removed'); }
+    else { this.setState({ ayahBms: [{ k: S.ayah.k, ref, page: ay.p, at: new Date().toLocaleDateString('en', { month: 'short', day: 'numeric' }) }, ...ayahBms] }); this.info(`${ref} bookmarked`); }
   }
 
   endSplash(force) {
@@ -1155,6 +1161,10 @@ class Component extends DCLogic {
         knownLabel: `${kc} of ${ay.w.length} known`, markLabel: done ? 'All words known ✓' : `Mark ayah as known · +${(ay.w.length - kc) * 5} XP`,
         markBg: done ? K.soft : K.brand, markFg: done ? K.softInk : K.onBrand,
         prevOp: idx > 0 ? 1 : 0.35, nextOp: idx < all.length - 1 ? 1 : 0.35,
+        isBm: (S.ayahBms || []).some(b => b.k === S.ayah.k),
+        bmColor: (S.ayahBms || []).some(b => b.k === S.ayah.k) ? K.brand : K.ink,
+        bmFill: (S.ayahBms || []).some(b => b.k === S.ayah.k) ? 'currentColor' : 'none',
+        toggleBm: () => this.toggleAyahBm(),
         prev: () => { if (idx > 0) mv(idx - 1); }, next: () => { if (idx < all.length - 1) mv(idx + 1); },
         showOpen: S.ayah.from === 'search' || ap !== S.page || S.screen !== 'mushaf',
         open: () => this.goPage(ap, { hl: { ids: ay.w.map((w, i) => `w${ay.s}-${ay.n}-${i}`), label: ref } }) };
@@ -1342,8 +1352,12 @@ class Component extends DCLogic {
       duaSum: `${memCount} of 10 memorised`, duaPct: (memCount / 10 * 100) + '%',
       dseg: { q: seg(S.duaTab === 'quranic'), m: seg(S.duaTab === 'masnoon') },
       duaQuranic: () => this.setState({ duaTab: 'quranic' }), duaMasnoon: () => this.setState({ duaTab: 'masnoon' }),
-      bmList: S.bookmarks.map(b => { const pg = C.PAGES[b.page]; return { title: `Page ${b.page} · ${pg ? pg.surah : ''}`, sub: `Juz ${pg ? pg.juz : ''} · saved ${b.at}`, open: () => this.goPage(b.page), remove: () => this.setState({ bookmarks: S.bookmarks.filter(x => x.page !== b.page) }) }; }),
-      noBookmarks: S.bookmarks.length === 0, bmCount: S.bookmarks.length,
+      bmList: [
+        ...S.bookmarks.map(b => { const pg = C.PAGES[b.page]; return { title: `Page ${b.page} · ${pg ? pg.surah : ''}`, sub: `Juz ${pg ? pg.juz : ''} · saved ${b.at}`, open: () => this.goPage(b.page), remove: () => this.setState({ bookmarks: S.bookmarks.filter(x => x.page !== b.page) }) }; }),
+        ...(S.ayahBms || []).map(b => { return { title: b.ref, sub: `Page ${b.page} · saved ${b.at}`, open: () => this.openAyah(b.k, 'bookmarks'), remove: () => this.setState({ ayahBms: (S.ayahBms || []).filter(x => x.k !== b.k) }) }; })
+      ],
+      noBookmarks: S.bookmarks.length === 0 && (S.ayahBms || []).length === 0,
+      bmCount: S.bookmarks.length + (S.ayahBms || []).length,
       q: S.q, onQ: e => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }), hasQ: S.q.length > 0,
       noQuery: !results, hasRes: !!results && results.length > 0, noRes: !!results && results.length === 0, results: results || [],
       resCount: results ? `${results.total} ayah${results.total === 1 ? '' : 's'}${results.total > results.length ? ` · first ${results.length} shown` : ''}` : '',
