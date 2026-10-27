@@ -52,8 +52,8 @@
 </div>
 </div>
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ closeTip }}" style="position:absolute; inset:0; z-index:4"></div>
-<div onClick="{{ stop }}" style="position:absolute; left:{{ tip.x }}px; top:{{ tip.y }}px; transform:{{ tip.tf }}; width:190px; z-index:5; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
+<div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:40"></div>
+<div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}px; top:{{ tipCardTop }}; width:210px; z-index:41; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
 <div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:right; margin-bottom:10px">{{ tip.ur }}</div>
 <div style="display:flex; gap:6px">
 <button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
@@ -985,26 +985,18 @@ class Component extends DCLogic {
       const saved = has || known[k] === 'k' ? S.saved : [{ id: w.id, ar: w.ar, ur: w.ur, ref: w.refN, page: w.page }, ...S.saved];
       this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved });
     }
-    const el = this.pageRef.current;
-    let x, y, tf;
-    if (el) {
-      const c = el.getBoundingClientRect(), r = e.currentTarget.getBoundingClientRect();
-      const s = (c.width / el.offsetWidth) || 1, W = el.offsetWidth, H = el.offsetHeight;
-      const cx = (r.left + r.width / 2 - c.left) / s;
-      x = Math.max(6, Math.min(W - 202, cx - 95));
-      const top = (r.top - c.top) / s, bot = (r.bottom - c.top) / s;
-      const above = bot > H * 0.72;
-      y = above ? Math.max(6, top - 6) : Math.min(H - 160, bot + 6);
-      tf = above ? 'translateY(-100%)' : 'none';
-    } else {
-      const r = e.currentTarget.getBoundingClientRect();
-      const W = window.innerWidth || 400, H = window.innerHeight || 700;
-      x = Math.max(6, Math.min(W - 202, r.left + r.width / 2 - 95));
-      const above = r.bottom > H * 0.72;
-      y = above ? Math.max(6, r.top - 6) : Math.min(H - 160, r.bottom + 6);
-      tf = above ? 'translateY(-100%)' : 'none';
-    }
-    this.setState({ tip: { ...w, x, y, tf, src: 'm' } });
+    let tsyTop = null, tsyBot = null, tsyLeft = 16;
+    try {
+      const app = this.appRef && this.appRef.current;
+      if (app) {
+        const aR = app.getBoundingClientRect(), wR = e.currentTarget.getBoundingClientRect();
+        const cardW = 212, cardH = 130, BOTTOM_NAV = 130;
+        tsyLeft = Math.max(aR.left + 8, Math.min(aR.right - cardW - 8, wR.left));
+        if (wR.bottom + cardH + 12 < aR.bottom - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
+        else { tsyTop = Math.max(aR.top + 8, wR.top - cardH - 8); }
+      }
+    } catch(x) {}
+    this.setState({ tip: { ...w, x: 0, y: 0, tf: 'none', tsyTop, tsyBot, tsyLeft, src: 'm' } });
   }
   tapSheet(e, w) {
     e.stopPropagation();
@@ -1018,9 +1010,9 @@ class Component extends DCLogic {
       const app = this.appRef && this.appRef.current;
       if (app) {
         const aR = app.getBoundingClientRect(), wR = e.currentTarget.getBoundingClientRect();
-        const cardW = 212, cardH = 110;
+        const cardW = 212, cardH = 130, BOTTOM_NAV = 130;
         tsyLeft = Math.max(aR.left + 8, Math.min(aR.right - cardW - 8, wR.left));
-        if (aR.bottom - wR.bottom >= cardH + 12) { tsyTop = wR.bottom + 8; }
+        if (wR.bottom + cardH + 12 < aR.bottom - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
         else { tsyTop = Math.max(aR.top + 8, wR.top - cardH - 8); }
       }
     } catch(x) {}
