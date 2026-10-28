@@ -56,7 +56,7 @@
 
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:40"></div>
-<div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; box-sizing:border-box; z-index:41; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
+<div onClick="{{ stop }}" style="position:absolute; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; box-sizing:border-box; z-index:41; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
 <div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
 <div style="display:flex; gap:6px">
 <button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
@@ -763,7 +763,7 @@
 
 <sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:49"></div>
-<div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; box-sizing:border-box; z-index:50; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
+<div onClick="{{ stop }}" style="position:absolute; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; box-sizing:border-box; z-index:50; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
 <div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
 <div style="display:flex; gap:6px">
 <button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
@@ -992,12 +992,14 @@ class Component extends DCLogic {
     }
     let tsyTop = null, tsyBot = null, tsyLeft = 16;
     try {
+      const app = this.appRef && this.appRef.current;
+      const aR = app ? app.getBoundingClientRect() : {left:0,top:0,width:window.innerWidth,height:window.innerHeight};
       const wR = e.currentTarget.getBoundingClientRect();
       const cardW = 210, cardH = 130, BOTTOM_NAV = 130;
-      const vw = window.innerWidth, vh = window.innerHeight;
-      tsyLeft = Math.max(8, Math.min(vw - cardW - 8, wR.left + wR.width/2 - cardW/2));
-      if (wR.bottom + cardH + 12 < vh - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
-      else { tsyTop = Math.max(8, wR.top - cardH - 8); }
+      const relL = wR.left - aR.left, relT = wR.top - aR.top, relB = wR.bottom - aR.top;
+      tsyLeft = Math.max(8, Math.min(aR.width - cardW - 8, relL + wR.width/2 - cardW/2));
+      if (relB + cardH + 12 < aR.height - BOTTOM_NAV) { tsyTop = relB + 8; }
+      else { tsyTop = Math.max(8, relT - cardH - 8); }
     } catch(x) {}
     this.setState({ tip: { ...w, x: 0, y: 0, tf: 'none', tsyTop, tsyBot, tsyLeft, src: 'm' } });
   }
@@ -1010,12 +1012,14 @@ class Component extends DCLogic {
     const saved = has || known[k] === 'k' ? S.saved : [{ ar: w.ar, ur: w.ur, ref: w.ref }, ...S.saved];
     let tsyTop = null, tsyBot = null, tsyLeft = 16;
     try {
+      const app = this.appRef && this.appRef.current;
+      const aR = app ? app.getBoundingClientRect() : {left:0,top:0,width:window.innerWidth,height:window.innerHeight};
       const wR = e.currentTarget.getBoundingClientRect();
       const cardW = 210, cardH = 130, BOTTOM_NAV = 130;
-      const vw = window.innerWidth, vh = window.innerHeight;
-      tsyLeft = Math.max(8, Math.min(vw - cardW - 8, wR.left + wR.width/2 - cardW/2));
-      if (wR.bottom + cardH + 12 < vh - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
-      else { tsyTop = Math.max(8, wR.top - cardH - 8); }
+      const relL = wR.left - aR.left, relT = wR.top - aR.top, relB = wR.bottom - aR.top;
+      tsyLeft = Math.max(8, Math.min(aR.width - cardW - 8, relL + wR.width/2 - cardW/2));
+      if (relB + cardH + 12 < aR.height - BOTTOM_NAV) { tsyTop = relB + 8; }
+      else { tsyTop = Math.max(8, relT - cardH - 8); }
     } catch(x) {}
     this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none', tsyTop, tsyBot, tsyLeft } });
   }
