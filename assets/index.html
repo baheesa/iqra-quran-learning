@@ -51,6 +51,9 @@
 </sc-for>
 </div>
 </div>
+</div>
+</div>
+
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:40"></div>
 <div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; z-index:41; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
@@ -62,9 +65,6 @@
 </div>
 </div>
 </sc-if>
-</div>
-</div>
-
 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px 10px; border-top:1px solid {{ K.line }}">
 <button onClick="{{ nextPage }}" style="height:44px; padding:0 14px 0 8px; border-radius:22px; border:1px solid {{ K.line }}; background:{{ K.surf }}; color:{{ K.ink }}; display:flex; align-items:center; gap:2px; font:500 13px 'Instrument Sans'; cursor:pointer; opacity:{{ nextOp }}"><svg width="20" height="20" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round"><path d="M15 6l-6 6 6 6"></path></svg>Next</button>
 <button onClick="{{ goProgress }}" aria-label="Today's progress" style="display:flex; align-items:center; gap:10px; height:44px; padding:0 14px 0 4px; border-radius:22px; border:0; background:{{ K.soft }}; color:{{ K.softInk }}; cursor:pointer">
