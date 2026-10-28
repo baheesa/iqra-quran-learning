@@ -1,0 +1,29 @@
+{
+  "name": "Iqra - Quran Reader",
+  "short_name": "Iqra",
+  "description": "Read the Quran with word-by-word Urdu translation and vocabulary learning",
+  "author": "Bahees Fatima",
+  "developer": {
+    "name": "Bahees Fatima",
+    "url": "https://baheesafatima.com"
+  },
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#E4E0D4",
+  "theme_color": "#1E4A38",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
