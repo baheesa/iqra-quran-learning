@@ -3242,7 +3242,8 @@ class Component extends DCLogic {
     });
     Object.values(C.PAGES).forEach(P => { const s0 = sur[P.ayahs[0].s - 1]; P.surahNo = s0.id; P.surah = s0.nameEnglish; P.header = s0.nameArabic; });
     C.FREQ = freq; C.TOTAL = total || 1;
-    C.TOP = Object.keys(freq).filter(k => k.length > 1).sort((a, b) => freq[b] - freq[a]).slice(0, 400).map(k => [k, form[k], freq[k]]);
+    const fm = {}; C.ALLK.forEach(k => { C.AY[k].w.forEach(([a, u]) => { if (u) { const nk = this.key(a); if (!fm[nk]) fm[nk] = u; } }); }); C.FM = fm;
+    C.TOP =Object.keys(freq).filter(k => k.length > 1).sort((a, b) => freq[b] - freq[a]).slice(0, 400).map(k => [k, form[k], freq[k]]);
     const byUnit = {}; ((rules && rules.rules) || []).forEach(r => (byUnit[r.unit] = byUnit[r.unit] || []).push(r));
     C.UNITS = ((voc && voc.units) || []).map(u => ({ n: u.unit, wc: u.wordCount, pc: u.phraseCount, words: u.words.map(x => [x.arabic, x.meaning || '', x.kind]), rules: (byUnit[u.unit] || []).sort((a, b) => a.order - b.order) }));
     C.VOCAB_TOTAL = C.UNITS.reduce((a, u) => a + u.words.length, 0);
