@@ -57,7 +57,7 @@
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:40"></div>
 <div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; z-index:41; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
-<div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:right; margin-bottom:10px">{{ tip.ur }}</div>
+<div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
 <div style="display:flex; gap:6px">
 <button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
 <button onClick="{{ tipAyah }}" title="Word by word" style="flex:1; height:36px; border-radius:9px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="12.5" y1="4" x2="15.5" y2="4" stroke-width="2"/><line x1="7" y1="4" x2="10.5" y2="4" stroke-width="2"/><line x1="2.5" y1="4" x2="5.5" y2="4" stroke-width="2"/><line x1="13" y1="13" x2="15.5" y2="13" stroke-width="2"/><line x1="7.5" y1="13" x2="11.5" y2="13" stroke-width="2"/><line x1="2.5" y1="13" x2="6" y2="13" stroke-width="2"/><line x1="14" y1="5.5" x2="14" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="8.75" y1="5.5" x2="8.75" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="4" y1="5.5" x2="4" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/></svg></button>
@@ -764,7 +764,7 @@
 <sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:49"></div>
 <div onClick="{{ stop }}" style="position:fixed; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; z-index:50; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
-<div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:right; margin-bottom:10px">{{ tip.ur }}</div>
+<div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
 <div style="display:flex; gap:6px">
 <button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
 <button onClick="{{ tipAyah }}" title="Word by word" style="flex:1; height:36px; border-radius:9px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="12.5" y1="4" x2="15.5" y2="4" stroke-width="2"/><line x1="7" y1="4" x2="10.5" y2="4" stroke-width="2"/><line x1="2.5" y1="4" x2="5.5" y2="4" stroke-width="2"/><line x1="13" y1="13" x2="15.5" y2="13" stroke-width="2"/><line x1="7.5" y1="13" x2="11.5" y2="13" stroke-width="2"/><line x1="2.5" y1="13" x2="6" y2="13" stroke-width="2"/><line x1="14" y1="5.5" x2="14" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="8.75" y1="5.5" x2="8.75" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="4" y1="5.5" x2="4" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/></svg></button>
@@ -992,14 +992,12 @@ class Component extends DCLogic {
     }
     let tsyTop = null, tsyBot = null, tsyLeft = 16;
     try {
-      const app = this.appRef && this.appRef.current;
-      if (app) {
-        const aR = app.getBoundingClientRect(), wR = e.currentTarget.getBoundingClientRect();
-        const cardW = 212, cardH = 130, BOTTOM_NAV = 130;
-        tsyLeft = Math.max(aR.left + 8, Math.min(aR.right - cardW - 8, wR.left));
-        if (wR.bottom + cardH + 12 < aR.bottom - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
-        else { tsyTop = Math.max(aR.top + 8, wR.top - cardH - 8); }
-      }
+      const wR = e.currentTarget.getBoundingClientRect();
+      const cardW = 212, cardH = 130, BOTTOM_NAV = 130;
+      const vw = window.innerWidth, vh = window.innerHeight;
+      tsyLeft = Math.max(8, Math.min(vw - cardW - 8, wR.left + wR.width/2 - cardW/2));
+      if (wR.bottom + cardH + 12 < vh - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
+      else { tsyTop = Math.max(8, wR.top - cardH - 8); }
     } catch(x) {}
     this.setState({ tip: { ...w, x: 0, y: 0, tf: 'none', tsyTop, tsyBot, tsyLeft, src: 'm' } });
   }
@@ -1012,14 +1010,12 @@ class Component extends DCLogic {
     const saved = has || known[k] === 'k' ? S.saved : [{ ar: w.ar, ur: w.ur, ref: w.ref }, ...S.saved];
     let tsyTop = null, tsyBot = null, tsyLeft = 16;
     try {
-      const app = this.appRef && this.appRef.current;
-      if (app) {
-        const aR = app.getBoundingClientRect(), wR = e.currentTarget.getBoundingClientRect();
-        const cardW = 212, cardH = 130, BOTTOM_NAV = 130;
-        tsyLeft = Math.max(aR.left + 8, Math.min(aR.right - cardW - 8, wR.left));
-        if (wR.bottom + cardH + 12 < aR.bottom - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
-        else { tsyTop = Math.max(aR.top + 8, wR.top - cardH - 8); }
-      }
+      const wR = e.currentTarget.getBoundingClientRect();
+      const cardW = 212, cardH = 130, BOTTOM_NAV = 130;
+      const vw = window.innerWidth, vh = window.innerHeight;
+      tsyLeft = Math.max(8, Math.min(vw - cardW - 8, wR.left + wR.width/2 - cardW/2));
+      if (wR.bottom + cardH + 12 < vh - BOTTOM_NAV) { tsyTop = wR.bottom + 8; }
+      else { tsyTop = Math.max(8, wR.top - cardH - 8); }
     } catch(x) {}
     this.setState({ visit: { ...S.visit, [k]: 1 }, known, saved, tip: { ...w, x: 0, y: 0, tf: 'none', tsyTop, tsyBot, tsyLeft } });
   }
