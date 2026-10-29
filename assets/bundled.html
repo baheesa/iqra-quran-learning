@@ -57,7 +57,7 @@
 <sc-if value="{{ tipBubble }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:40"></div>
 <div onClick="{{ stop }}" style="position:absolute; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; box-sizing:border-box; z-index:41; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
-<div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
+<div dir="{{ trDir }}" style="font:400 14px/1.6 {{ trFontFam }}; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
 <div style="display:flex; gap:6px">
 <button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
 <button onClick="{{ tipAyah }}" title="Word by word" style="flex:1; height:36px; border-radius:9px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="12.5" y1="4" x2="15.5" y2="4" stroke-width="2"/><line x1="7" y1="4" x2="10.5" y2="4" stroke-width="2"/><line x1="2.5" y1="4" x2="5.5" y2="4" stroke-width="2"/><line x1="13" y1="13" x2="15.5" y2="13" stroke-width="2"/><line x1="7.5" y1="13" x2="11.5" y2="13" stroke-width="2"/><line x1="2.5" y1="13" x2="6" y2="13" stroke-width="2"/><line x1="14" y1="5.5" x2="14" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="8.75" y1="5.5" x2="8.75" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="4" y1="5.5" x2="4" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/></svg></button>
@@ -486,13 +486,14 @@
 
 <sc-if value="{{ isSearch }}" hint-placeholder-val="{{ false }}">
 <div data-screen-label="Search" style="position:absolute; inset:0 0 64px 0; z-index:12; background:{{ K.bg }}; display:flex; flex-direction:column">
-<div style="display:flex; align-items:center; gap:4px; padding:6px 12px 6px 6px; min-height:60px">
+<div style="display:flex; align-items:center; gap:4px; padding:6px 8px 6px 6px; min-height:60px">
 <button onClick="{{ goMushaf }}" aria-label="Back" style="width:44px; height:44px; flex:none; border:0; background:transparent; color:inherit; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
 <div style="flex:1; min-width:0; display:flex; align-items:center; gap:8px; height:48px; padding:0 6px 0 14px; border-radius:24px; background:{{ K.surf2 }}; color:{{ K.muted }}">
 <svg width="18" height="18" viewBox="0 0 24 24" style="flex:none; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
 <input ref="{{ searchRef }}" value="{{ q }}" onChange="{{ onQ }}" dir="auto" placeholder="Arabic phrase or Urdu word" style="flex:1; min-width:0; border:0; background:transparent; color:{{ K.ink }}; font:400 17px 'Instrument Sans', 'Scheherazade New', 'Noto Nastaliq Urdu'">
 <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><button onClick="{{ clearQ }}" aria-label="Clear" style="width:36px; height:36px; flex:none; border:0; background:transparent; color:inherit; border-radius:18px; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
+<button onClick="{{ openSettings }}" aria-label="Reading settings" style="width:40px; height:36px; flex:none; border:0; background:transparent; color:inherit; border-radius:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; font:600 15px 'Newsreader', serif">Aa</button>
 </div>
 <div ref="{{ searchScrollRef }}" style="flex:1; min-height:0; overflow-y:auto">
 <div style="padding:8px 16px 32px; display:flex; flex-direction:column; gap:12px">
@@ -597,7 +598,7 @@
 <sc-if value="{{ A.showTr }}" hint-placeholder-val="{{ false }}"><div style="background:{{ K.bg }}; border-radius:18px; padding:12px 16px; display:flex; flex-direction:column; gap:2px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">{{ A.trKind }}</span><div dir="{{ trDir }}" style="font:{{ trFont }}; text-align:{{ trAlign }}">{{ A.tr }}</div></div></sc-if>
 <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Word by word</span><span style="font:500 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ A.knownLabel }}</span></div>
 <div dir="rtl" style="display:flex; flex-wrap:wrap; gap:6px">
-<sc-for list="{{ A.words }}" as="w" hint-placeholder-count="4"><span style="display:flex; flex-direction:column; align-items:center; padding:4px 10px 0; border-radius:12px; background:{{ w.bg }}; color:{{ w.fg }}"><span style="font:400 21px/1.5 'Scheherazade New', serif">{{ w.ar }}</span><span style="font:400 12px/2 'Noto Nastaliq Urdu', serif">{{ w.ur }}</span></span></sc-for>
+<sc-for list="{{ A.words }}" as="w" hint-placeholder-count="4"><span style="display:flex; flex-direction:column; align-items:center; padding:4px 10px 0; border-radius:12px; background:{{ w.bg }}; color:{{ w.fg }}"><span style="font:400 21px/1.5 'Scheherazade New', serif">{{ w.ar }}</span><span dir="{{ trDir }}" style="font:400 12px/2 {{ trFontFam }}; text-align:center">{{ w.ur }}</span></span></sc-for>
 </div>
 <button onClick="{{ markAyah }}" style="height:48px; border-radius:24px; border:0; background:{{ A.markBg }}; color:{{ A.markFg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ A.markLabel }}</button>
 <sc-if value="{{ A.showOpen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ A.open }}" style="height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer">Open in mushaf</button></sc-if>
@@ -726,7 +727,7 @@
 <span style="font:500 12px 'Instrument Sans'">{{ lvl.toNext }}</span>
 </button>
 </div>
-<div style="padding:0 12px; display:flex; flex-direction:column; gap:2px">
+<div style="padding:0 12px; display:flex; flex-direction:column; gap:2px; overflow-y:auto; flex:1">
 <button onClick="{{ goHome }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ navH.bg }}; color:{{ navH.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round"><path d="M4 11l8-6.5L20 11v8.5a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"></path></svg><span style="flex:1">Home</span></button>
 <button onClick="{{ goMushaf }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.mushaf.bg }}; color:{{ nav.mushaf.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M12 6.5C10.3 5.2 7.8 4.5 4 4.5v14c3.8 0 6.3.7 8 2 1.7-1.3 4.2-2 8-2v-14c-3.8 0-6.3.7-8 2zM12 6.5v14"></path></svg><span style="flex:1">Mushaf</span><span style="font:500 12px 'Instrument Sans'; opacity:0.75">p. {{ rp.page }}</span></button>
 <button onClick="{{ openSearch }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.search.bg }}; color:{{ nav.search.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg><span style="flex:1">Search</span></button>
@@ -736,8 +737,9 @@
 <button onClick="{{ goDuas }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.duas.bg }}; color:{{ nav.duas.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"></path></svg><span style="flex:1">Duas</span></button>
 <button onClick="{{ goBookmarks }}" style="display:flex; align-items:center; gap:14px; height:52px; padding:0 16px; border:0; border-radius:26px; background:{{ nav.bookmarks.bg }}; color:{{ nav.bookmarks.fg }}; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round"><path d="M7 3.5h10a1 1 0 0 1 1 1V20.5l-6-4-6 4V4.5a1 1 0 0 1 1-1z"></path></svg><span style="flex:1">Bookmarks</span><span style="font:600 12px 'Instrument Sans'; min-width:22px; height:22px; border-radius:11px; background:{{ K.surf2 }}; display:flex; align-items:center; justify-content:center">{{ bmCount }}</span></button>
 </div>
-<div style="flex:1"></div>
 <div style="padding:12px 20px 20px; display:flex; flex-direction:column; gap:12px; border-top:1px solid {{ K.line }}">
+<div><span style="display:block; font:600 11px 'Instrument Sans'; letter-spacing:.07em; text-transform:uppercase; color:{{ K.muted }}; margin-bottom:8px">Translation language</span><div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px"><button onClick="{{ drLang.ur.pick }}" style="height:36px; border-radius:10px; border:1.5px solid {{ drLang.ur.bd }}; background:{{ drLang.ur.bg }}; color:{{ drLang.ur.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">Urdu</button><button onClick="{{ drLang.ro.pick }}" style="height:36px; border-radius:10px; border:1.5px solid {{ drLang.ro.bd }}; background:{{ drLang.ro.bg }}; color:{{ drLang.ro.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">Roman</button><button onClick="{{ drLang.en.pick }}" style="height:36px; border-radius:10px; border:1.5px solid {{ drLang.en.bd }}; background:{{ drLang.en.bg }}; color:{{ drLang.en.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">English</button></div></div>
+<div><span style="display:block; font:600 11px 'Instrument Sans'; letter-spacing:.07em; text-transform:uppercase; color:{{ K.muted }}; margin-bottom:8px">Daily goal</span><div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px"><button onClick="{{ drGoal.g1.pick }}" style="height:36px; border-radius:10px; border:1.5px solid {{ drGoal.g1.bd }}; background:{{ drGoal.g1.bg }}; color:{{ drGoal.g1.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">1 page</button><button onClick="{{ drGoal.g2.pick }}" style="height:36px; border-radius:10px; border:1.5px solid {{ drGoal.g2.bd }}; background:{{ drGoal.g2.bg }}; color:{{ drGoal.g2.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">2 pages</button><button onClick="{{ drGoal.g3.pick }}" style="height:36px; border-radius:10px; border:1.5px solid {{ drGoal.g3.bd }}; background:{{ drGoal.g3.bg }}; color:{{ drGoal.g3.fg }}; font:600 13px 'Instrument Sans'; cursor:pointer">3 pages</button></div></div>
 <button onClick="{{ toggleDark }}" style="display:flex; align-items:center; gap:12px; height:48px; padding:0; border:0; background:transparent; color:inherit; font:600 14.5px 'Instrument Sans'; cursor:pointer; text-align:left">
 <span style="flex:1">Dark mode</span>
 <span style="width:48px; height:28px; border-radius:14px; background:{{ sw.bg }}; position:relative; transition:background .2s"><span style="position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:11px; background:{{ sw.knob }}; transform:translateX({{ sw.x }}); transition:transform .2s"></span></span>
@@ -750,7 +752,7 @@
 <sc-if value="{{ tipSheet }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeTip }}" style="position:fixed; inset:0; z-index:49"></div>
 <div onClick="{{ stop }}" style="position:absolute; left:{{ tipBubLeft }}; top:{{ tipCardTop }}; width:210px; box-sizing:border-box; z-index:50; background:{{ K.surf }}; border:1px solid {{ K.line }}; border-radius:14px; padding:10px 12px 10px; box-shadow:0 6px 28px rgba(0,0,0,0.18)">
-<div dir="rtl" style="font:400 14px/1.5 'Noto Nastaliq Urdu', serif; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
+<div dir="{{ trDir }}" style="font:400 14px/1.6 {{ trFontFam }}; color:{{ K.ink }}; text-align:center; margin-bottom:10px">{{ tip.ur }}</div>
 <div style="display:flex; gap:6px">
 <button onClick="{{ tipKnow }}" title="{{ tipBtn.xpLabel }}" style="flex:1; height:36px; border-radius:9px; border:0; background:{{ tipBtn.sbg }}; color:{{ tipBtn.sfg }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
 <button onClick="{{ tipAyah }}" title="Word by word" style="flex:1; height:36px; border-radius:9px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="12.5" y1="4" x2="15.5" y2="4" stroke-width="2"/><line x1="7" y1="4" x2="10.5" y2="4" stroke-width="2"/><line x1="2.5" y1="4" x2="5.5" y2="4" stroke-width="2"/><line x1="13" y1="13" x2="15.5" y2="13" stroke-width="2"/><line x1="7.5" y1="13" x2="11.5" y2="13" stroke-width="2"/><line x1="2.5" y1="13" x2="6" y2="13" stroke-width="2"/><line x1="14" y1="5.5" x2="14" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="8.75" y1="5.5" x2="8.75" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/><line x1="4" y1="5.5" x2="4" y2="11.5" stroke-width="1.2" stroke-dasharray="1.4 1.2"/></svg></button>
@@ -875,16 +877,18 @@ class Component extends DCLogic {
   componentDidMount() {
     this.t0 = Date.now(); setTimeout(() => this.setState({ splashPct: 82 }), 60); setTimeout(() => this.endSplash(), 1950);
     if (Component.D) { this.setState({ splashPct: 100 }); return; }
-    const f = n => fetch(`data/${n}.json`).then(r => r.json());
+    const f = n => fetch(`data/${n}.json?v=3`).then(r => r.json());
     const fOpt = n => f(n).catch(() => null);
     Promise.all(['ayah-cards', 'wbw-urdu', 'surahs', 'juz-index', 'unit-vocabulary', 'learner-rules', 'daily-duas', 'urdu-translation'].map(f))
       .then(([ac, wbw, sur, juz, voc, rules, duas, urTr]) => {
         this.build(ac, wbw, sur, juz, voc, rules, duas, urTr);
         this.setState({ loaded: true, splashPct: 100 }, () => this.endSplash());
-        Promise.all([fOpt('english-translation'), fOpt('roman-urdu-translation')]).then(([enTr, roTr]) => {
+        Promise.all([fOpt('english-translation'), fOpt('roman-urdu-translation'), fOpt('wbw-english'), fOpt('wbw-roman-urdu')]).then(([enTr, roTr, wbwEn, wbwRo]) => {
           const C = Component;
           if (enTr) C.TR_EN = enTr;
           if (roTr) C.TR_RO = roTr;
+          if (wbwEn) { const mEn = wbwEn.meanings || {}; C.WBW_EN = mEn; const fmEn = {}; Object.keys(C.AY).forEach(k => { const [s,n] = k.split(':'); C.AY[k].w.forEach(([a], i) => { const m = mEn[`${s}:${n}:${i+1}`] || ''; if (m) { const nk = this.key(a); if (!fmEn[nk]) fmEn[nk] = m; } }); }); C.FM_EN = fmEn; }
+          if (wbwRo) { const mRo = wbwRo.meanings || {}; C.WBW_RO = mRo; const fmRo = {}; Object.keys(C.AY).forEach(k => { const [s,n] = k.split(':'); C.AY[k].w.forEach(([a], i) => { const m = mRo[`${s}:${n}:${i+1}`] || ''; if (m) { const nk = this.key(a); if (!fmRo[nk]) fmRo[nk] = m; } }); }); C.FM_RO = fmRo; }
         });
       })
       .catch(err => { console.error(err); this.info('Could not load the Quran data files'); });
@@ -1076,6 +1080,18 @@ class Component extends DCLogic {
   pageWords(p) { const P = Component.PAGES[p]; return P ? P.ayahs.flatMap(a => a.w.map(w => w[0])) : []; }
   openAyah(k, from) { if (!Component.AY[k]) return; this.setState({ sheet: 'ayah', sheetOpen: true, tip: null, ayah: { k, from } }); }
   openDua(id) { this.setState({ sheet: 'dua', sheetOpen: true, tip: null, duaId: id }); }
+  getMean(k, i, lang) {
+    const C = Component, [s, n] = k.split(':'), pos = `${s}:${n}:${i + 1}`;
+    if (lang === 'en') return (C.WBW_EN && C.WBW_EN[pos]) || '';
+    if (lang === 'ro') return (C.WBW_RO && C.WBW_RO[pos]) || '';
+    return (C.AY[k] && C.AY[k].w[i] && C.AY[k].w[i][1]) || '';
+  }
+  getWordFM(lang) {
+    const C = Component;
+    if (lang === 'en' && C.FM_EN) return C.FM_EN;
+    if (lang === 'ro' && C.FM_RO) return C.FM_RO;
+    return C.FM || {};
+  }
   markAyah() {
     const ay = Component.AY[this.state.ayah.k], known = { ...this.state.known };
     let c = 0; ay.w.forEach(w => { const k = this.key(w[0]); if (known[k] !== 'k') { if (!known[k]) c++; known[k] = 'k'; } });
@@ -1113,8 +1129,8 @@ class Component extends DCLogic {
       total++; if (res.length >= 150) continue;
       const sI = C.SUR[ay.s - 1], idxs = [...m].sort((a, b) => a - b), ids = idxs.map(i => `w${ay.s}-${ay.n}-${i}`), sh = !!S.trAll !== !!S.trOpen[k];
       res.push({ ref: `${sI.nameEnglish} ${k}`, page: `Page ${ay.p}`, n: m.size, pg: ay.p, an: ay.n, k, surah: sI.nameEnglish, sAr: sI.nameArabic,
-        toks: ay.w.map((w, i) => { const hl = m.has(i); return { ar: w[0], ur: w[1], bg: hl ? K.hl : 'transparent', fw: hl ? '700' : '400', brd: hl ? K.brand : '', pd: hl ? '0 4px' : '0 1px', ol: 'none', tap: e => this.tapSheet(e, { ar: w[0], ur: w[1] || '', ref: `${sI.nameEnglish} ${k}`, ak: k }) }; }),
-        meaning: m.size ? idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  ') : (trHitText ? (trHitText.length > 90 ? trHitText.slice(0, 90) + '…' : trHitText) : ''),
+        toks: ay.w.map((w, i) => { const hl = m.has(i); const wm = this.getMean(k, i, S.lang); return { ar: w[0], ur: wm, bg: hl ? K.hl : 'transparent', fw: hl ? '700' : '400', brd: hl ? K.brand : '', pd: hl ? '0 4px' : '0 1px', ol: 'none', tap: e => this.tapSheet(e, { ar: w[0], ur: wm || '', ref: `${sI.nameEnglish} ${k}`, ak: k }) }; }),
+        meaning: m.size ? idxs.map(i => this.getMean(k, i, S.lang)).filter(Boolean).join('  ·  ') : (trHitText ? (trHitText.length > 90 ? trHitText.slice(0, 90) + '…' : trHitText) : ''),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
         tr: (S.lang === 'en' ? (C.TR_EN[k] || C.TR[k]) : S.lang === 'ro' ? (C.TR_RO[k] || C.TR[k]) : C.TR[k]) || ay.ur, showTr: sh || !!trHitText, trLabel: (sh || !!trHitText) ? 'Hide translation' : 'Translation',
         toggleTr: () => this.setState(s => ({ trOpen: { ...s.trOpen, [k]: !s.trOpen[k] } })),
@@ -1151,7 +1167,7 @@ class Component extends DCLogic {
       const mv = j => this.setState({ ayah: { ...S.ayah, k: all[j] } });
       const _tr = k => (S.lang === 'en' ? (C.TR_EN[k] || C.TR[k]) : S.lang === 'ro' ? (C.TR_RO[k] || C.TR[k]) : C.TR[k]) || '';
       A = { ref, sub: `Page ${ap} · Juz ${C.PAGES[ap].juz}`, ar: ay.w.map(w => w[0]).join(' ') + ` ﴿${this.arNum(ay.n)}﴾`, tr: _tr(ay.k) || ay.ur, trKind: _tr(ay.k) ? 'Translation' : 'Translation · word order', showTr: S.ayah.from !== 'search',
-        words: ay.w.map(([a, u]) => { const kn = !!S.known[this.key(a)]; return { ar: a, ur: u, bg: kn ? K.soft : K.bg, fg: kn ? K.softInk : K.ink }; }),
+        words: ay.w.map(([a], i) => { const kn = !!S.known[this.key(a)]; const wm = this.getMean(ay.k, i, S.lang); return { ar: a, ur: wm, bg: kn ? K.soft : K.bg, fg: kn ? K.softInk : K.ink }; }),
         knownLabel: `${kc} of ${ay.w.length} known`, markLabel: done ? 'All words known ✓' : `Mark ayah as known · +${(ay.w.length - kc) * 5} XP`,
         markBg: done ? K.soft : K.brand, markFg: done ? K.softInk : K.onBrand,
         prevOp: idx > 0 ? 1 : 0.35, nextOp: idx < all.length - 1 ? 1 : 0.35,
@@ -1186,7 +1202,7 @@ class Component extends DCLogic {
     const qs = [...qd].sort((a, b) => a.juz - b.juz), dj = S.duaJuz || null;
     const src = S.duaTab === 'quranic' ? qs.filter(d => !dj || d.juz === dj) : C.DUAS.masnoon; let lastH = null;
     const duaList = src.map(d => { const m = !!S.memorised[d.id], isQ = S.duaTab === 'quranic', hk = isQ ? d.juz : d.cat, head = hk !== lastH, cat = C.DCAT[d.cat] || {}; lastH = hk;
-      const toks = (d.ar || '').split(/\s+/).filter(Boolean).map(w => { const ur = (C.FM && C.FM[this.key(w)]) || ''; const stip = S.tip; const sel = !!(stip && !stip.src && stip.ar === w && ur); return { ar: w, ur, tap: ur ? e => this.tapSheet(e, { ar: w, ur, ref: d.meta || d.title }) : null, selBg: sel ? K.sel : 'transparent', selBd: sel ? K.brand : '' }; });
+      const _fm = this.getWordFM(S.lang); const toks = (d.ar || '').split(/\s+/).filter(Boolean).map(w => { const ur = (_fm[this.key(w)]) || ''; const stip = S.tip; const sel = !!(stip && !stip.src && stip.ar === w && ur); return { ar: w, ur, tap: ur ? e => this.tapSheet(e, { ar: w, ur, ref: d.meta || d.title }) : null, selBg: sel ? K.sel : 'transparent', selBd: sel ? K.brand : '' }; });
       return { ...d, head, headLabel: isQ ? `Juz ${d.juz}` : (cat.label || ''), headAr: isQ ? C.JUZ_NAMES[d.juz - 1] : (cat.labelUrdu || ''), btnBg: m ? K.soft : K.brand, btnFg: m ? K.softInk : K.onBrand, btnLabel: m ? 'Memorised ✓' : 'Mark memorised · +25 XP', toggle: () => this.toggleDua(d.id), toks }; });
     const duaChips = [{ label: 'All juz', n: qs.length, j: null }, ...[...new Set(qs.map(d => d.juz))].map(j => ({ label: `Juz ${j}`, n: qs.filter(d => d.juz === j).length, j }))]
       .map(c => ({ ...c, bg: dj === c.j ? K.brand : K.surf, fg: dj === c.j ? K.onBrand : K.ink, bd: dj === c.j ? K.brand : K.line, pick: () => this.setState({ duaJuz: c.j }) }));
@@ -1230,6 +1246,7 @@ class Component extends DCLogic {
       trDir: S.lang === 'ur' ? 'rtl' : 'ltr',
       trAlign: S.lang === 'ur' ? 'right' : 'left',
       trFont: S.lang === 'ur' ? "400 16px/2.2 'Noto Nastaliq Urdu', serif" : "400 15px/1.7 'Instrument Sans', sans-serif",
+      trFontFam: S.lang === 'ur' ? "'Noto Nastaliq Urdu', serif" : "'Instrument Sans', sans-serif",
 
 
       pageTransform: `translateX(${S.pt.x}px)`,
@@ -1267,8 +1284,9 @@ class Component extends DCLogic {
     P.ayahs.forEach((ay, ai) => {
       const sI = C.SUR[ay.s - 1] || {}, refN = `${sI.nameEnglish} ${ay.k}`, REF = refN.toUpperCase();
       if (ay.n === 1 && ai > 0) tokens.push({ isHead: true, ar: sI.nameArabic });
-      ay.w.forEach(([a, u], i) => {
+      ay.w.forEach(([a], i) => {
         const b = i < ay.bismN;
+        const u = this.getMean(ay.k, i, S.lang);
         tokens.push(mk(`w${ay.s}-${ay.n}-${i}`, a, u, b ? 'BISMILLAH' : REF, b ? 'Bismillah' : refN, ay.k));
         if (ay.bismN && i === ay.bismN - 1) tokens.push({ isBreak: true });
       });
@@ -1289,7 +1307,7 @@ class Component extends DCLogic {
     const U = Uu ? { n: Uu.n, title: `Muallim-ul-Quran · Unit ${Uu.n}`, k: Uu.k, total: Uu.total, pct: Uu.pct,
       words: Uu.words.map(([ar, ur]) => { const kn = !!S.known[this.key(ar)]; return { ar, ur, toggle: () => this.toggleKnown(ar), ckBg: kn ? K.brand : 'transparent', ckBd: kn ? K.brand : K.frame, ckOp: kn ? 1 : 0 }; }),
       rules: Uu.rules.map(r => { const ex = (r.examples || []).slice(0, 4); return { order: r.order, title: r.title, definition: r.definition, hasEx: ex.length > 0,
-        examples: ex.map(e => { const toks = (e.arabic || '').split(/\s+/).filter(Boolean).map(w => { const ur = (C.FM && C.FM[this.key(w)]) || ''; return { ar: w, ur, tap: ur ? ev => this.tapSheet(ev, { ar: w, ur, ref: 'Qawaid' }) : null }; }); return { ar: e.arabic, ur: e.meaning || '', hasUr: !!e.meaning, find: () => this.setState({ screen: 'search', q: e.arabic }), toks }; }) }; }) } : { words: [], rules: [] };
+        examples: ex.map(e => { const _fm2 = this.getWordFM(S.lang); const toks = (e.arabic || '').split(/\s+/).filter(Boolean).map(w => { const ur = (_fm2[this.key(w)]) || ''; return { ar: w, ur, tap: ur ? ev => this.tapSheet(ev, { ar: w, ur, ref: 'Qawaid' }) : null }; }); return { ar: e.arabic, ur: e.meaning || '', hasUr: !!e.meaning, find: () => this.setState({ screen: 'search', q: e.arabic }), toks }; }) }; }) } : { words: [], rules: [] };
     const curKnown = units.reduce((a, u) => a + u.k, 0);
 
     const seg = on => on ? { bg: K.surf, fg: K.ink, sh: '0 1px 3px rgba(0,0,0,0.14)' } : { bg: 'transparent', fg: K.muted, sh: 'none' };
@@ -1382,6 +1400,8 @@ class Component extends DCLogic {
       setLight: () => this.setState({ dark: false }), setDark: () => this.setState({ dark: true }),
       toggleDark: () => this.setState({ dark: !S.dark }),
       sw: { bg: S.dark ? K.brand : K.surf2, knob: S.dark ? K.onBrand : '#FFFFFF', x: S.dark ? '20px' : '0' },
+      drLang: { ur: { bg: lang==='ur'?K.brand:K.bg, fg: lang==='ur'?K.onBrand:K.ink, bd: lang==='ur'?K.brand:K.line, pick: ()=>this.setState({lang:'ur'}) }, ro: { bg: lang==='ro'?K.brand:K.bg, fg: lang==='ro'?K.onBrand:K.ink, bd: lang==='ro'?K.brand:K.line, pick: ()=>this.setState({lang:'ro'}) }, en: { bg: lang==='en'?K.brand:K.bg, fg: lang==='en'?K.onBrand:K.ink, bd: lang==='en'?K.brand:K.line, pick: ()=>this.setState({lang:'en'}) } },
+      drGoal: { g1: { bg: goalN===1?K.brand:K.bg, fg: goalN===1?K.onBrand:K.ink, bd: goalN===1?K.brand:K.line, pick: ()=>this.setState({goal:1}) }, g2: { bg: goalN===2?K.brand:K.bg, fg: goalN===2?K.onBrand:K.ink, bd: goalN===2?K.brand:K.line, pick: ()=>this.setState({goal:2}) }, g3: { bg: goalN===3?K.brand:K.bg, fg: goalN===3?K.onBrand:K.ink, bd: goalN===3?K.brand:K.line, pick: ()=>this.setState({goal:3}) } },
       hasToast: !!S.toast,
       toast: S.toast ? { ...S.toast, bg: S.toast.xp ? K.goldSoft : K.tipBg, fg: S.toast.xp ? K.goldInk : K.tipFg } : {},
       toggleBookmark: () => this.toggleBookmark(),
