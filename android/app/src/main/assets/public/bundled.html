@@ -2468,7 +2468,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <span style="flex:1; min-width:0; display:flex; flex-direction:column; gap:1px"><span style="font:600 13.5px 'Instrument Sans'">{{ d.title }}</span><span style="font:400 12px 'Instrument Sans'; color:{{ K.muted }}">{{ d.meta }}{{ d.memLabel }}</span></span>
 <svg width="16" height="16" viewBox="0 0 24 24" style="flex:none; fill:none; stroke:{{ K.muted }}; stroke-width:2; stroke-linecap:round; stroke-linejoin:round"><path d="M9 6l6 6-6 6"></path></svg>
 </button></sc-for>
-<sc-if value="{{ mj.noDuas }}" hint-placeholder-val="{{ false }}"><span style="font:400 13px/1.4 'Instrument Sans'; color:{{ K.muted }}">No Qur’anic duas in this juz yet.</span></sc-if>
+<sc-if value="{{ mj.noDuas }}" hint-placeholder-val="{{ false }}"><span style="font:400 13px/1.4 'Instrument Sans'; color:{{ K.muted }}">No Qur'anic duas in this juz yet.</span></sc-if>
 <button onClick="{{ mj.open }}" style="height:44px; border-radius:22px; border:0; background:{{ K.brand }}; color:{{ K.onBrand }}; font:600 14px 'Instrument Sans'; cursor:pointer">Read Juz {{ mj.n }}</button>
 </div>
 <div style="display:flex; gap:14px; font:500 11.5px 'Instrument Sans'; color:{{ K.muted }}"><span style="display:flex; align-items:center; gap:6px"><span style="width:14px; height:4px; border-radius:2px; background:{{ K.brand }}"></span>Pages read</span><span style="display:flex; align-items:center; gap:6px"><span style="width:10px; height:10px; border-radius:3px; box-shadow:inset 0 0 0 1.5px {{ K.gold }}"></span>You are here</span><span style="display:flex; align-items:center; gap:4px"><span style="width:10px; height:10px; border-radius:5px; background:{{ K.goldSoft }}; box-shadow:inset 0 0 0 1px {{ K.gold }}"></span>Duas</span></div>
@@ -2590,7 +2590,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <div style="padding:0 20px 14px; display:flex; flex-direction:column; gap:10px">
 <div style="display:flex; align-items:center; gap:10px"><div style="flex:1; height:6px; border-radius:3px; background:{{ K.track }}; overflow:hidden"><div style="height:100%; width:{{ duaPct }}; background:{{ K.brand }}; border-radius:3px; transition:width .4s"></div></div><span style="font:500 13px 'Instrument Sans'; color:{{ K.muted }}">{{ duaSum }}</span></div>
 <div style="display:grid; grid-template-columns:1fr 1fr; padding:4px; border-radius:22px; background:{{ K.surf2 }}">
-<button onClick="{{ duaQuranic }}" style="height:36px; border:0; border-radius:18px; background:{{ dseg.q.bg }}; color:{{ dseg.q.fg }}; box-shadow:{{ dseg.q.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Qur’anic</button>
+<button onClick="{{ duaQuranic }}" style="height:36px; border:0; border-radius:18px; background:{{ dseg.q.bg }}; color:{{ dseg.q.fg }}; box-shadow:{{ dseg.q.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Qur'anic</button>
 <button onClick="{{ duaMasnoon }}" style="height:36px; border:0; border-radius:18px; background:{{ dseg.m.bg }}; color:{{ dseg.m.fg }}; box-shadow:{{ dseg.m.sh }}; font:600 13.5px 'Instrument Sans'; cursor:pointer">Daily masnoon</button>
 </div>
 <sc-if value="{{ isQuranicTab }}" hint-placeholder-val="{{ true }}">
@@ -2901,7 +2901,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </sc-if>
 <sc-if value="{{ isDuaSheet }}" hint-placeholder-val="{{ false }}">
 <div style="flex:1; min-height:0; overflow-y:auto; padding:4px 20px 24px; display:flex; flex-direction:column; gap:12px">
-<div style="display:flex; align-items:center; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; padding:4px 10px; border-radius:10px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}">Qur’anic dua</span><span style="font:500 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ D.meta }}</span></div>
+<div style="display:flex; align-items:center; gap:8px"><span style="font:600 11.5px 'Instrument Sans'; padding:4px 10px; border-radius:10px; background:{{ K.goldSoft }}; color:{{ K.goldInk }}">Qur'anic dua</span><span style="font:500 12.5px 'Instrument Sans'; color:{{ K.muted }}">{{ D.meta }}</span></div>
 <span style="font:500 22px/1.2 'Newsreader', serif">{{ D.title }}</span>
 <div dir="rtl" style="font:400 26px/1.85 'Scheherazade New', serif; text-align:right">{{ D.ar }}</div>
 <div dir="rtl" style="font:400 16px/2.2 'Noto Nastaliq Urdu', serif; color:{{ K.muted }}; text-align:right">{{ D.ur }}</div>
@@ -2942,7 +2942,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </button>
 <span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}">Daily goal</span>
 <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px">
-<sc-for list="{{ goalPills }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.pick }}" style="height:44px; border-radius:14px; border:0; background:{{ g.bg }}; color:{{ g.fg }}; box-shadow:inset 0 0 0 1px {{ g.bd }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ g.g }} pages</button></sc-for>
+<sc-for list="{{ goalPills }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.pick }}" style="height:44px; border-radius:14px; border:0; background:{{ g.bg }}; color:{{ g.fg }}; box-shadow:inset 0 0 0 1px {{ g.bd }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ g.lbl }}</button></sc-for>
+</div>
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}; margin-top:6px">Translation language</span>
+<div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px">
+<sc-for list="{{ langPills }}" as="l" hint-placeholder-count="3"><button onClick="{{ l.pick }}" style="height:44px; border-radius:14px; border:0; background:{{ l.bg }}; color:{{ l.fg }}; box-shadow:inset 0 0 0 1px {{ l.bd }}; font:600 13px 'Instrument Sans'; cursor:pointer">{{ l.lbl }}</button></sc-for>
 </div>
 <span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:{{ K.muted }}; margin-top:6px">Appearance</span>
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px">
@@ -3009,34 +3013,34 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(30,74,56,0.2) 0%, rgba(30,74,56,0.6) 55%, #1E4A38 100%)"></div>
   <!-- Quran verse text decoration -->
   <div style="position:absolute;top:52px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 24px">
-    <span dir="rtl" style="font:700 46px/1.2 ‘Scheherazade New’,serif;color:rgba(227,180,92,0.9);text-align:center;text-shadow:0 2px 16px rgba(0,0,0,0.4)">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
-    <span style="font:400 11px/1.4 ‘Instrument Sans’,sans-serif;color:rgba(227,180,92,0.6);letter-spacing:0.12em;text-transform:uppercase">In the name of Allah, the Most Gracious, the Most Merciful</span>
+    <span dir="rtl" style="font:700 46px/1.2 'Scheherazade New',serif;color:rgba(227,180,92,0.9);text-align:center;text-shadow:0 2px 16px rgba(0,0,0,0.4)">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
+    <span style="font:400 11px/1.4 'Instrument Sans',sans-serif;color:rgba(227,180,92,0.6);letter-spacing:0.12em;text-transform:uppercase">In the name of Allah, the Most Gracious, the Most Merciful</span>
   </div>
   <!-- Logo centered in hero -->
   <div style="position:absolute;top:195px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px">
     <div style="width:72px;height:72px;border-radius:20px;background:rgba(0,0,0,0.3);border:1px solid rgba(227,180,92,0.5);display:flex;align-items:center;justify-content:center;position:relative">
       <svg width="72" height="72" viewBox="0 0 100 100" style="position:absolute;inset:0;fill:none;stroke:#E3B45C;stroke-width:2.2"><rect x="24" y="24" width="52" height="52" rx="3"/><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"/></svg>
-      <span dir="rtl" style="position:relative;font:700 12px/1 ‘Scheherazade New’,serif;color:#F5F2EA">اقرأ</span>
+      <span dir="rtl" style="position:relative;font:700 12px/1 'Scheherazade New',serif;color:#F5F2EA">اقرأ</span>
     </div>
-    <span style="font:500 32px/1 ‘Newsreader’,serif;color:#F5F2EA;letter-spacing:-0.01em">Iqra</span>
-    <span dir="rtl" style="font:400 28px/1.3 ‘Scheherazade New’,serif;color:rgba(227,180,92,0.85)">اقْرَأْ</span>
+    <span style="font:500 32px/1 'Newsreader',serif;color:#F5F2EA;letter-spacing:-0.01em">Iqra</span>
+    <span dir="rtl" style="font:400 28px/1.3 'Scheherazade New',serif;color:rgba(227,180,92,0.85)">اقْرَأْ</span>
   </div>
 </div>
 <!-- Content card at bottom -->
 <div style="position:absolute;bottom:0;left:0;right:0;background:{{ K.bg }};border-radius:28px 28px 0 0;padding:28px 24px 16px;display:flex;flex-direction:column;gap:16px">
-  <p style="margin:0;font:400 15px/1.6 ‘Instrument Sans’;color:{{ K.muted }}">Read the Quran in Arabic. Tap any word to see its meaning, and watch your comprehension grow page by page.</p>
+  <p style="margin:0;font:400 15px/1.6 'Instrument Sans';color:{{ K.muted }}">Read the Quran in Arabic. Tap any word to see its meaning, and watch your comprehension grow page by page.</p>
   <div style="display:flex; flex-direction:column; gap:12px">
     <div style="display:flex; align-items:center; gap:14px">
-      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px ‘Instrument Sans’">1</span>
-      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px ‘Instrument Sans’">Tap a word</span><span style="font:400 12.5px ‘Instrument Sans’; color:{{ K.muted }}">Urdu meaning appears instantly</span></span>
+      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px 'Instrument Sans'">1</span>
+      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px 'Instrument Sans'">Tap a word</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">Urdu meaning appears instantly</span></span>
     </div>
     <div style="display:flex; align-items:center; gap:14px">
-      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px ‘Instrument Sans’">2</span>
-      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px ‘Instrument Sans’">Words become familiar</span><span style="font:400 12.5px ‘Instrument Sans’; color:{{ K.muted }}">Known words turn green across every page</span></span>
+      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px 'Instrument Sans'">2</span>
+      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px 'Instrument Sans'">Words become familiar</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">Known words turn green across every page</span></span>
     </div>
     <div style="display:flex; align-items:center; gap:14px">
-      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px ‘Instrument Sans’">3</span>
-      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px ‘Instrument Sans’">Earn XP and build a streak</span><span style="font:400 12.5px ‘Instrument Sans’; color:{{ K.muted }}">Daily page goals keep you consistent</span></span>
+      <span style="width:36px; height:36px; flex:none; border-radius:10px; background:{{ K.soft }}; color:{{ K.softInk }}; display:flex; align-items:center; justify-content:center; font:600 14px 'Instrument Sans'">3</span>
+      <span style="display:flex; flex-direction:column; gap:1px"><span style="font:600 14px 'Instrument Sans'">Earn XP and build a streak</span><span style="font:400 12.5px 'Instrument Sans'; color:{{ K.muted }}">Daily page goals keep you consistent</span></span>
     </div>
   </div>
 </div>
@@ -3045,7 +3049,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <sc-if value="{{ obs.s1 }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex; flex-direction:column; gap:12px; padding-top:12px">
 <span style="font:500 28px/1.2 'Newsreader', serif; text-wrap:pretty">How much Quranic Arabic do you know?</span>
-<span style="font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">We’ll start your word list from the right place.</span>
+<span style="font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">We'll start your word list from the right place.</span>
 <sc-for list="{{ obLevels }}" as="o" hint-placeholder-count="3">
 <button onClick="{{ o.pick }}" style="display:flex; align-items:center; gap:14px; padding:16px; border-radius:18px; border:0; background:{{ K.surf }}; box-shadow:inset 0 0 0 2px {{ o.bd }}; color:{{ K.ink }}; cursor:pointer; text-align:left">
 <span style="flex:1; display:flex; flex-direction:column; gap:3px"><span style="font:600 15.5px 'Instrument Sans'">{{ o.t }}</span><span style="font:400 13px/1.45 'Instrument Sans', 'Scheherazade New'; color:{{ K.muted }}">{{ o.s }}</span></span>
@@ -3068,6 +3072,18 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 </div>
 </sc-if>
 <sc-if value="{{ obs.s3 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex; flex-direction:column; gap:12px; padding-top:12px">
+<span style="font:500 28px/1.2 'Newsreader', serif">Choose translation language</span>
+<span style="font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">Word meanings and ayah translations will show in this language.</span>
+<sc-for list="{{ obLangs }}" as="o" hint-placeholder-count="3">
+<button onClick="{{ o.pick }}" style="display:flex; align-items:center; gap:14px; padding:16px; border-radius:18px; border:0; background:{{ K.surf }}; box-shadow:inset 0 0 0 2px {{ o.bd }}; color:{{ K.ink }}; cursor:pointer; text-align:left">
+<span style="flex:1; display:flex; flex-direction:column; gap:3px"><span style="font:600 15.5px 'Instrument Sans'">{{ o.t }} <span style="font:400 13px 'Instrument Sans'; color:{{ K.muted }}">{{ o.sub }}</span></span><span style="font:400 13px/1.45 'Instrument Sans'; color:{{ K.muted }}">{{ o.s }}</span></span>
+<span style="width:22px; height:22px; flex:none; border-radius:11px; box-shadow:inset 0 0 0 2px {{ o.bd }}; display:flex; align-items:center; justify-content:center"><span style="width:12px; height:12px; border-radius:6px; background:{{ o.dot }}"></span></span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ obs.s4 }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex; flex-direction:column; gap:12px; padding-top:12px">
 <span style="font:500 28px/1.2 'Newsreader', serif">Choose your look</span>
 <span style="font:400 14px/1.5 'Instrument Sans'; color:{{ K.muted }}; margin-bottom:8px">Dark mode is easier on the eyes at night.</span>
@@ -3154,6 +3170,8 @@ class Component extends DCLogic {
   static SUF = new Set(['', 'ه', 'ها', 'هم', 'هما', 'كم', 'كما', 'كن', 'هن', 'نا', 'ك', 'ي', 'ني', 'ون', 'ين', 'ان', 'ات', 'ت', 'وا', 'تم', 'ا']);
   static STARTER = ['اللَّه', 'رَبّ', 'كِتَاب', 'يَوْم', 'دِين', 'أَرْض', 'سَمَاء', 'قَلْب'];
   static STUB = { p: 1, juz: 1, surahNo: 1, surah: 'Loading mushaf…', header: '…', ayahs: [] };
+  static TR_EN = {};
+  static TR_RO = {};
   static TR = {
     '1:1': 'شروع اللہ کے نام سے جو بڑا مہربان، نہایت رحم والا ہے۔', '1:2': 'سب تعریف اللہ ہی کے لیے ہے جو تمام جہانوں کا پالنے والا ہے۔', '1:3': 'جو بڑا مہربان، نہایت رحم والا ہے۔', '1:4': 'جو روزِ جزا کا مالک ہے۔', '1:5': 'ہم تیری ہی عبادت کرتے ہیں اور تجھ ہی سے مدد مانگتے ہیں۔', '1:6': 'ہمیں سیدھے راستے پر چلا۔', '1:7': 'ان لوگوں کے راستے پر جن پر تو نے انعام کیا، نہ ان کے جن پر غضب ہوا اور نہ گمراہوں کے۔',
     '2:1': 'الٓمٓ۔', '2:2': 'یہ وہ کتاب ہے جس میں کوئی شک نہیں؛ پرہیزگاروں کے لیے ہدایت ہے۔', '2:3': 'جو غیب پر ایمان لاتے ہیں، نماز قائم کرتے ہیں، اور جو کچھ ہم نے انہیں دیا ہے اس میں سے خرچ کرتے ہیں۔', '2:4': 'اور جو اس پر ایمان لاتے ہیں جو آپ پر نازل کیا گیا اور جو آپ سے پہلے نازل کیا گیا، اور آخرت پر یقین رکھتے ہیں۔', '2:5': 'یہی لوگ اپنے رب کی طرف سے ہدایت پر ہیں، اور یہی کامیاب ہونے والے ہیں۔'
@@ -3201,21 +3219,30 @@ class Component extends DCLogic {
     const seen = {}; ['الْحَمْدُ', 'الْعَالَمِينَ', 'الرَّحْمَٰنِ', 'الرَّحِيمِ', 'مَالِكِ'].forEach(a => seen[this.key(a)] = 2);
     return { known: this.seedKnown(1), seen, memorised: { 'quran-1:5-7': 1, wake: 1 }, bookmarks: [{ page: 2, at: 'Sep 24' }], ayahBms: [], read: [1, 2], lastPage: 1, dark: false, fontStep: 1, xp: 340, todayPages: 2, streak: 6, goal: 5, tint: true,
       saved: [{ id: 'w1-2-2', ar: 'رَبِّ', ur: 'رب، پالنے والا', ref: 'Al-Fatiha 1:2', page: 1 }, { id: 'w1-4-2', ar: 'الدِّينِ', ur: 'جزا، بدلہ', ref: 'Al-Fatiha 1:4', page: 1 }, { id: 'w1-5-3', ar: 'نَسْتَعِينُ', ur: 'ہم مدد مانگتے ہیں', ref: 'Al-Fatiha 1:5', page: 1 }, { id: 'w2-2-5', ar: 'هُدًى', ur: 'ہدایت', ref: 'Al-Baqarah 2:2', page: 2 }, { id: 'w2-5-7', ar: 'الْمُفْلِحُونَ', ur: 'کامیاب ہونے والے', ref: 'Al-Baqarah 2:5', page: 2 }],
-      freezes: 2, weekPages: [0, 2, 0, 5, 4, 3], weekFrozen: 2, weekXp: 185, weekWords: 9, lastWeek: { pages: 14, words: 6, xp: 150 }, reviewedToday: false, onboarded: false,
+      freezes: 2, weekPages: [0, 2, 0, 5, 4, 3], weekFrozen: 2, weekXp: 185, weekWords: 9, lastWeek: { pages: 14, words: 6, xp: 150 }, reviewedToday: false, onboarded: false, lang: 'ur',
       favAyahs: [] };
   }
   init() {
     let saved = null;
     try { saved = JSON.parse(localStorage.getItem(Component.KEY)); } catch (e) {}
     const p = Object.assign(this.seed(), saved || {});
-    return { ...p, page: p.lastPage, screen: 'home', splash: true, splashOut: false, splashPct: 8, exact: true, drawer: false, sheetOpen: false, sheet: 'jump', tip: null, hl: null, unit: 1, unitTab: 'words', duaTab: 'quranic', jumpTab: 'surah', pageInput: '', q: '', toast: null, pt: { x: 0, o: 1, tr: 'none' }, ayah: null, duaId: null, trOpen: {}, trAll: false, rv: null, lu: null, luIn: false, visit: {}, ob: { step: 0, level: 1, goal: p.goal || 5 }, favPending: null, favLabel: '', favCollection: 'General', favColFilter: null };
+    return { ...p, page: p.lastPage, screen: 'home', splash: true, splashOut: false, splashPct: 8, exact: true, drawer: false, sheetOpen: false, sheet: 'jump', tip: null, hl: null, unit: 1, unitTab: 'words', duaTab: 'quranic', jumpTab: 'surah', pageInput: '', q: '', toast: null, pt: { x: 0, o: 1, tr: 'none' }, ayah: null, duaId: null, trOpen: {}, trAll: false, rv: null, lu: null, luIn: false, visit: {}, ob: { step: 0, level: 1, goal: p.goal || 1, lang: p.lang || 'ur' }, favPending: null, favLabel: '', favCollection: 'General', favColFilter: null };
   }
   componentDidMount() {
     this.t0 = Date.now(); setTimeout(() => this.setState({ splashPct: 82 }), 60); setTimeout(() => this.endSplash(), 1950);
     if (Component.D) { this.setState({ splashPct: 100 }); return; }
     const f = n => fetch(`data/${n}.json`).then(r => r.json());
+    const fOpt = n => f(n).catch(() => null);
     Promise.all(['ayah-cards', 'wbw-urdu', 'surahs', 'juz-index', 'unit-vocabulary', 'learner-rules', 'daily-duas', 'urdu-translation'].map(f))
-      .then(([ac, wbw, sur, juz, voc, rules, duas, urTr]) => { this.build(ac, wbw, sur, juz, voc, rules, duas, urTr); this.setState({ loaded: true, splashPct: 100 }, () => this.endSplash()); })
+      .then(([ac, wbw, sur, juz, voc, rules, duas, urTr]) => {
+        this.build(ac, wbw, sur, juz, voc, rules, duas, urTr);
+        this.setState({ loaded: true, splashPct: 100 }, () => this.endSplash());
+        Promise.all([fOpt('english-translation'), fOpt('roman-urdu-translation')]).then(([enTr, roTr]) => {
+          const C = Component;
+          if (enTr) C.TR_EN = enTr;
+          if (roTr) { C.TR_RO = roTr; }
+        });
+      })
       .catch(err => { console.error(err); this.info('Could not load the Quran data files'); this.endSplash(true); });
   }
   build(ac, wbw, sur, juz, voc, rules, duas, urTr) {
@@ -3455,7 +3482,7 @@ class Component extends DCLogic {
   }
   finishOb() {
     const o = this.state.ob;
-    this.setState({ onboarded: true, goal: o.goal, known: this.seedKnown(o.level), screen: 'mushaf', ob: { ...o, step: 0 } });
+    this.setState({ onboarded: true, goal: o.goal, lang: o.lang || 'ur', known: this.seedKnown(o.level), screen: 'mushaf', ob: { ...o, step: 0 } });
     this.info('Bismillah. Tap any word to see its meaning.');
   }
   search(q, K) {
@@ -3472,7 +3499,7 @@ class Component extends DCLogic {
         toks: ay.w.map((w, i) => { const hl = m.has(i); return { ar: w[0], ur: w[1] || '', bg: hl ? K.hl : 'transparent', fw: hl ? '700' : '400', brd: hl ? K.brand : '', pd: hl ? '0 4px' : '0 1px', ol: 'none', tap: e => this.tapSheet(e, { ar: w[0], ur: w[1] || '', ref: `${sI.nameEnglish} ${k}`, ak: k }) }; }),
         meaning: idxs.map(i => ay.w[i][1]).filter(Boolean).join('  ·  '),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
-        tr: C.TR[k] || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
+        tr: getTr(k) || ay.ur, showTr: sh, trLabel: sh ? 'Hide translation' : 'Translation',
         toggleTr: () => this.setState(s => ({ trOpen: { ...s.trOpen, [k]: !s.trOpen[k] } })),
         wbw: () => this.openAyah(k, 'search') });
     }
@@ -3505,7 +3532,7 @@ class Component extends DCLogic {
       const ay = C.AY[S.ayah.k], ap = ay.p, sI = C.SUR[ay.s - 1], all = C.ALLK, idx = ay.idx;
       const kc = ay.w.filter(w => S.known[this.key(w[0])]).length, done = kc === ay.w.length, ref = `${sI.nameEnglish} ${ay.k}`;
       const mv = j => this.setState({ ayah: { ...S.ayah, k: all[j] } });
-      A = { ref, sub: `Page ${ap} · Juz ${C.PAGES[ap].juz}`, ar: ay.w.map(w => w[0]).join(' ') + ` ﴿${this.arNum(ay.n)}﴾`, tr: C.TR[ay.k] || ay.ur, trKind: C.TR[ay.k] ? 'Translation · ba-muhawara' : 'Translation · word order', showTr: S.ayah.from !== 'search',
+      A = { ref, sub: `Page ${ap} · Juz ${C.PAGES[ap].juz}`, ar: ay.w.map(w => w[0]).join(' ') + ` ﴿${this.arNum(ay.n)}﴾`, tr: getTr(ay.k) || ay.ur, trKind: getTr(ay.k) ? 'Translation' : 'Translation · word order', showTr: S.ayah.from !== 'search',
         words: ay.w.map(([a, u]) => { const kn = !!S.known[this.key(a)]; return { ar: a, ur: u, bg: kn ? K.soft : K.bg, fg: kn ? K.softInk : K.ink }; }),
         knownLabel: `${kc} of ${ay.w.length} known`, markLabel: done ? 'All words known ✓' : `Mark ayah as known · +${(ay.w.length - kc) * 5} XP`,
         markBg: done ? K.soft : K.brand, markFg: done ? K.softInk : K.onBrand,
@@ -3543,7 +3570,7 @@ class Component extends DCLogic {
     const js = C.JUZ[selJ - 1], je = selJ < 30 ? C.JUZ[selJ] - 1 : 604, jPages = []; let jr = 0;
     for (let pg = js; pg <= je; pg++) { const rd = S.read.includes(pg), cur = pg === S.page; if (rd) jr++; jPages.push({ n: pg, bg: rd ? K.brand : K.surf, fg: rd ? K.onBrand : K.muted, bd: cur ? K.gold : (rd ? K.brand : K.line), go: () => this.goPage(pg) }); }
     const jDuas = qd.filter(d => d.juz === selJ).map(d => ({ title: d.title, meta: d.meta.split(' · ')[0], memLabel: S.memorised[d.id] ? ' · Memorised ✓' : '', open: () => this.openDua(d.id) }));
-    const mj = { n: selJ, name: C.JUZ_NAMES[selJ - 1], sub: `Pages ${js}–${je} · ${jr} of ${je - js + 1} read`, pages: jPages, duas: jDuas, noDuas: !jDuas.length, duaHead: jDuas.length ? `${jDuas.length} Qur’anic dua${jDuas.length === 1 ? '' : 's'} in this juz` : 'Duas in this juz', open: () => this.goPage(js) };
+    const mj = { n: selJ, name: C.JUZ_NAMES[selJ - 1], sub: `Pages ${js}–${je} · ${jr} of ${je - js + 1} read`, pages: jPages, duas: jDuas, noDuas: !jDuas.length, duaHead: jDuas.length ? `${jDuas.length} Qur'anic dua${jDuas.length === 1 ? '' : 's'} in this juz` : 'Duas in this juz', open: () => this.goPage(js) };
     const qs = [...qd].sort((a, b) => a.juz - b.juz), dj = S.duaJuz || null;
     const src = S.duaTab === 'quranic' ? qs.filter(d => !dj || d.juz === dj) : C.DUAS.masnoon; let lastH = null;
     const duaList = src.map(d => { const m = !!S.memorised[d.id], isQ = S.duaTab === 'quranic', hk = isQ ? d.juz : d.cat, head = hk !== lastH, cat = C.DCAT[d.cat] || {}; lastH = hk;
@@ -3578,18 +3605,19 @@ class Component extends DCLogic {
       qmap, mj, mapSum: `${S.read.length} of 604 pages · ${jDone} of 30 juz`,
       duaList, duaChips, isQuranicTab: S.duaTab === 'quranic',
       hasLu: !!S.lu, closeLu: () => this.setState({ lu: null, luIn: false }), previewLu: () => this.levelUp(lvlN),
-      lu: S.lu ? { n: S.lu.n, name: C.LEVELS[Math.min(S.lu.n - 1, C.LEVELS.length - 1)], sub: `You’ve reached ${S.xp} XP. Level ${S.lu.n + 1} unlocks at ${S.lu.n * 200} XP.`, sc: S.luIn ? 1 : 0.3, o: S.luIn ? 1 : 0,
+      lu: S.lu ? { n: S.lu.n, name: C.LEVELS[Math.min(S.lu.n - 1, C.LEVELS.length - 1)], sub: `You've reached ${S.xp} XP. Level ${S.lu.n + 1} unlocks at ${S.lu.n * 200} XP.`, sc: S.luIn ? 1 : 0.3, o: S.luIn ? 1 : 0,
         dots: Array.from({ length: 14 }, (_, i) => { const a = i / 14 * Math.PI * 2, r = S.luIn ? (i % 2 ? 128 : 100) : 0; return { x: Math.cos(a) * r, y: Math.sin(a) * r, o: S.luIn ? 1 : 0, s: i % 3 === 0 ? 12 : 8, c: [K.gold2, K.onBrand, K.gold][i % 3] }; }) } : { dots: [] },
       showOb: !S.onboarded,
-      obs: { s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3, backOp: step > 0 ? 1 : 0, cta: ['Get started', 'Continue', 'Continue', 'Start reading'][step] },
-      obDots: [0, 1, 2, 3].map(i => ({ w: i === step ? '22px' : '8px', bg: i <= step ? K.brand : K.line })),
-      obLevels: [['Just starting', 'I can read the script but know few meanings'], ['I know some words', 'Common words like رب، يوم، كتاب'], ['I’ve studied Muallim-ul-Quran', 'Units 1–3 will be marked as known']].map(([t, s], i) => ({ t, s, ...opt(ob.level === i), pick: () => this.setState({ ob: { ...ob, level: i } }) })),
-      obGoals: [[2, 'Light', 'About 10 minutes a day'], [5, 'Steady', 'About 20 minutes · recommended'], [10, 'Committed', 'About 40 minutes a day']].map(([g, t, s]) => ({ g, t, s, ...opt(ob.goal === g), pick: () => this.setState({ ob: { ...ob, goal: g } }) })),
+      obs: { s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3, s4: step === 4, backOp: step > 0 ? 1 : 0, cta: ['Get started', 'Continue', 'Continue', 'Continue', 'Start reading'][step] },
+      obDots: [0, 1, 2, 3, 4].map(i => ({ w: i === step ? '22px' : '8px', bg: i <= step ? K.brand : K.line })),
+      obLevels: [['Just starting', 'I can read the script but know few meanings'], ['I know some words', 'Common words like رب، يوم، كتاب'], ['I've studied Muallim-ul-Quran', 'Units 1–3 will be marked as known']].map(([t, s], i) => ({ t, s, ...opt(ob.level === i), pick: () => this.setState({ ob: { ...ob, level: i } }) })),
+      obGoals: [[1, 'One page', 'About 5 minutes a day'], [2, 'Two pages', 'About 10 minutes a day'], [3, 'Three pages', 'About 15 minutes a day']].map(([g, t, s]) => ({ g, t, s, ...opt(ob.goal === g), pick: () => this.setState({ ob: { ...ob, goal: g } }) })),
+      obLangs: [['ur', 'Urdu', 'اردو', 'Translations in Urdu script'], ['ro', 'Roman Urdu', 'Roman Urdu', 'Urdu transliterated in Roman letters'], ['en', 'English', 'English', 'Sahih International translation']].map(([l, t, sub, s]) => ({ l, t, sub, s, ...opt(ob.lang === l), pick: () => this.setState({ ob: { ...ob, lang: l } }) })),
       obTheme: { light: S.dark ? K.line : K.brand, dark: S.dark ? K.brand : K.line },
-      obNext: () => { if (step < 3) this.setState({ ob: { ...ob, step: step + 1 } }); else this.finishOb(); },
+      obNext: () => { if (step < 4) this.setState({ ob: { ...ob, step: step + 1 } }); else this.finishOb(); },
       obBack: () => { if (step > 0) this.setState({ ob: { ...ob, step: step - 1 } }); },
       obSkip: () => this.finishOb(),
-      replayOb: () => this.setState({ onboarded: false, drawer: false, ob: { step: 0, level: 1, goal: S.goal || 5 } }),
+      replayOb: () => this.setState({ onboarded: false, drawer: false, ob: { step: 0, level: 1, goal: S.goal || 1, lang: S.lang || 'ur' } }),
       isWords: S.screen === 'words', isReview: S.screen === 'review', goWords: () => this.go('words'),
       navW: { bg: inW ? K.soft : 'transparent', fg: inW ? K.softInk : K.ink },
       savedList: S.saved.map(w => { const st = S.known[this.key(w.ar)]; return { ...w, tag: st === 'f' ? 'Familiar' : st ? 'Known' : 'Learning', tagBg: st ? K.soft : K.goldSoft, tagFg: st ? K.softInk : K.goldInk, open: () => this.goPage(w.page, { hl: { ids: [w.id], label: w.ar } }), remove: () => this.setState({ saved: S.saved.filter(x => x.id !== w.id) }) }; }),
@@ -3600,7 +3628,8 @@ class Component extends DCLogic {
       rvc: rv ? { ar: cd.ar, ur: cd.ur, ref: cd.ref, n: rv.i + 1, total: rv.deck.length, pct: ((rv.done ? rv.deck.length : rv.i) / rv.deck.length * 100) + '%', rot: rv.flipped ? 180 : 0, tr: rv.noAnim ? 'none' : 'transform .5s cubic-bezier(.3,.7,.3,1)', flipped: !!rv.flipped, front: !rv.flipped, xp: rv.xp, knew: rv.knew, learning: rv.learning } : {},
       flip: () => { if (rv && !rv.done) this.setState({ rv: { ...rv, flipped: !rv.flipped } }); },
       knewIt: () => this.answer(true), stillLearning: () => this.answer(false), closeReview: () => this.setState({ screen: 'words', rv: null }),
-      goalPills: [2, 5, 10].map(g => ({ g, bg: S.goal === g ? K.brand : K.bg, fg: S.goal === g ? K.onBrand : K.ink, bd: S.goal === g ? K.brand : K.line, pick: () => this.setState({ goal: g }) })),
+      goalPills: [1, 2, 3].map(g => ({ g, lbl: g === 1 ? '1 page' : `${g} pages`, bg: S.goal === g ? K.brand : K.bg, fg: S.goal === g ? K.onBrand : K.ink, bd: S.goal === g ? K.brand : K.line, pick: () => this.setState({ goal: g }) })),
+      langPills: [['ur','Urdu'],['ro','Roman Urdu'],['en','English']].map(([l, lbl]) => ({ l, lbl, bg: S.lang === l ? K.brand : K.bg, fg: S.lang === l ? K.onBrand : K.ink, bd: S.lang === l ? K.brand : K.line, pick: () => this.setState({ lang: l }) })),
       tintSw: sw(S.tint !== false), toggleTint: () => this.setState({ tint: S.tint === false }),
       trAllLabel: S.trAll ? 'Hide translations' : 'Show all translations', toggleTrAll: () => this.setState({ trAll: !S.trAll, trOpen: {} })
     };
@@ -3608,7 +3637,9 @@ class Component extends DCLogic {
   renderVals() {
     const S = this.state, C = Component, K = C.THEMES[S.dark ? 'dark' : 'light'];
     const P = C.PAGES[S.page] || C.STUB;
-    const goalN = S.goal || 5, tipStyle = this.props.tipStyle ?? 'bubble';
+    const goalN = S.goal || 1, tipStyle = this.props.tipStyle ?? 'bubble';
+    const lang = S.lang || 'ur';
+    const getTr = k => lang === 'en' ? (C.TR_EN[k] || C.TR[k] || '') : lang === 'ro' ? (C.TR_RO[k] || C.TR[k] || '') : (C.TR[k] || '');
     const knownCount = Object.keys(S.known).length, memCount = Object.keys(S.memorised).length;
     const lvlN = Math.floor(S.xp / 200) + 1, into = S.xp % 200;
     const hl = (S.hl && S.hl.ids) || [], sel = S.tip && S.tip.id;
