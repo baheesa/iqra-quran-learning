@@ -843,7 +843,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this.t0 = Date.now(); setTimeout(() => this.setState({ splashPct: 82 }), 60); setTimeout(() => this.endSplash(), 1950);
     if (Component.D) { this.setState({ splashPct: 100 }); return; }
-    const f = n => fetch(`data/${n}.json?v=3`).then(r => r.json());
+    const f = n => fetch(`data/${n}.json`).then(r => r.json());
     const fOpt = n => f(n).catch(() => null);
     Promise.all(['ayah-cards', 'wbw-urdu', 'surahs', 'juz-index', 'unit-vocabulary', 'learner-rules', 'daily-duas', 'urdu-translation'].map(f))
       .then(([ac, wbw, sur, juz, voc, rules, duas, urTr]) => {
