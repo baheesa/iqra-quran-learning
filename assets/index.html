@@ -1132,7 +1132,7 @@ class Component extends DCLogic {
         toks: ay.w.map((w, i) => { const hl = m.has(i); const wm = this.getMean(k, i, S.lang); return { ar: w[0], ur: wm, bg: hl ? K.hl : 'transparent', fw: hl ? '700' : '400', brd: hl ? K.brand : '', pd: hl ? '0 4px' : '0 1px', ol: 'none', tap: e => this.tapSheet(e, { ar: w[0], ur: wm || '', ref: `${sI.nameEnglish} ${k}`, ak: k }) }; }),
         meaning: m.size ? idxs.map(i => this.getMean(k, i, S.lang)).filter(Boolean).join('  ·  ') : (trHitText ? (trHitText.length > 90 ? trHitText.slice(0, 90) + '…' : trHitText) : ''),
         open: () => this.goPage(ay.p, { hl: { ids, label: q } }),
-        tr: (S.lang === 'en' ? (C.TR_EN[k] || '') : S.lang === 'ro' ? (C.TR_RO[k] || '') : C.TR[k]) || ay.ur, showTr: sh || !!trHitText, trLabel: (sh || !!trHitText) ? 'Hide translation' : 'Translation',
+        tr: (S.lang === 'en' ? (C.TR_EN[k] || '') : S.lang === 'ro' ? (C.TR_RO[k] || '') : C.TR[k]) || (S.lang === 'ur' ? ay.ur : ''), showTr: sh || !!trHitText, trLabel: (sh || !!trHitText) ? 'Hide translation' : 'Translation',
         toggleTr: () => this.setState(s => ({ trOpen: { ...s.trOpen, [k]: !s.trOpen[k] } })),
         wbw: () => this.openAyah(k, 'search') });
     }
@@ -1166,7 +1166,7 @@ class Component extends DCLogic {
       const kc = ay.w.filter(w => S.known[this.key(w[0])]).length, done = kc === ay.w.length, ref = `${sI.nameEnglish} ${ay.k}`;
       const mv = j => this.setState({ ayah: { ...S.ayah, k: all[j] } });
       const _tr = k => (S.lang === 'en' ? (C.TR_EN[k] || '') : S.lang === 'ro' ? (C.TR_RO[k] || '') : C.TR[k]) || '';
-      A = { ref, sub: `Page ${ap} · Juz ${C.PAGES[ap].juz}`, ar: ay.w.map(w => w[0]).join(' ') + ` ﴿${this.arNum(ay.n)}﴾`, tr: _tr(ay.k) || ay.ur, trKind: _tr(ay.k) ? 'Translation' : 'Translation · word order', showTr: S.ayah.from !== 'search',
+      A = { ref, sub: `Page ${ap} · Juz ${C.PAGES[ap].juz}`, ar: ay.w.map(w => w[0]).join(' ') + ` ﴿${this.arNum(ay.n)}﴾`, tr: _tr(ay.k) || (S.lang === 'ur' ? ay.ur : ''), trKind: _tr(ay.k) ? 'Translation' : 'Translation · word order', showTr: S.ayah.from !== 'search',
         words: ay.w.map(([a], i) => { const kn = !!S.known[this.key(a)]; const wm = this.getMean(ay.k, i, S.lang); return { ar: a, ur: wm, bg: kn ? K.soft : K.bg, fg: kn ? K.softInk : K.ink }; }),
         knownLabel: `${kc} of ${ay.w.length} known`, markLabel: done ? 'All words known ✓' : `Mark ayah as known · +${(ay.w.length - kc) * 5} XP`,
         markBg: done ? K.soft : K.brand, markFg: done ? K.softInk : K.onBrand,
