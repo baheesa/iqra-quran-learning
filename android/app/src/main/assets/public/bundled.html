@@ -4,6 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script>
+// XHR polyfill for fetch() on Android WebView file:// protocol
+(function() {
+  var _origFetch = window.fetch;
+  window.fetch = function(url) {
+    if (location.protocol === 'file:') {
+      return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function() {
+          var text = xhr.responseText;
+          resolve({ ok: true, json: function() { try { return Promise.resolve(JSON.parse(text)); } catch(e) { return Promise.reject(e); } }, text: function() { return Promise.resolve(text); } });
+        };
+        xhr.onerror = function() { reject(new Error('XHR failed: ' + url)); };
+        xhr.send();
+      });
+    }
+    return _origFetch ? _origFetch.apply(this, arguments) : Promise.reject(new Error('No fetch'));
+  };
+})();
+</script>
 </head>
 <body>
 <x-dc>
