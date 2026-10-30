@@ -4,27 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<script>
-// XHR polyfill for fetch() on Android WebView file:// protocol
-(function() {
-  var _origFetch = window.fetch;
-  window.fetch = function(url) {
-    if (location.protocol === 'file:') {
-      return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onload = function() {
-          var text = xhr.responseText;
-          resolve({ ok: true, json: function() { try { return Promise.resolve(JSON.parse(text)); } catch(e) { return Promise.reject(e); } }, text: function() { return Promise.resolve(text); } });
-        };
-        xhr.onerror = function() { reject(new Error('XHR failed: ' + url)); };
-        xhr.send();
-      });
-    }
-    return _origFetch ? _origFetch.apply(this, arguments) : Promise.reject(new Error('No fetch'));
-  };
-})();
-</script>
 </head>
 <body>
 <x-dc>
@@ -33,7 +12,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Scheherazade+New:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;500&family=Amiri+Quran&display=swap">
 <style>body{margin:0;background:#E4E0D4;-webkit-font-smoothing:antialiased}a{color:#1E4A38}a:hover{color:#18201C}button{font-family:inherit}input:focus{outline:none}input::placeholder{color:#8A918B}</style>
 </helmet>
-<div ref="{{ appRef }}" style="position:fixed; inset:0; overflow:hidden; background:{{ K.bg }}; color:{{ K.ink }}; font-family:'Instrument Sans', system-ui, sans-serif; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); box-sizing:border-box">
+<div style="min-height:100vh; display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:56px; padding:40px 24px; box-sizing:border-box; font-family:'Instrument Sans', system-ui, sans-serif">
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ dark }}" bg="{{ K.bg }}" hint-size="412px,892px">
+<div ref="{{ appRef }}" style="height:100%; position:relative; overflow:hidden; background:{{ K.bg }}; color:{{ K.ink }}; font-family:'Instrument Sans', system-ui, sans-serif; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); box-sizing:border-box">
 
 <div data-screen-label="Mushaf" style="position:absolute; inset:0 0 64px 0; display:flex; flex-direction:column">
 
@@ -619,8 +600,10 @@
 <div dir="rtl" style="display:flex; flex-wrap:wrap; gap:6px">
 <sc-for list="{{ A.words }}" as="w" hint-placeholder-count="4"><span style="display:flex; flex-direction:column; align-items:center; padding:4px 10px 0; border-radius:12px; background:{{ w.bg }}; color:{{ w.fg }}"><span style="font:400 21px/1.5 'Scheherazade New', serif">{{ w.ar }}</span><span dir="{{ trDir }}" style="font:400 12px/2 {{ trFontFam }}; text-align:center">{{ w.ur }}</span></span></sc-for>
 </div>
-<button onClick="{{ markAyah }}" style="height:48px; border-radius:24px; border:0; background:{{ A.markBg }}; color:{{ A.markFg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ A.markLabel }}</button>
-<sc-if value="{{ A.showOpen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ A.open }}" style="height:44px; border-radius:22px; border:1px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer">Open in mushaf</button></sc-if>
+<div style="display:flex; gap:10px; align-items:stretch">
+<button onClick="{{ markAyah }}" style="flex:1; height:52px; border-radius:26px; border:0; background:{{ A.markBg }}; color:{{ A.markFg }}; font:600 14px 'Instrument Sans'; cursor:pointer">{{ A.markLabel }}</button>
+<sc-if value="{{ A.showOpen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ A.open }}" style="flex:1; height:52px; border-radius:26px; border:1.5px solid {{ K.line }}; background:transparent; color:{{ K.ink }}; font:600 14px 'Instrument Sans'; cursor:pointer">Open in mushaf</button></sc-if>
+</div>
 </div>
 </sc-if>
 <sc-if value="{{ isDuaSheet }}" hint-placeholder-val="{{ false }}">
@@ -781,7 +764,39 @@
 </sc-if>
 
 </div>
+</x-import>
 
+<aside style="max-width:320px; display:flex; flex-direction:column; gap:18px; padding-top:12px; color:#2A302C">
+<div style="display:flex; flex-direction:column; gap:10px"><span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Logo</span>
+<div style="display:flex; align-items:center; gap:16px"><span style="position:relative; width:88px; height:88px; flex:none; border-radius:24px; background:#1E4A38; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px rgba(227,180,92,0.35)"><svg width="88" height="88" viewBox="0 0 100 100" style="position:absolute; inset:0; fill:none; stroke:#E3B45C; stroke-width:2.6"><rect x="24" y="24" width="52" height="52" rx="3"></rect><rect x="24" y="24" width="52" height="52" rx="3" transform="rotate(45 50 50)"></rect></svg><span dir="rtl" style="position:relative; font:700 24px/1 'Scheherazade New', serif; color:#F5F2EA; margin-top:-4px">اقرأ</span></span><div style="display:flex; flex-direction:column; gap:4px"><span style="font:500 34px/1 'Newsreader', serif">Iqra</span><span dir="rtl" style="font:400 22px/1.2 'Scheherazade New', serif; color:#59625C; text-align:left">اقْرَأْ</span></div></div>
+<p style="margin:0; font:400 13px/1.55 'Instrument Sans'; color:#3C443F; text-wrap:pretty">The eight-point star is the rub el hizb, the marker that divides the mushaf into quarters. The word inside is the app's name, اقرأ (read), the first word revealed.</p></div>
+<div style="display:flex; flex-direction:column; gap:6px"><span style="font:600 11.5px 'Instrument Sans'; letter-spacing:0.1em; text-transform:uppercase; color:#1E4A38">Iqra · Android redesign</span><span style="font:500 30px/1.15 'Newsreader', serif">Reader-first prototype</span></div>
+<p style="margin:0; font:400 14px/1.6 'Instrument Sans'; text-wrap:pretty">The app opens straight onto the mushaf. Everything else lives in the drawer, and the page stays clean: word tips appear only on tap. Reading, words and duas earn XP toward levels, a daily page goal and a streak.</p>
+<div style="display:flex; flex-direction:column; gap:8px">
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Try</span>
+<ul style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font:400 13.5px/1.5 'Instrument Sans'">
+<li>Go through onboarding (4 steps)</li>
+<li>Tap a word, then “Full ayah translation”</li>
+<li>Tap an ayah number, or the gold Dua tag after ayah 7</li>
+<li>Turn to page 2: the words you didn't tap on page 1 turn green (familiar)</li>
+<li>Search <span style="font-family:'Noto Nastaliq Urdu', serif">ہدایت</span> or <span style="font-family:'Scheherazade New', serif; font-size:17px">الرحمن</span></li>
+<li>Tap the title bar to jump by surah, juz or page</li>
+<li>In search results, use Translation or Word by word</li>
+<li>☰ → My words → Start review for flashcards</li>
+<li>Progress → Preview level-up, or Replay onboarding</li>
+</ul>
+</div>
+<div style="display:flex; flex-direction:column; gap:8px">
+<span style="font:600 12px 'Instrument Sans'; letter-spacing:0.08em; text-transform:uppercase; color:#59625C">Assumptions</span>
+<ul style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font:400 13px/1.5 'Instrument Sans'; color:#3C443F">
+<li>All 604 pages, word meanings, units, qawaid and duas load from the repo's data/ JSON.</li>
+<li>Scheherazade New and Noto Nastaliq Urdu stand in for the Indo-Pak script and Jameel Noori Nastaleeq.</li>
+<li>XP values, levels and badges are proposals. Progress saves in this browser.</li>
+<li>Full-ayah translation uses the repo's word-order gloss, except Al-Fatiha and Al-Baqarah 1–5, which use my ba-muhawara wording.</li>
+</ul>
+</div>
+</aside>
+</div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;tipStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bubble&quot;,&quot;sheet&quot;],&quot;default&quot;:&quot;sheet&quot;,&quot;tsType&quot;:&quot;'bubble'|'sheet'&quot;,&quot;section&quot;:&quot;Reader&quot;},&quot;showXp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gamification&quot;}}">
 class Component extends DCLogic {
@@ -864,7 +879,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this.t0 = Date.now(); setTimeout(() => this.setState({ splashPct: 82 }), 60); setTimeout(() => this.endSplash(), 1950);
     if (Component.D) { this.setState({ splashPct: 100 }); return; }
-    const f = n => fetch(`data/${n}.json`).then(r => r.json());
+    const f = n => fetch(`data/${n}.json?v=3`).then(r => r.json());
     const fOpt = n => f(n).catch(() => null);
     Promise.all(['ayah-cards', 'wbw-urdu', 'surahs', 'juz-index', 'unit-vocabulary', 'learner-rules', 'daily-duas', 'urdu-translation'].map(f))
       .then(([ac, wbw, sur, juz, voc, rules, duas, urTr]) => {
